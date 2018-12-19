@@ -1,0 +1,147 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://assets/ui/silhouette.png" type="Texture" id=1]
+[ext_resource path="res://game/interface/Silhouette.gd" type="Script" id=2]
+[ext_resource path="res://game/objects/scripts/Hat.gd" type="Script" id=3]
+[ext_resource path="res://game/objects/scripts/Shirt.gd" type="Script" id=4]
+[ext_resource path="res://game/objects/scripts/Pants.gd" type="Script" id=5]
+[ext_resource path="res://game/objects/scripts/UndershirtSil.gd" type="Script" id=6]
+[ext_resource path="res://game/objects/scripts/PantiesSil.gd" type="Script" id=7]
+
+
+
+
+
+
+
+
+[node name="Silhouette" type="TextureRect" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 149.0
+margin_bottom = 213.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+texture = ExtResource( 1 )
+stretch_mode = 0
+script = ExtResource( 2 )
+_sections_unfolded = [ "Rect" ]
+
+[node name="Hat" type="TextureRect" parent="." index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 88.0
+margin_top = 30.0
+margin_right = 136.0
+margin_bottom = 78.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = true
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+script = ExtResource( 3 )
+_sections_unfolded = [ "Rect" ]
+
+[node name="Shirt" type="TextureRect" parent="." index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 88.0
+margin_top = 89.0
+margin_right = 136.0
+margin_bottom = 137.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+script = ExtResource( 4 )
+_sections_unfolded = [ "Rect" ]
+
+[node name="Pants" type="TextureRect" parent="." index="2"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 88.0
+margin_top = 148.0
+margin_right = 136.0
+margin_bottom = 196.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+script = ExtResource( 5 )
+_sections_unfolded = [ "Rect" ]
+
+[node name="Undershirt" type="TextureRect" parent="." index="3"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 25.0
+margin_top = 59.0
+margin_right = 73.0
+margin_bottom = 107.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+script = ExtResource( 6 )
+_sections_unfolded = [ "Rect" ]
+
+[node name="Panties" type="TextureRect" parent="." index="4"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 25.0
+margin_top = 118.0
+margin_right = 73.0
+margin_bottom = 166.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+stretch_mode = 0
+script = ExtResource( 7 )
+_sections_unfolded = [ "Rect" ]
+
+[connection signal="filled" from="Hat" to="." method="_on_Hat_filled"]
+
+[connection signal="filled" from="Shirt" to="." method="_on_Shirt_filled"]
+
+[connection signal="filled" from="Pants" to="." method="_on_Pants_filled"]
+
+[connection signal="filled" from="Undershirt" to="." method="_on_Undershirt_filled"]
+
+[connection signal="filled" from="Panties" to="." method="_on_Panties_filled"]
+
+

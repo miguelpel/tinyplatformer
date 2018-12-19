@@ -1,0 +1,53 @@
+[gd_scene load_steps=16 format=2]
+
+[ext_resource path="res://assets/charactersframes/king/king_7.png" type="Texture" id=1]
+[ext_resource path="res://assets/charactersframes/king/king_8.png" type="Texture" id=2]
+[ext_resource path="res://assets/charactersframes/king/king_9.png" type="Texture" id=3]
+[ext_resource path="res://assets/charactersframes/king/king_10.png" type="Texture" id=4]
+[ext_resource path="res://assets/charactersframes/king/king_1.png" type="Texture" id=5]
+[ext_resource path="res://assets/charactersframes/king/king_2.png" type="Texture" id=6]
+[ext_resource path="res://assets/charactersframes/king/king_3.png" type="Texture" id=7]
+[ext_resource path="res://assets/charactersframes/king/king_4.png" type="Texture" id=8]
+[ext_resource path="res://assets/charactersframes/king/king_5.png" type="Texture" id=9]
+[ext_resource path="res://assets/charactersframes/king/king_11.png" type="Texture" id=10]
+[ext_resource path="res://assets/charactersframes/king/king_14.png" type="Texture" id=11]
+[ext_resource path="res://assets/charactersframes/king/king_6.png" type="Texture" id=12]
+[ext_resource path="res://assets/charactersframes/king/king_19.png" type="Texture" id=13]
+[ext_resource path="res://assets/charactersframes/king/king_20.png" type="Texture" id=14]
+
+[sub_resource type="SpriteFrames" id=1]
+
+animations = [ {
+"frames": [ ExtResource( 1 ), ExtResource( 2 ), ExtResource( 3 ), ExtResource( 4 ) ],
+"loop": false,
+"name": "remove",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ) ],
+"loop": true,
+"name": "run",
+"speed": 7.0
+}, {
+"frames": [ ExtResource( 5 ) ],
+"loop": false,
+"name": "stand",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 9 ), ExtResource( 10 ), ExtResource( 11 ) ],
+"loop": false,
+"name": "throw",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 12 ), ExtResource( 13 ), ExtResource( 14 ) ],
+"loop": false,
+"name": "removePanties",
+"speed": 5.0
+} ]
+
+[node name="King" type="AnimatedSprite"]
+
+frames = SubResource( 1 )
+animation = "run"
+_sections_unfolded = [ "Transform", "Z Index" ]
+
+

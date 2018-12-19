@@ -1,0 +1,32 @@
+[remap]
+
+importer="texture"
+type="StreamTexture"
+path="res://.import/8-bit royals fixed.png-a2e1c69d092a2944df9e1905af1ce102.stex"
+
+[deps]
+
+source_file="res://assets/cards/8-bit royals fixed.png"
+source_md5="05a58125b2242ee73dc74fd76cc5ee59"
+
+dest_files=[ "res://.import/8-bit royals fixed.png-a2e1c69d092a2944df9e1905af1ce102.stex" ]
+dest_md5="d38797c3e4c6b491854a4dbef63e40e0"
+
+[params]
+
+compress/mode=0
+compress/lossy_quality=0.7
+compress/hdr_mode=0
+compress/normal_map=0
+flags/repeat=0
+flags/filter=false
+flags/mipmaps=false
+flags/anisotropic=false
+flags/srgb=2
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/HDR_as_SRGB=false
+stream=false
+size_limit=0
+detect_3d=false
+svg/scale=1.0

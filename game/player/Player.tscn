@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://game/player/Player.gd" type="Script" id=1]
+[ext_resource path="res://game/player/Inventory.gd" type="Script" id=2]
+[ext_resource path="res://game/animations/character/Character.tscn" type="PackedScene" id=3]
+[ext_resource path="res://game/animations/king/King.tscn" type="PackedScene" id=4]
+
+[node name="Player" type="Node"]
+
+script = ExtResource( 1 )
+
+[node name="Inventory" type="Node" parent="." index="0"]
+
+script = ExtResource( 2 )
+
+[node name="Character" parent="." index="1" instance=ExtResource( 3 )]
+
+visible = false
+
+[node name="King" parent="Character" index="1" instance=ExtResource( 4 )]
+
+z_index = 1
+
+[node name="Interface" type="Node" parent="." index="2"]
+
+[node name="UI" type="Node" parent="Interface" index="0"]
+
+

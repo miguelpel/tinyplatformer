@@ -1,0 +1,255 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://game/levels/Level0.gd" type="Script" id=1]
+[ext_resource path="res://game/animations/levelsAnimls/grounds/EternalGround.tscn" type="PackedScene" id=2]
+[ext_resource path="res://game/animations/king/King.tscn" type="PackedScene" id=3]
+[ext_resource path="res://game/objects/scenes/Crown/children/AnimatedSprite.tscn" type="PackedScene" id=4]
+[ext_resource path="res://game/objects/scenes/Slip/children/AnimatedSprite.tscn" type="PackedScene" id=5]
+[ext_resource path="res://game/interface/theme/font/default_font.tres" type="DynamicFont" id=6]
+[ext_resource path="res://game/levels/Label.gd" type="Script" id=7]
+[ext_resource path="res://assets/ui/button.png" type="Texture" id=8]
+[ext_resource path="res://assets/ui/buttonPressed.png" type="Texture" id=9]
+[ext_resource path="res://game/interface/theme/default_theme.tres" type="Theme" id=10]
+[ext_resource path="res://game/interface/theme/font/font_buttonn_menu.tres" type="DynamicFont" id=11]
+
+[node name="Level0" type="Node"]
+
+script = ExtResource( 1 )
+
+[node name="Sky" type="ColorRect" parent="." index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 384.0
+margin_bottom = 192.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+color = Color( 0, 0.648438, 1, 1 )
+_sections_unfolded = [ "Rect" ]
+
+[node name="EternalGround" parent="." index="1" instance=ExtResource( 2 )]
+
+[node name="King" parent="." index="2" instance=ExtResource( 3 )]
+
+position = Vector2( 167, 128 )
+
+[node name="AnimatedSprite" parent="." index="3" instance=ExtResource( 4 )]
+
+position = Vector2( 167, 128 )
+
+[node name="AnimatedSprite2" parent="." index="4" instance=ExtResource( 5 )]
+
+position = Vector2( 167, 128 )
+
+[node name="Menu" type="CenterContainer" parent="." index="5"]
+
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -448.0
+margin_bottom = -192.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+use_top_left = false
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Menu" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 48.0
+margin_top = 53.0
+margin_right = 311.0
+margin_bottom = 203.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 0
+
+[node name="GameTitle" type="Label" parent="Menu/VBoxContainer" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 263.0
+margin_bottom = 32.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = ExtResource( 6 )
+custom_colors/font_color = Color( 0.964844, 0, 0.542725, 1 )
+custom_colors/font_color_shadow = Color( 0.671875, 0, 0, 1 )
+text = "Strip Reign"
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+script = ExtResource( 7 )
+_sections_unfolded = [ "Theme", "custom_colors", "custom_fonts" ]
+
+[node name="CenterContainer" type="CenterContainer" parent="Menu/VBoxContainer" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 36.0
+margin_right = 263.0
+margin_bottom = 150.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+use_top_left = false
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Menu/VBoxContainer/CenterContainer" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 56.0
+margin_right = 206.0
+margin_bottom = 114.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 0
+_sections_unfolded = [ "Rect" ]
+
+[node name="PlayButton" type="TextureButton" parent="Menu/VBoxContainer/CenterContainer/VBoxContainer" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 150.0
+margin_bottom = 55.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+texture_normal = ExtResource( 8 )
+texture_pressed = ExtResource( 9 )
+_sections_unfolded = [ "Textures" ]
+
+[node name="Label" type="Label" parent="Menu/VBoxContainer/CenterContainer/VBoxContainer/PlayButton" index="0"]
+
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -20.0
+margin_top = -7.0
+margin_right = 20.0
+margin_bottom = 7.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+theme = ExtResource( 10 )
+custom_fonts/font = ExtResource( 11 )
+text = "Play"
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+script = ExtResource( 7 )
+_sections_unfolded = [ "Margin", "Theme", "custom_fonts", "custom_styles" ]
+
+[node name="ExitButton" type="TextureButton" parent="Menu/VBoxContainer/CenterContainer/VBoxContainer" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 59.0
+margin_right = 150.0
+margin_bottom = 114.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+texture_normal = ExtResource( 8 )
+texture_pressed = ExtResource( 9 )
+_sections_unfolded = [ "Textures" ]
+
+[node name="Label" type="Label" parent="Menu/VBoxContainer/CenterContainer/VBoxContainer/ExitButton" index="0"]
+
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -20.0
+margin_top = -7.0
+margin_right = 20.0
+margin_bottom = 7.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+theme = ExtResource( 10 )
+custom_fonts/font = ExtResource( 11 )
+text = "exit"
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+script = ExtResource( 7 )
+_sections_unfolded = [ "Margin", "Theme", "custom_fonts", "custom_styles" ]
+
+[connection signal="button_down" from="Menu/VBoxContainer/CenterContainer/VBoxContainer/PlayButton" to="Menu/VBoxContainer/CenterContainer/VBoxContainer/PlayButton/Label" method="_on_PlayButton_button_down"]
+
+[connection signal="button_up" from="Menu/VBoxContainer/CenterContainer/VBoxContainer/PlayButton" to="Menu/VBoxContainer/CenterContainer/VBoxContainer/PlayButton/Label" method="_on_PlayButton_button_up"]
+
+[connection signal="pressed" from="Menu/VBoxContainer/CenterContainer/VBoxContainer/PlayButton" to="." method="_on_PlayButton_pressed"]
+
+[connection signal="button_down" from="Menu/VBoxContainer/CenterContainer/VBoxContainer/ExitButton" to="Menu/VBoxContainer/CenterContainer/VBoxContainer/ExitButton/Label" method="_on_PlayButton_button_down"]
+
+[connection signal="button_up" from="Menu/VBoxContainer/CenterContainer/VBoxContainer/ExitButton" to="Menu/VBoxContainer/CenterContainer/VBoxContainer/ExitButton/Label" method="_on_PlayButton_button_up"]
+
+[connection signal="pressed" from="Menu/VBoxContainer/CenterContainer/VBoxContainer/ExitButton" to="." method="_on_ExitButton_pressed"]
+
+

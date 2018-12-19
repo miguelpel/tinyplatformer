@@ -1,0 +1,120 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+
+custom_solver_bias = 0.0
+extents = Vector2( 32, 32 )
+
+[node name="groundtest" type="Node"]
+
+editor/display_folded = true
+
+[node name="gr6" type="StaticBody2D" parent="." index="0"]
+
+position = Vector2( 96, 192 )
+input_pickable = false
+collision_layer = 1
+collision_mask = 1
+constant_linear_velocity = Vector2( 0, 0 )
+constant_angular_velocity = 0.0
+friction = 1.0
+bounce = 0.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="gr6" index="0"]
+
+shape = SubResource( 1 )
+
+[node name="gr" type="StaticBody2D" parent="." index="1"]
+
+position = Vector2( 32, 192 )
+input_pickable = false
+collision_layer = 1
+collision_mask = 1
+constant_linear_velocity = Vector2( 0, 0 )
+constant_angular_velocity = 0.0
+friction = 1.0
+bounce = 0.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="gr" index="0"]
+
+shape = SubResource( 1 )
+
+[node name="gr2" type="StaticBody2D" parent="." index="2"]
+
+position = Vector2( 160, 192 )
+input_pickable = false
+collision_layer = 1
+collision_mask = 1
+constant_linear_velocity = Vector2( 0, 0 )
+constant_angular_velocity = 0.0
+friction = 1.0
+bounce = 0.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="gr2" index="0"]
+
+shape = SubResource( 1 )
+
+[node name="gr3" type="StaticBody2D" parent="." index="3"]
+
+position = Vector2( 224, 192 )
+input_pickable = false
+collision_layer = 1
+collision_mask = 1
+constant_linear_velocity = Vector2( 0, 0 )
+constant_angular_velocity = 0.0
+friction = 1.0
+bounce = 0.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="gr3" index="0"]
+
+shape = SubResource( 1 )
+
+[node name="gr4" type="StaticBody2D" parent="." index="4"]
+
+position = Vector2( 288, 192 )
+input_pickable = false
+collision_layer = 1
+collision_mask = 1
+constant_linear_velocity = Vector2( 0, 0 )
+constant_angular_velocity = 0.0
+friction = 1.0
+bounce = 0.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="gr4" index="0"]
+
+shape = SubResource( 1 )
+
+[node name="gr5" type="StaticBody2D" parent="." index="5"]
+
+position = Vector2( 352, 192 )
+input_pickable = false
+collision_layer = 1
+collision_mask = 1
+constant_linear_velocity = Vector2( 0, 0 )
+constant_angular_velocity = 0.0
+friction = 1.0
+bounce = 0.0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="gr5" index="0"]
+
+shape = SubResource( 1 )
+
+
