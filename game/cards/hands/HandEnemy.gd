@@ -7,6 +7,8 @@ var Open_Cards_Nodes
 
 var cards = []
 
+var hand_value = 0
+
 func _ready():
 	Hidden_Cards_Nodes = [$HiddenCards.get_node("Card3"),
 	$HiddenCards.get_node("Card2"),
@@ -19,16 +21,9 @@ func _ready():
 
 func get_hand_value():
 	print("enemy hand:")
-	for card in cards:
-		var cardValue = (card%13) + 2
-		var suitNbr = card/13
-		var suit
-		match suitNbr:
-			0: suit = "C"
-			1: suit = "D"
-			2: suit = "H"
-			3: suit = "S"
-		print([cardValue, suit])
+	print(cards.size())
+	var hand_value = get_parent().get_node("HandsLogic").calculate_hand_value(cards)
+	print(hand_value)
 	pass
 
 func add_hidden_card(cardNbr):
@@ -62,6 +57,16 @@ func reveal_all():
 	for card in Hidden_Cards_Nodes:
 		if card.dealt:
 			card.reveal()
+
+func remove_all():
+	for card in Hidden_Cards_Nodes:
+		if card.dealt:
+			card.erase()
+	for card in Open_Cards_Nodes:
+		if card.dealt:
+			card.erase()
+	cards = []
+	pass
 
 #func _process(delta):
 #	# Called every frame. Delta is time since last frame.

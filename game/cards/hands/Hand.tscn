@@ -3,7 +3,7 @@
 [ext_resource path="res://game/cards/hands/Hand.gd" type="Script" id=1]
 [ext_resource path="res://game/cards/hands/card/Card.tscn" type="PackedScene" id=2]
 
-[node name="Hand" type="VBoxContainer" index="0"]
+[node name="Hand" type="VBoxContainer"]
 
 anchor_left = 0.0
 anchor_top = 0.0

@@ -9,7 +9,7 @@ var deck = []
 # 3 : enemy open
 var card_temp = []
 
-var hands
+var turn = 0
 
 func _ready():
 	#hands = get_children()
@@ -20,14 +20,7 @@ func _ready():
 	pass
 
 func shuffle_deck():
-	var passes = randi()%11+1
-	while passes >0:
-		shuffle_shuffle()
-		passes -= 1
-	print(deck)
-	pass
-
-func shuffle_shuffle():
+	randomize()
 	var ret_deck = deck
 	var i = ret_deck.size() - 1
 	var j
@@ -41,6 +34,9 @@ func shuffle_shuffle():
 	deck = ret_deck
 
 func distribute_first_round():
+	if turn > 0:
+		return false
+	turn += 1
 	# pick 6 cards + number where they go
 	# 0 : player hidden
 	# 1 : player open
@@ -65,6 +61,9 @@ func distribute_first_round():
 	pass
 
 func distribute_another_round():
+	if turn > 2:
+		return false
+	turn += 1
 	var player_card = {1: pick_card()}	
 	var enemy_card = {3: pick_card()}
 	card_temp = [player_card, enemy_card]
@@ -97,15 +96,36 @@ func deal(cardObj):
 	elif cardObj.has(3):
 		$HandEnemy.add_open_card(cardObj[3])
 	card_temp.erase(cardObj)
-	print("card_temp size:")
-	print(card_temp.size())
+#	print("card_temp size:")
+#	print(card_temp.size())
 	#erase this cardObj
+	pass
+
+func remove_all_hands():
+	$PlayerHand.remove_all()
+	$HandEnemy.remove_all()
+	turn = 0
+	pass
+
+func deal_plus_card_to_player():
+	var player_card = {0: pick_card()}
+	card_temp = [player_card]
+	pass
+
+func get_enemy_hand_strength():
+	print("getting enemy hand strength")
+	var enmHand = $HandEnemy.cards
+	var opPlayerHand = $PlayerHand.openCards
+	var playerHandSize = $PlayerHand.cards.size()
+	var enmHandStrength = $AI.get_hand_strength(enmHand, opPlayerHand, playerHandSize)
+	print("Enemy hand strength:")
+	print(enmHandStrength)
 	pass
 
 func _process(delta):
 	if card_temp.size() > 0:
-		print("deal")
-		print(card_temp[0])
+#		print("deal")
+#		print(card_temp[0])
 		deal(card_temp[0])
 		pass
 	# Called every frame. Delta is time since last frame.
@@ -124,7 +144,19 @@ func _on_Button4_pressed():
 	reveal_all()
 	pass # replace with function body
 
-
 func _on_Button5_pressed():
 	get_hands_values()
+	pass # replace with function body
+
+func _on_Button6_pressed():
+	remove_all_hands()
+	pass # replace with function body
+
+func _on_Button7_pressed():
+	deal_plus_card_to_player()
+	pass # replace with function body
+
+func _on_Button3_pressed():
+	#get hand strength
+	get_enemy_hand_strength()
 	pass # replace with function body
