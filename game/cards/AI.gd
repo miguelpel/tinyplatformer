@@ -12,10 +12,22 @@ func set_level(nbr):
 	# to set the level of the AI
 	pass
 
+func get_ai_decision(enemyHand, openPlayerHand, playerHandSize, potValue = 0):
+	
+	# return fold / call / raise
+	pass
+
 func get_hand_strength(EnemyHand, OpenPlayerHand, PlayerHandSize):
 	# create a pack of cards
+	var handSize = 5
 	print("step1")
-	var enemyHandValue = get_parent().get_node("HandsLogic").calculate_hand_value(EnemyHand)
+	print(EnemyHand)
+	print(OpenPlayerHand)
+	if PlayerHandSize < 5:
+		PlayerHandSize = 5
+	print(EnemyHand.size())
+	print(PlayerHandSize)
+#	var enemyHandValue = get_parent().get_node("HandsLogic").calculate_hand_value(EnemyHand)
 	var deck = []
 	for nbr in range(52):
 		deck.append(nbr)
@@ -31,18 +43,29 @@ func get_hand_strength(EnemyHand, OpenPlayerHand, PlayerHandSize):
 	
 	#repeat 1000 times:
 	print("step3")
+	var loops = 10
 	var i = 0
-	while i <= 1000:
+	while i < loops:
 		# Shuffle the remaining pack
 		var shuffledDeck = shuffle_deck(deck)
 		# deal opponent hole cards,
 		var playerHand = OpenPlayerHand.duplicate()
+		var enemyHand = EnemyHand.duplicate()
 		for j in range(PlayerHandSize - playerHand.size()):
 			playerHand.append(shuffledDeck[j])
+			shuffledDeck.remove(j)
+		for k in range(handSize - enemyHand.size()):
+			enemyHand.append(shuffledDeck[k])
+			shuffledDeck.remove(k)
+		print(enemyHand)
+		print(playerHand)
 		var playerHandValue = get_parent().get_node("HandsLogic").calculate_hand_value(playerHand)
-		# evaluate all hands,
-		# if you have the best hand, add 1 to Score.
-		# if par, add 1/2
+		var enemyHandValue = get_parent().get_node("HandsLogic").calculate_hand_value(enemyHand)
+#
+#		# evaluate all hands,
+#		# if you have the best hand, add 1 to Score.
+#		# if par, add 1/2
+#
 		if enemyHandValue > playerHandValue:
 			score += 1
 		elif enemyHandValue == playerHandValue:
@@ -52,7 +75,7 @@ func get_hand_strength(EnemyHand, OpenPlayerHand, PlayerHandSize):
 		i += 1
 	# hand strength = Score/1000
 	print("step4")
-#	print(score)
+	print(score)
 #	print(score / 1000)
 #	var strength = score / 1000
 #	print(strength)

@@ -2,7 +2,7 @@
 
 [ext_resource path="res://game/cards/Hands.tscn" type="PackedScene" id=1]
 
-[node name="TestCards" type="Control" index="0"]
+[node name="TestCards" type="Control"]
 
 anchor_left = 0.0
 anchor_top = 0.0
