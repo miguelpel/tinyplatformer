@@ -17,12 +17,15 @@ var clothes = {
 	pants = null
 }
 
-var cloth_to_throw
+var cloth_to_throw # may be more than one!!!
+var actions = []
 var time_to_throw = 0.8
 var timer
 
 var cloth_remove_order = ["shirt", "pants", "undershirt", "panties", "hat"]
 var current_cloth_to_remove = 0
+
+signal all_actions_done # only if ALL actions are done. Allow to throw 2 clothes one after the other (raise)
 
 # $Character API
 # $Character.remove_and_throw(objRef) => returns objectRef
@@ -54,7 +57,7 @@ func remove_next_cloth():
 	var counter = 0
 	while clth == null and counter < 5:
 #		print(clth)
-		print(counter)
+#		print(counter)
 		clth = clothes[cloth_remove_order[counter]]
 		counter += 1
 	if counter > 5:
@@ -72,8 +75,8 @@ func pick_up(obj):
 	obj.queue_free()
 	#print(clothes[cat])
 	if clothes[cat] == null:
-		print(cat)
-		print("null")
+#		print(cat)
+#		print("null")
 		clothes[cat] = objRef
 		$Character.dress(objRef)
 	#else:
@@ -98,16 +101,42 @@ func throw_in_pot():
 	var pot = get_parent().get_node("Fight").get_node("Pot")
 	pot.throw_in(cloth_to_throw, position, $Character.direction)
 	clothes[cloth_to_throw.CATEGORY] = null
-	print(position)
+#	print(position)
 	pass
 
-#func _process(delta):
-#	if Input.is_action_just_pressed("ui_right"):
-#		$Character.run()
-#	if Input.is_action_just_pressed("ui_down"):
-#		$Character.stand()
-#	if Input.is_action_just_pressed("ui_left"):
-#		get_pot()
-#	if Input.is_action_just_pressed("ui_up"):
-#		remove_next_cloth()
-#	pass
+func get_decision(hands, pot):
+	
+#	var decision = $AI.get_ai_decision(enemyHand, openPlayerHand, playerHandSize, potValue, amountToCall)
+	pass
+
+func check_next_action():
+	
+	actions.remove(0)
+	if actions.size() == 0:
+		emit_signal("all_actions_done")
+
+func _process(delta):
+	if Input.is_action_just_pressed("ui_left"):
+		print("left")
+		remove_next_cloth()
+		# remove one cloth
+		pass
+	if Input.is_action_just_pressed("ui_right"):
+		print("right")
+		# go away right
+		# remove two clothes
+		pass
+	if Input.is_action_just_pressed("ui_up"):
+		print("up")
+		# remove three clothes
+		pass
+	if Input.is_action_just_pressed("ui_down"):
+		print("down")
+		pass
+	pass
+
+
+func _on_Character_action_done():
+	check_next_action()
+	# check if there is a next action
+	pass # replace with function body

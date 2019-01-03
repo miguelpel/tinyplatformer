@@ -64,10 +64,8 @@ func reveal_all():
 
 func remove_all():
 	for card in Hidden_Cards_nodes:
-		if card.dealt:
 			card.erase()
 	for card in Open_Cards_nodes:
-		if card.dealt:
 			card.erase()
 	cards = []
 	pass

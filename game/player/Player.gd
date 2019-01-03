@@ -105,14 +105,14 @@ func throw_in_pot():
 	pass
 
 func _process(delta):
-	if Input.is_action_just_pressed("ui_right"):
-		$Character.run()
-	if Input.is_action_just_pressed("ui_down"):
-		$Character.stand()
-	if Input.is_action_just_pressed("ui_left"):
-		get_pot()
-	if Input.is_action_just_pressed("ui_up"):
-		remove_next_cloth()
+#	if Input.is_action_just_pressed("ui_right"):
+#		$Character.run()
+#	if Input.is_action_just_pressed("ui_down"):
+#		$Character.stand()
+#	if Input.is_action_just_pressed("ui_left"):
+#		get_pot()
+#	if Input.is_action_just_pressed("ui_up"):
+#		remove_next_cloth()
 	pass
 
 func spawn_character(level):

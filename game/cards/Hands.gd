@@ -112,15 +112,15 @@ func deal_plus_card_to_player():
 	card_temp = [player_card]
 	pass
 
-func get_enemy_hand_strength():
-	print("getting enemy hand strength")
-	var enmHand = $HandEnemy.cards
-	var opPlayerHand = $PlayerHand.openCards
-	var playerHandSize = $PlayerHand.cards.size()
-	var enmHandStrength = $AI.get_hand_strength(enmHand, opPlayerHand, playerHandSize)
-	print("Enemy hand strength:")
-	print(enmHandStrength)
-	pass
+#func get_enemy_hand_strength():
+#	print("getting enemy hand strength")
+#	var enmHand = $HandEnemy.cards
+#	var opPlayerHand = $PlayerHand.openCards
+#	var playerHandSize = $PlayerHand.cards.size()
+#	var enmdecision = $AI.get_ai_decision(enmHand, opPlayerHand, playerHandSize)
+#	print("Enemy hand decision:")
+#	print(enmdecision)
+#	pass
 
 func _process(delta):
 	if card_temp.size() > 0:

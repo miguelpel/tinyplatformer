@@ -55,6 +55,23 @@ func get_pot_to(characterDir, curr_owner):
 	#print(character)
 	pass
 
+func get_pot_value():
+	return obj_refs.size()
+
+func is_pot_levelled():
+	var opponent1
+	var opponent1Objs = 0
+	var opponent2Objs = 0
+	opponent1 = obj_refs[0].current_owner
+	for i in obj_refs.size():
+		if obj_refs[i].current_owner == opponent1:
+			opponent1Objs += 1
+		else:
+			opponent2Objs += 1
+	if opponent1Objs == opponent2Objs:
+		return true
+	return false
+
 #func _process(delta):
 #	# Called every frame. Delta is time since last frame.
 #	# Update game logic here.

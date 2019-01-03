@@ -504,6 +504,7 @@ _sections_unfolded = [ "Transform" ]
 
 [node name="Fight" type="Node2D" parent="World" index="6"]
 
+editor/display_folded = true
 position = Vector2( 192, 160 )
 scale = Vector2( 4, 1 )
 
