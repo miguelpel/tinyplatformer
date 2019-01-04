@@ -10,6 +10,7 @@ func _ready():
 	player = get_parent().get_node("Player")
 	player.spawn_character(self)
 	current_fight = $World.get_node("Fight")
+	current_fight.start()
 	pass
 
 func _process(delta):

@@ -9,7 +9,7 @@ var obj_to_throw_ref
 var time_to_throw = 2
 var timer
 
-signal action_done
+
 
 # $Character.run()
 # $Character.set_direction("left" or "right")
@@ -133,7 +133,6 @@ func _check_next_anim():
 		throw()
 	else:
 		stand()
-		emit_signal("action_done")
 		# emit signal thrown_done. Maybe with timer.
 
 func _discard_anim_object():

@@ -42,6 +42,7 @@ func throw_in(objRef, pos, dir):
 		else:
 			obj.set_throwing_position(pos, throw)
 		add_child(obj)
+		obj_refs.append(objRef)
 	pass
 
 func get_pot_to(characterDir, curr_owner):
@@ -53,12 +54,18 @@ func get_pot_to(characterDir, curr_owner):
 				anim.is_dragged_left = true
 			anim.object_ref.current_owner = curr_owner
 	#print(character)
+	obj_refs = []
 	pass
 
 func get_pot_value():
 	return obj_refs.size()
 
+func get_amount_to_call():
+	return is_pot_levelled()
+
 func is_pot_levelled():
+	if obj_refs.size() == 0:
+		return 0
 	var opponent1
 	var opponent1Objs = 0
 	var opponent2Objs = 0
@@ -69,8 +76,11 @@ func is_pot_levelled():
 		else:
 			opponent2Objs += 1
 	if opponent1Objs == opponent2Objs:
-		return true
-	return false
+		return 0
+	var diff = opponent2Objs - opponent1Objs
+	if diff < 0:
+		diff = diff * -1
+	return diff
 
 #func _process(delta):
 #	# Called every frame. Delta is time since last frame.

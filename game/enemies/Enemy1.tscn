@@ -17,6 +17,4 @@ editor/display_folded = true
 
 [node name="AI" parent="." index="1" instance=ExtResource( 4 )]
 
-[connection signal="action_done" from="Character" to="." method="_on_Character_action_done"]
-
 

@@ -11,6 +11,10 @@ var card_temp = []
 
 var turn = 0
 
+var distribution_done = false
+
+var timer
+
 func _ready():
 	#hands = get_children()
 	for nbr in range(52):
@@ -33,7 +37,20 @@ func shuffle_deck():
 		i -= 1
 	deck = ret_deck
 
+func set_distribution_done_timer():
+	if !distribution_done:
+		timer = Timer.new()
+		timer.connect("timeout",self,"set_distribution_done")
+		add_child(timer)
+		timer.wait_time = 0.5
+		timer.start()
+
+func set_distribution_done():
+	timer.stop()
+	distribution_done = true
+
 func distribute_first_round():
+	distribution_done = false
 	if turn > 0:
 		return false
 	turn += 1
@@ -61,6 +78,7 @@ func distribute_first_round():
 	pass
 
 func distribute_another_round():
+	distribution_done = false
 	if turn > 2:
 		return false
 	turn += 1
@@ -112,6 +130,17 @@ func deal_plus_card_to_player():
 	card_temp = [player_card]
 	pass
 
+func get_enemy_cards():
+	return $HandEnemy.cards
+	pass
+
+func get_player_open_cards():
+	return $PlayerHand.openCards
+	pass
+
+func get_player_hand_size():
+	return $PlayerHand.cards.size()
+
 #func get_enemy_hand_strength():
 #	print("getting enemy hand strength")
 #	var enmHand = $HandEnemy.cards
@@ -128,6 +157,8 @@ func _process(delta):
 #		print(card_temp[0])
 		deal(card_temp[0])
 		pass
+	else:
+		set_distribution_done_timer()
 	# Called every frame. Delta is time since last frame.
 	# Update game logic here.
 	pass

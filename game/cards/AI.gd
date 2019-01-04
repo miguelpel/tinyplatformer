@@ -63,8 +63,8 @@ func get_hand_strength(EnemyHand, OpenPlayerHand, PlayerHandSize):
 		for k in range(handSize - enemyHand.size()):
 			enemyHand.append(shuffledDeck[k])
 			shuffledDeck.remove(k)
-		var playerHandValue = get_parent().get_node("HandsLogic").calculate_hand_value(playerHand)
-		var enemyHandValue = get_parent().get_node("HandsLogic").calculate_hand_value(enemyHand)
+		var playerHandValue = $HandsLogic.calculate_hand_value(playerHand)
+		var enemyHandValue = $HandsLogic.calculate_hand_value(enemyHand)
 #
 #		# evaluate all hands,
 #		# if you have the best hand, add 1 to Score.
@@ -139,7 +139,7 @@ func get_FCR(r_o_r, am_to_call):
 	
 	if decision == "fold" and am_to_call == 0:
 		decision = "call"
-	
+	print(rdmNbr)
 	return decision
 	pass
 
