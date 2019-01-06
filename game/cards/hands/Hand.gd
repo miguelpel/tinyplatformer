@@ -22,10 +22,10 @@ func _ready():
 	pass
 
 func get_hand_value():
-	print("player hand:")
-	print(cards.size())
+#	print("player hand:")
+#	print(cards.size())
 	var hand_value = get_parent().get_node("HandsLogic").calculate_hand_value(cards)
-	print(hand_value)
+	return hand_value
 	pass
 
 func add_hidden_card(cardNbr):

@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://game/levels/Level1.gd" type="Script" id=1]
 [ext_resource path="res://game/animations/levelsAnimls/tiles/groundTile.tscn" type="PackedScene" id=2]
 [ext_resource path="res://assets/tileset/sheet.png" type="Texture" id=3]
 [ext_resource path="res://game/animations/levelsAnimls/accessories/signpost.tscn" type="PackedScene" id=4]
 [ext_resource path="res://game/fight/Fight.tscn" type="PackedScene" id=5]
+[ext_resource path="res://game/enemies/Enemy1.tscn" type="PackedScene" id=6]
 
 [node name="Level1" type="Node"]
 
@@ -497,5 +498,9 @@ _sections_unfolded = [ "Offset", "Region" ]
 position = Vector2( 1376, 192 )
 
 [node name="Fight" parent="World" index="5" instance=ExtResource( 5 )]
+
+[node name="Enemy1" parent="World" index="6" instance=ExtResource( 6 )]
+
+position = Vector2( 256, 160 )
 
 

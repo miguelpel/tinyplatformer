@@ -22,11 +22,11 @@ func set_card(nbr, hid="open"):
 	var rank = nbr%13
 	$Card.region_rect = Rect2(Vector2((rank*32) + 32, suit*48), Vector2(32,48))
 	if hid=="hidden":
-		print("hidden")
+#		print("hidden")
 		$Hid.region_rect = Rect2(Vector2(0,0), Vector2(32,48))
 		pass
 	elif hid=="mid":
-		print("mid")
+#		print("mid")
 		$Hid.region_rect = Rect2(Vector2(0,96), Vector2(32,48))
 		pass
 	else:

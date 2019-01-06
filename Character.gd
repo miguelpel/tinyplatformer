@@ -110,11 +110,11 @@ func run():
 	if animSprites.size() > 0:
 		for animSprite in _get_anim_sprites():
 			animSprite.play("run")
-	print(animSprites)
+#	print(animSprites)
 	pass
 
 func stand():
-	print("stand")
+#	print("stand")
 	CharacterSprite.disconnect("animation_finished", self, "_check_next_anim")
 	for animSprite in _get_anim_sprites():
 		animSprite.play("stand")
@@ -126,7 +126,7 @@ func throw():
 	pass
 
 func _check_next_anim():
-	print("check next anim")
+#	print("check next anim")
 	var anim = CharacterSprite.animation
 	if anim == "remove" or anim == "removePanties":
 		_discard_anim_object()
@@ -136,7 +136,7 @@ func _check_next_anim():
 		# emit signal thrown_done. Maybe with timer.
 
 func _discard_anim_object():
-	print("discard obj")
+#	print("discard obj")
 	var obj = obj_to_throw
 	obj_to_throw = null
 	if obj != null:

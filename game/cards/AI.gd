@@ -139,7 +139,7 @@ func get_FCR(r_o_r, am_to_call):
 	
 	if decision == "fold" and am_to_call == 0:
 		decision = "call"
-	print(rdmNbr)
+#	print(rdmNbr)
 	return decision
 	pass
 

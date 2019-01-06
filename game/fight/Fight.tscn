@@ -1,11 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://game/fight/Fight.gd" type="Script" id=1]
 [ext_resource path="res://game/cards/Hands.tscn" type="PackedScene" id=2]
-[ext_resource path="res://game/enemies/Enemy1.tscn" type="PackedScene" id=3]
-[ext_resource path="res://game/pot/Pot.tscn" type="PackedScene" id=4]
+[ext_resource path="res://game/pot/Pot.tscn" type="PackedScene" id=3]
 
-[node name="Fight" type="Node" index="0"]
+[node name="Fight" type="Node"]
 
 script = ExtResource( 1 )
 
@@ -14,10 +13,8 @@ script = ExtResource( 1 )
 margin_top = 203.0
 margin_bottom = 303.0
 
-[node name="Enemy1" parent="." index="1" instance=ExtResource( 3 )]
+[node name="Pot" parent="." index="1" instance=ExtResource( 3 )]
 
-position = Vector2( 288, 128 )
-
-[node name="Pot" parent="." index="2" instance=ExtResource( 4 )]
+[connection signal="completed" from="Hands" to="." method="_on_Hands_completed"]
 
 

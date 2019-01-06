@@ -21,12 +21,11 @@ var cloth_to_throw
 var removes = 0
 var time_to_throw = 0.8
 var timer
-var doing_action
 
 var cloth_remove_order = ["shirt", "pants", "undershirt", "panties", "hat"]
 var current_cloth_to_remove = 0
 
-var all_actions_done = false # only if ALL actions are done. Allow to throw 2 clothes one after the other (raise)
+signal all_actions_done # only if ALL actions are done. Allow to throw 2 clothes one after the other (raise)
 
 # $Character API
 # $Character.remove_and_throw(objRef) => returns objectRef
@@ -41,8 +40,6 @@ var all_actions_done = false # only if ALL actions are done. Allow to throw 2 cl
 func _ready():
 	_instanciate_base_clothes()
 	_dress_character()
-	doing_action = false
-	all_actions_done = true
 	$Character.direction = "left"
 
 func _instanciate_base_clothes():
@@ -56,26 +53,33 @@ func _dress_character():
 	pass
 
 func remove_next_cloth():
+#	print("enemy remove next cloth called")
 	removes -= 1
-	if !doing_action:
-		doing_action = true
-		var clth = null
-		var counter = 0
-		while clth == null and counter < 5:
-	#		print(clth)
-	#		print(counter)
-			clth = clothes[cloth_remove_order[counter]]
-			counter += 1
-		if counter > 5:
-			return
-		if clth != null:
-			bet(clth)
-		else:
-			check_next_action()
-			return false
+	var clth = null
+	var counter = 0
+	while clth == null and counter < 5:
+#		print(clth)
+#		print(counter)
+		clth = clothes[cloth_remove_order[counter]]
+		counter += 1
+	if counter > 5:
+		return
+	if clth != null:
+		bet(clth)
 	else:
+		check_next_action()
 		return false
 
+func is_naked():
+	var count
+	for cloth in clothes:
+		if cloth == null:
+			count += 1
+	if count == 5:
+		return true
+	else:
+		return false
+		
 # pick_up => add it to clothes,
 # OR Check for double and add to inventory
 func pick_up(obj):
@@ -107,79 +111,78 @@ func get_pot():
 
 func throw_in_pot():
 	timer.stop()
-	print("throw in pot")
-	var pot = get_parent().get_node("Pot")
+#	print("throw in pot")
+	var pot = get_parent().get_parent().current_fight.get_node("Pot")
 	if cloth_to_throw != null:
-		print(cloth_to_throw.name)
+#		print(cloth_to_throw.name)
 		pot.throw_in(cloth_to_throw, position, $Character.direction)
 		clothes[cloth_to_throw.CATEGORY] = null
+		cloth_to_throw = null
 	else:
 		print("no cloth_to_throw")
 	check_next_action()
 	pass
 
 func remove_clothes(nbr = 1):
+#	print("enemy remove clothes called")
 	removes = nbr
 	remove_next_cloth()
 
-func get_decision(hands, pot, amountToCall):
-	print("enemy get decision")
-	print(hands)
-	print(pot)
+func get_decision(hands, pot):
 	var enemyCards = hands.get_enemy_cards()
-	print("enemy cards")
-	print(enemyCards)
 	var playerOpenCards = hands.get_player_open_cards()
-	print("player open cards")
-	print(playerOpenCards)
 	var playerHandSize = hands.get_player_hand_size()
-	print("player hand size")
-	print(playerHandSize)
-	print(amountToCall)
-	var decision = $AI.get_ai_decision(enemyCards, playerOpenCards, playerHandSize, pot, amountToCall)
-	return decision
+	var potValue = pot.get_pot_value()
+	var amountToCall = pot.get_amount_to_call()
+#	print("enemy get decision")
+#	print(amountToCall)
+	var decision = $AI.get_ai_decision(enemyCards, playerOpenCards, playerHandSize, potValue, amountToCall)
+	match decision:
+		"call":
+			call(amountToCall)
+		"raise":
+			raise(amountToCall)
+		"fold":
+			fold()
+	
 	pass
 
-func call():
-	print("call")
-	var pot = get_parent().get_node("Pot")
-	var diff = pot.get_amount_to_call()
-	print(diff)
-	if diff > 0:
-		remove_clothes(diff)
-		all_actions_done = false
+func call(amountToCall):
+	if is_naked():
+		print("naked!")
+		return false
+	print("Enemy calls")
+	if amountToCall > 0:
+		remove_clothes(amountToCall)
 	else:
-		all_actions_done = true
+		emit_signal("all_actions_done")
 	pass
 
 func fold():
-	all_actions_done = false
+	print("Enemy folds")
+	get_parent().get_parent().current_fight.fold(self)
 	pass
 
-func raise():
-	all_actions_done = false
-	print("raise")
-	var pot = get_parent().get_node("Pot")
-	var diff = pot.get_amount_to_call()
-	print(diff+1)
-	remove_clothes(diff+1)
+func raise(amountToCall):
+	if is_naked():
+		print("naked!")
+		return false
+	print("Enemy raises")
+	var raise = amountToCall + 1
+	print(raise)
+	remove_clothes(raise)
 	pass
 
 func check_next_action():
-	print("check next action")
-	print(removes)
+#	print("check next action")
+#	print(removes)
 	if removes < 0:
 		removes = 0
 	if removes > 0:
 #		removes -= 1
-		doing_action = false
 		remove_next_cloth()
 	else:
-		doing_action = false
-		all_actions_done = true
-		print("all_actions_done")
-		var pot = get_parent().get_node("Pot")
-		print(pot.get_pot_value())
+		emit_signal("all_actions_done")
 
 func _process(delta):
 #	if Input.is_action_just_pressed("ui_left"):

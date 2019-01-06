@@ -11,7 +11,7 @@ var card_temp = []
 
 var turn = 0
 
-var distribution_done = false
+signal completed
 
 var timer
 
@@ -20,6 +20,13 @@ func _ready():
 	for nbr in range(52):
 		deck.append(nbr)
 	#print(randi()%(deck.size()))
+	shuffle_deck()
+	pass
+
+func reset_deck():
+	deck = []
+	for nbr in range(52):
+		deck.append(nbr)
 	shuffle_deck()
 	pass
 
@@ -37,20 +44,18 @@ func shuffle_deck():
 		i -= 1
 	deck = ret_deck
 
-func set_distribution_done_timer():
-	if !distribution_done:
-		timer = Timer.new()
-		timer.connect("timeout",self,"set_distribution_done")
-		add_child(timer)
-		timer.wait_time = 0.5
-		timer.start()
+func set_completion_timer():
+	timer = Timer.new()
+	timer.connect("timeout",self,"emit_completed")
+	add_child(timer)
+	timer.wait_time = 0.5
+	timer.start()
 
-func set_distribution_done():
+func emit_completed():
 	timer.stop()
-	distribution_done = true
+	emit_signal("completed")
 
 func distribute_first_round():
-	distribution_done = false
 	if turn > 0:
 		return false
 	turn += 1
@@ -78,18 +83,32 @@ func distribute_first_round():
 	pass
 
 func distribute_another_round():
-	distribution_done = false
 	if turn > 2:
 		return false
 	turn += 1
 	var player_card = {1: pick_card()}	
 	var enemy_card = {3: pick_card()}
 	card_temp = [player_card, enemy_card]
+	set_completion_timer()
+	pass
+
+func distribute_remaining_cards():
+	# for remaining card in openCards of each hand.
+	var playerRemainingCards = 3 - $PlayerHand.openCards.size()
+	var enemyRemainingCards = 3 - $HandEnemy.openCards.size()
+	for i in range(playerRemainingCards):
+		var player_card = {1: pick_card()}
+		card_temp.append(player_card)
+	for j in range(enemyRemainingCards):
+		var enemy_card = {3: pick_card()}
+		card_temp.append(enemy_card)
+	set_completion_timer()
 	pass
 
 func reveal_all():
 	$PlayerHand.reveal_all()
 	$HandEnemy.reveal_all()
+	set_completion_timer()
 	pass
 
 func pick_card():
@@ -100,8 +119,10 @@ func pick_card():
 	return card_nbr
 
 func get_hands_values():
-	$PlayerHand.get_hand_value()
-	$HandEnemy.get_hand_value()
+	var playerHandValue = $PlayerHand.get_hand_value()
+	var enemyHandValue = $HandEnemy.get_hand_value()
+	var retobj = {"player": playerHandValue, "enemy": enemyHandValue}
+	return retobj
 	pass
 
 func deal(cardObj):
@@ -123,11 +144,14 @@ func remove_all_hands():
 	$PlayerHand.remove_all()
 	$HandEnemy.remove_all()
 	turn = 0
+	reset_deck()
+	set_completion_timer()
 	pass
 
 func deal_plus_card_to_player():
 	var player_card = {0: pick_card()}
 	card_temp = [player_card]
+	set_completion_timer()
 	pass
 
 func get_enemy_cards():
@@ -158,36 +182,7 @@ func _process(delta):
 		deal(card_temp[0])
 		pass
 	else:
-		set_distribution_done_timer()
+		set_completion_timer()
 	# Called every frame. Delta is time since last frame.
 	# Update game logic here.
 	pass
-
-func _on_Button_pressed():
-	distribute_first_round()
-	pass # replace with function body
-
-func _on_Button2_pressed():
-	distribute_another_round()
-	pass # replace with function body
-
-func _on_Button4_pressed():
-	reveal_all()
-	pass # replace with function body
-
-func _on_Button5_pressed():
-	get_hands_values()
-	pass # replace with function body
-
-func _on_Button6_pressed():
-	remove_all_hands()
-	pass # replace with function body
-
-func _on_Button7_pressed():
-	deal_plus_card_to_player()
-	pass # replace with function body
-
-func _on_Button3_pressed():
-	#get hand strength
-	get_enemy_hand_strength()
-	pass # replace with function body

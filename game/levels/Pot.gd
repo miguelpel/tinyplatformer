@@ -19,8 +19,8 @@ func _ready():
 	pass
 
 func throw_in(objRef, pos, dir):
-	print(objRef)
-	print(pos)
+#	print(objRef)
+#	print(pos)
 #	objRef.get_parent().remove_child(objRef)
 	if objRef:
 		var throw
@@ -45,25 +45,34 @@ func throw_in(objRef, pos, dir):
 		obj_refs.append(objRef)
 	pass
 
-func get_pot_to(characterDir, curr_owner):
+func get_pot_to(characterDir):
 	for anim in get_children():
 		if anim.get_class() == "KinematicBody2D":
 			if characterDir == "left":
 				anim.is_dragged_right = true
 			elif characterDir == "right":
 				anim.is_dragged_left = true
-			anim.object_ref.current_owner = curr_owner
+#			anim.object_ref.current_owner = curr_owner
 	#print(character)
 	obj_refs = []
 	pass
+
+func give_back_pot():
+	for anim in get_children():
+		if anim.get_class() == "KinematicBody2D":
+			var owner = anim.object_ref.current_owner
+			var ownerDir = owner.get_node("Character").direction
+			if ownerDir == "left":
+				anim.is_dragged_right = true
+			elif ownerDir == "right":
+				anim.is_dragged_left = true
+			# object_ref
+			pass
 
 func get_pot_value():
 	return obj_refs.size()
 
 func get_amount_to_call():
-	return is_pot_levelled()
-
-func is_pot_levelled():
 	if obj_refs.size() == 0:
 		return 0
 	var opponent1
