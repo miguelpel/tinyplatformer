@@ -94,7 +94,7 @@ func distribute_another_round():
 
 func distribute_remaining_cards():
 	# for remaining card in openCards of each hand.
-	var playerRemainingCards = 3 - $PlayerHand.openCards.size()
+	var playerRemainingCards = 3 - $HandPlayer.openCards.size()
 	var enemyRemainingCards = 3 - $HandEnemy.openCards.size()
 	for i in range(playerRemainingCards):
 		var player_card = {1: pick_card()}
@@ -106,7 +106,7 @@ func distribute_remaining_cards():
 	pass
 
 func reveal_all():
-	$PlayerHand.reveal_all()
+	$HandPlayer.reveal_all()
 	$HandEnemy.reveal_all()
 	set_completion_timer()
 	pass
@@ -119,7 +119,7 @@ func pick_card():
 	return card_nbr
 
 func get_hands_values():
-	var playerHandValue = $PlayerHand.get_hand_value()
+	var playerHandValue = $HandPlayer.get_hand_value()
 	var enemyHandValue = $HandEnemy.get_hand_value()
 	var retobj = {"player": playerHandValue, "enemy": enemyHandValue}
 	return retobj
@@ -127,9 +127,9 @@ func get_hands_values():
 
 func deal(cardObj):
 	if cardObj.has(0):
-		$PlayerHand.add_hidden_card(cardObj[0])
+		$HandPlayer.add_hidden_card(cardObj[0])
 	elif cardObj.has(1):
-		$PlayerHand.add_open_card(cardObj[1])
+		$HandPlayer.add_open_card(cardObj[1])
 	elif cardObj.has(2):
 		$HandEnemy.add_hidden_card(cardObj[2])
 	elif cardObj.has(3):
@@ -141,7 +141,7 @@ func deal(cardObj):
 	pass
 
 func remove_all_hands():
-	$PlayerHand.remove_all()
+	$HandPlayer.remove_all()
 	$HandEnemy.remove_all()
 	turn = 0
 	reset_deck()
@@ -159,11 +159,11 @@ func get_enemy_cards():
 	pass
 
 func get_player_open_cards():
-	return $PlayerHand.openCards
+	return $HandPlayer.openCards
 	pass
 
 func get_player_hand_size():
-	return $PlayerHand.cards.size()
+	return $HandPlayer.cards.size()
 
 #func get_enemy_hand_strength():
 #	print("getting enemy hand strength")

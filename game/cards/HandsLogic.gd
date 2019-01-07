@@ -5,6 +5,9 @@ func _ready():
 
 func calculate_hand_value(cardsArray):
 #	print(cardsArray)
+	if typeof(cardsArray) != TYPE_ARRAY or cardsArray.size() < 5:
+		print("can't get value of: ", cardsArray)
+		return false
 	var cdArrOfArr = create_cards_array(cardsArray)
 	var handType
 	var straight_flush = check_for_straight_flush(cdArrOfArr)
@@ -26,7 +29,7 @@ func calculate_hand_value(cardsArray):
 		return convert_array_in_number(full)
 	elif flush:
 #		print("flush")
-#		print(flush)
+#		print(flush, cdArrOfArr)
 		var convertedArray = convert_cards_array(cdArrOfArr, flush)
 		return convert_array_in_number(convertedArray)
 	elif straight:

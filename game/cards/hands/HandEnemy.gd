@@ -61,11 +61,15 @@ func reveal_all():
 			card.reveal()
 
 func remove_all():
-	for card in Hidden_Cards_Nodes:
-		card.erase()
-	for card in Open_Cards_Nodes:
-		card.erase()
+	for card in Hidden_Cards_nodes:
+		if card.dealt:
+			card.erase()
+	for card in Open_Cards_nodes:
+		if card.dealt:
+			card.erase()
 	cards = []
+	openCards = []
+	hiddenCards = []
 	pass
 
 #func _process(delta):

@@ -13,27 +13,13 @@ const fightUI = preload("res://game/fight/PlayerUiFight.tscn")
 
 var PlayerUIFight
 
-var clothes = {
-	hat = null,
-	undershirt = null,
-	panties = null,
-	shirt = null,
-	pants = null
-}
-
 var Inventory = []
 var current_level
+#var fight
 
-var cloth_to_throw
-var removes = 0
-var time_to_throw = 0.8
-var timer
-var doing_action
 
-var cloth_remove_order = ["shirt", "pants", "undershirt", "panties", "hat"]
-var current_cloth_to_remove = 0
+# only if ALL actions are done. Allow to throw 2 clothes one after the other (raise)
 
-signal all_actions_done # only if ALL actions are done. Allow to throw 2 clothes one after the other (raise)
 
 # $Character API
 # $Character.remove_and_throw(objRef) => returns objectRef
@@ -46,136 +32,13 @@ signal all_actions_done # only if ALL actions are done. Allow to throw 2 clothes
 # Pot API???
 
 func _ready():
-	_instanciate_base_clothes()
-	_dress_character()
-	$Character.direction = "right"
+#	if current_level:
+#		fight = current_level.current_fight
+	$Character.instanciate_base_clothes(base_clothes)
+#	_instanciate_base_clothes() # DOUBLE
+#	_dress_character() # DOUBLE
+	$Character.set_direction("right")
 
-func _instanciate_base_clothes():
-	for cat in clothes:
-		clothes[cat] = base_clothes[cat].instance()
-		clothes[cat].current_owner = self
-
-func _dress_character():
-	for cat in clothes:
-		$Character.dress(clothes[cat])
-	pass
-
-func call():
-	print("Player call")
-	var pot = current_level.current_fight.get_node("Pot")
-	var diff = pot.get_amount_to_call()
-#	print(diff)
-	if diff > 0:
-		remove_clothes(diff)
-	else:
-		emit_signal("all_actions_done")
-	pass
-
-func fold():
-	print("Player fold")
-	current_level.current_fight.fold(self)
-	pass
-
-func raise():
-	print("Player raise")
-	var pot = current_level.current_fight.get_node("Pot")
-	var diff = pot.get_amount_to_call()
-#	print(diff+1)
-	remove_clothes(diff+1)
-	pass
-
-func remove_next_cloth():
-	removes -= 1
-	if !doing_action:
-		doing_action = true
-		var clth = null
-		var counter = 0
-		while clth == null and counter < 5:
-	#		print(clth)
-	#		print(counter)
-			clth = clothes[cloth_remove_order[counter]]
-			counter += 1
-		if counter > 5:
-			return
-		if clth != null:
-			bet(clth)
-		else:
-			check_next_action()
-			return false
-	else:
-		return false
-
-func is_naked():
-	var count
-	for cloth in clothes:
-		if cloth == null:
-			count += 1
-	if count == 5:
-		return true
-	else:
-		return false
-
-# pick_up => add it to clothes,
-# OR Check for double and add to inventory
-func pick_up(obj):
-	var objRef = obj.object_ref
-	var cat = obj.CATEGORY
-	obj.queue_free()
-	#print(clothes[cat])
-	if clothes[cat] == null:
-#		print(cat)
-#		print("null")
-		clothes[cat] = objRef
-		$Character.dress(objRef)
-	#else:
-		#Inventory.check_and_append(objRef)
-	pass
-
-func bet(cloth):
-	cloth_to_throw = $Character.remove_and_throw(cloth)
-	if cloth_to_throw:
-		timer = Timer.new()
-		timer.connect("timeout",self,"throw_in_pot")
-		add_child(timer)
-		timer.wait_time = time_to_throw
-		timer.start()
- 
-func get_pot():
-	var pot = current_level.current_fight.get_node("Pot")
-	pot.get_pot_to($Character.direction, self)
-
-func throw_in_pot():
-	timer.stop()
-#	print("throw in pot")
-	var pot = current_level.current_fight.get_node("Pot")
-	if cloth_to_throw != null:
-#		print(cloth_to_throw.name)
-		pot.throw_in(cloth_to_throw, $Character.position, $Character.direction)
-		clothes[cloth_to_throw.CATEGORY] = null
-		cloth_to_throw = null
-	else:
-		print("no cloth_to_throw")
-	check_next_action()
-	pass
-
-func remove_clothes(nbr = 1):
-	removes = nbr
-	remove_next_cloth()
-
-func check_next_action():
-#	print("check next action")
-#	print(removes)
-	if removes < 0:
-		removes = 0
-	if removes > 0:
-#		removes -= 1
-		doing_action = false
-		remove_next_cloth()
-	else:
-		doing_action = false
-		emit_signal("all_actions_done")
-#		var pot = current_level.current_fight.get_node("Pot")
-#		print(pot.get_pot_value())
 
 func _process(delta):
 #	if Input.is_action_just_pressed("ui_right"):
@@ -188,7 +51,7 @@ func _process(delta):
 #		remove_next_cloth()
 	pass
 
-func spawn_character(level):
+func spawn_character(level):  # NOT DOUBLE
 #	print("spawn character")
 #	print($Character)
 	current_level = level
@@ -204,14 +67,15 @@ func spawn_character(level):
 	current_level.add_child(PlayerUIFight)
 	pass
 
-func _on_PlayerUIFight_call():
-	call()
+func _on_PlayerUIFight_call(): # NOT DOUBLE
+	$Character.call()
 	pass # replace with function body
 
-func _on_PlayerUIFight_fold():
-	fold()
+func _on_PlayerUIFight_fold(): # NOT DOUBLE
+	$Character.fold() # optionnel
+	current_level.current_fight.fold(self)
 	pass # replace with function body
 
-func _on_PlayerUIFight_raise():
-	raise()
+func _on_PlayerUIFight_raise(): # NOT DOUBLE
+	$Character.raise()
 	pass # replace with function body

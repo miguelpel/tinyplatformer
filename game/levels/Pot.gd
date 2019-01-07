@@ -3,8 +3,6 @@ extends Node
 
 const UP = Vector2(0, -1)
 const GRAVITY = Vector2(0, 20)
-#const ACCELERATION = 50
-#const THROW = Vector2(300, -400)
 const ACCELERATION = 50
 const MAX_SPEED = 200
 const PANTS_OFFSET = Vector2(0, -40)
@@ -13,21 +11,18 @@ const SHIRT_OFFSET = Vector2(0, -40)
 #if needed
 var obj_refs = [] # keep track of the objects refs in pot
 
-func _ready():
-	# Called every time the node is added to the scene.
-	# Initialization here
-	pass
+signal animations_done # Fired when pot animation is done.
 
 func throw_in(objRef, pos, dir):
 #	print(objRef)
 #	print(pos)
 #	objRef.get_parent().remove_child(objRef)
 	if objRef:
-		var throw
+		var throwDirection
 		if dir == "right":
-			throw = Vector2(300, -400)
+			throwDirection = Vector2(300, -400)
 		else:
-			throw = Vector2(-300, -400)
+			throwDirection = Vector2(-300, -400)
 		add_child(objRef)
 		var obj = objRef.create_kin_body()
 		obj.up = UP
@@ -36,11 +31,11 @@ func throw_in(objRef, pos, dir):
 		obj.acceleration = ACCELERATION
 		obj.max_speed = MAX_SPEED
 		if objRef.CATEGORY == "pants" or objRef.CATEGORY == "panties":
-			obj.set_throwing_position(pos + PANTS_OFFSET, throw)
+			obj.set_throwing_position(pos + PANTS_OFFSET, throwDirection)
 		elif objRef.CATEGORY == "shirt" or objRef.CATEGORY == "undershirt":
-			obj.set_throwing_position(pos + SHIRT_OFFSET, throw)
+			obj.set_throwing_position(pos + SHIRT_OFFSET, throwDirection)
 		else:
-			obj.set_throwing_position(pos, throw)
+			obj.set_throwing_position(pos, throwDirection)
 		add_child(obj)
 		obj_refs.append(objRef)
 	pass
@@ -61,7 +56,7 @@ func give_back_pot():
 	for anim in get_children():
 		if anim.get_class() == "KinematicBody2D":
 			var owner = anim.object_ref.current_owner
-			var ownerDir = owner.get_node("Character").direction
+			var ownerDir = owner.direction
 			if ownerDir == "left":
 				anim.is_dragged_right = true
 			elif ownerDir == "right":
@@ -91,7 +86,12 @@ func get_amount_to_call():
 		diff = diff * -1
 	return diff
 
-#func _process(delta):
-#	# Called every frame. Delta is time since last frame.
-#	# Update game logic here.
-#	pass
+func get_vebose_pot():
+	# give content object name and current owner.
+	print("pot_verbose:")
+	for objRef in obj_refs:
+		print(objRef.name, " ", objRef.current_owner.get_parent().name)
+	pass
+
+func _process(delta):
+	pass

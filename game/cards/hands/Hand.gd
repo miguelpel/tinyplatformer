@@ -1,4 +1,4 @@
-# Hand Player
+# Hand
 extends VBoxContainer
 
 var Hidden_Cards_nodes
@@ -7,18 +7,28 @@ var Open_Cards_nodes
 
 var cards = []
 var openCards = []
-var hiddenCards = []
+#var hiddenCards = []
 
 var hand_value = 0
 
 func _ready():
-	Hidden_Cards_nodes = [$HiddenCards.get_node("Card"),
-	$HiddenCards.get_node("Card2"),
-	$HiddenCards.get_node("Card3")]
+	if self.name == "HandPlayer":
+		Hidden_Cards_nodes = [$HiddenCards.get_node("Card"),
+		$HiddenCards.get_node("Card2"),
+		$HiddenCards.get_node("Card3")]
+	else:
+		Hidden_Cards_nodes = [$HiddenCards.get_node("Card3"),
+		$HiddenCards.get_node("Card2"),
+		$HiddenCards.get_node("Card")]
 	
-	Open_Cards_nodes = [$OpenCards.get_node("Card"),
-	$OpenCards.get_node("Card2"),
-	$OpenCards.get_node("Card3")]
+	if self.name == "HandPlayer":
+		Open_Cards_nodes = [$OpenCards.get_node("Card"),
+		$OpenCards.get_node("Card2"),
+		$OpenCards.get_node("Card3")]
+	else:
+		Open_Cards_nodes = [$OpenCards.get_node("Card3"),
+		$OpenCards.get_node("Card2"),
+		$OpenCards.get_node("Card")]
 	pass
 
 func get_hand_value():
@@ -31,7 +41,7 @@ func get_hand_value():
 func add_hidden_card(cardNbr):
 	#check if the first card isn't dealt
 	cards.append(cardNbr)
-	hiddenCards.append(cardNbr)
+#	hiddenCards.append(cardNbr)
 	var i = 0
 	while i<3:
 		var card = Hidden_Cards_nodes[i]
@@ -39,7 +49,10 @@ func add_hidden_card(cardNbr):
 			if card.dealt:
 				i += 1
 			else:
-				card.set_card(cardNbr, "mid")
+				if self.name == "HandPlayer":
+					card.set_card(cardNbr, "mid")
+				else:
+					card.set_card(cardNbr, "hidden")
 				break
 	pass
 
@@ -64,10 +77,14 @@ func reveal_all():
 
 func remove_all():
 	for card in Hidden_Cards_nodes:
+		if card.dealt:
 			card.erase()
 	for card in Open_Cards_nodes:
+		if card.dealt:
 			card.erase()
 	cards = []
+	openCards = []
+#	hiddenCards = []
 	pass
 
 #func _process(delta):
