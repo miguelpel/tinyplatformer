@@ -1,9 +1,8 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://game/player/Player.gd" type="Script" id=1]
 [ext_resource path="res://game/animations/character/Character.tscn" type="PackedScene" id=2]
 [ext_resource path="res://game/animations/king/King.tscn" type="PackedScene" id=3]
-[ext_resource path="res://game/fight/PlayerUIFight.tscn" type="PackedScene" id=4]
 
 [node name="Player" type="Node"]
 
@@ -22,13 +21,5 @@ z_index = 1
 editor/display_folded = true
 
 [node name="UI" type="Node" parent="Interface" index="0"]
-
-[node name="PlayerUIFight" parent="." index="2" instance=ExtResource( 4 )]
-
-[connection signal="call" from="PlayerUIFight" to="." method="_on_PlayerUIFight_call"]
-
-[connection signal="fold" from="PlayerUIFight" to="." method="_on_PlayerUIFight_fold"]
-
-[connection signal="raise" from="PlayerUIFight" to="." method="_on_PlayerUIFight_raise"]
 
 

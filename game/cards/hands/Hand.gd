@@ -52,7 +52,9 @@ func add_hidden_card(cardNbr):
 				if self.name == "HandPlayer":
 					card.set_card(cardNbr, "mid")
 				else:
-					card.set_card(cardNbr, "hidden")
+					#for debug purpose
+					card.set_card(cardNbr, "mid")
+#					card.set_card(cardNbr, "hidden")
 				break
 	pass
 

@@ -1,6 +1,9 @@
 # Character
 extends Node2D
 
+# the card that displays the decision
+var card = preload("res://game/fight/card.tscn")
+
 # Character sprite and direction
 #const THROW_FORCE = 100
 var CharacterSprite
@@ -92,7 +95,7 @@ func _get_pot():
 	if parent.name == "Player":
 		pot = parent.current_level.current_fight.get_node("Pot")
 	else:
-		pot = parent.get_parent().get_node("Pot")
+		pot = parent.get_parent().get_node("Fight").get_node("Pot")
 #		print(pot.name)
 #	print(get_parent().name)
 #	var pot = null
@@ -105,7 +108,12 @@ func _get_pot():
 
 # the CALL/RAISE/FOLD API
 func call():
+	if get_parent().name == "Player":
+		get_parent().PlayerUIFight.disable()
 	print(get_parent().name, " calls")
+	var cd = card.instance()
+	add_child(cd)
+	cd.create("call")
 	var pot = _get_pot()
 	var diff = pot.get_amount_to_call()
 #	print(diff)
@@ -116,12 +124,22 @@ func call():
 	pass
 
 func fold():
+	if get_parent().name == "Player":
+		get_parent().PlayerUIFight.disable()
 	print(get_parent().name, " folds")
+	var cd = card.instance()
+	add_child(cd)
+	cd.create("folds")
 #	current_level.current_fight.fold(self)
 	pass
 
 func raise():
+	if get_parent().name == "Player":
+		get_parent().PlayerUIFight.disable()
 	print(get_parent().name, " raises")
+	var cd = card.instance()
+	add_child(cd)
+	cd.create("raises")
 	var pot = _get_pot()
 	var diff = pot.get_amount_to_call()
 #	print(diff+1)
@@ -195,7 +213,8 @@ func _throw_in_pot():
 		if get_parent().name == "Player":
 			pot.throw_in(cloth_to_throw, position, direction)
 		else:
-			pot.throw_in(cloth_to_throw, get_parent().position, direction)
+			# why x:-200 for the position
+			pot.throw_in(cloth_to_throw, get_parent().get_position() + Vector2(-200, 0), direction)
 		clothes[cloth_to_throw.CATEGORY] = null
 		cloth_to_throw = null
 	else:

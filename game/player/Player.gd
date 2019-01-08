@@ -63,6 +63,7 @@ func spawn_character(level):  # NOT DOUBLE
 	PlayerUIFight.connect("call", self, "_on_PlayerUIFight_call")
 	PlayerUIFight.connect("fold", self, "_on_PlayerUIFight_fold")
 	PlayerUIFight.connect("raise", self, "_on_PlayerUIFight_raise")
+	PlayerUIFight.hide()
 #	print(PlayerUIFight.name)
 	current_level.add_child(PlayerUIFight)
 	pass

@@ -5,7 +5,7 @@
 [ext_resource path="res://game/animations/king/King.tscn" type="PackedScene" id=3]
 [ext_resource path="res://game/objects/scenes/Crown/children/AnimatedSprite.tscn" type="PackedScene" id=4]
 [ext_resource path="res://game/objects/scenes/Slip/children/AnimatedSprite.tscn" type="PackedScene" id=5]
-[ext_resource path="res://game/interface/theme/font/default_font.tres" type="DynamicFont" id=6]
+[ext_resource path="res://game/interface/theme/font/font_button_big.tres" type="DynamicFont" id=6]
 [ext_resource path="res://game/levels/Label.gd" type="Script" id=7]
 [ext_resource path="res://assets/ui/button.png" type="Texture" id=8]
 [ext_resource path="res://assets/ui/buttonPressed.png" type="Texture" id=9]
@@ -49,6 +49,7 @@ position = Vector2( 167, 128 )
 
 [node name="Menu" type="CenterContainer" parent="." index="5"]
 
+editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 1.0
 anchor_right = 1.0
@@ -69,10 +70,10 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 48.0
-margin_top = 53.0
-margin_right = 311.0
-margin_bottom = 203.0
+margin_left = 105.0
+margin_top = 62.0
+margin_right = 255.0
+margin_bottom = 193.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -87,8 +88,8 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 263.0
-margin_bottom = 32.0
+margin_right = 150.0
+margin_bottom = 13.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -112,9 +113,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 36.0
-margin_right = 263.0
-margin_bottom = 150.0
+margin_top = 17.0
+margin_right = 150.0
+margin_bottom = 131.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -129,8 +130,7 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 56.0
-margin_right = 206.0
+margin_right = 150.0
 margin_bottom = 114.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false

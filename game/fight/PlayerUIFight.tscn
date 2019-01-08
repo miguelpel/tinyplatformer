@@ -3,7 +3,7 @@
 [ext_resource path="res://game/fight/PlayerUIFight.gd" type="Script" id=1]
 [ext_resource path="res://assets/ui/button.png" type="Texture" id=2]
 [ext_resource path="res://assets/ui/buttonPressed.png" type="Texture" id=3]
-[ext_resource path="res://game/interface/theme/font/default_font.tres" type="DynamicFont" id=4]
+[ext_resource path="res://game/interface/theme/font/font_button_big.tres" type="DynamicFont" id=4]
 
 [node name="PlayerUIFight" type="CenterContainer"]
 
@@ -41,7 +41,6 @@ alignment = 0
 
 [node name="Call" type="TextureButton" parent="VBoxContainer" index="0"]
 
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -77,17 +76,17 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
 custom_fonts/font = ExtResource( 4 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "CALL"
 align = 1
 valign = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
-_sections_unfolded = [ "Anchor", "Margin", "custom_fonts" ]
+_sections_unfolded = [ "custom_fonts" ]
 
 [node name="Raise" type="TextureButton" parent="VBoxContainer" index="1"]
 
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -124,17 +123,17 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
 custom_fonts/font = ExtResource( 4 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "Raise"
 align = 1
 valign = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
-_sections_unfolded = [ "Anchor", "Margin", "custom_fonts" ]
+_sections_unfolded = [ "Anchor", "Margin", "custom_colors", "custom_fonts" ]
 
 [node name="Fold" type="TextureButton" parent="VBoxContainer" index="2"]
 
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
@@ -171,13 +170,14 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
 custom_fonts/font = ExtResource( 4 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "Fold"
 align = 1
 valign = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
-_sections_unfolded = [ "Margin", "custom_fonts" ]
+_sections_unfolded = [ "Margin", "custom_colors", "custom_fonts" ]
 
 [connection signal="pressed" from="VBoxContainer/Call" to="." method="_on_Call_pressed"]
 

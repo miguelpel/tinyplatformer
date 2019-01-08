@@ -24,12 +24,17 @@ var timer
 func _ready():
 #	randomize()
 	pot = $Pot
-	start()
+#	start()
 	pass
 
-func start(): # set the player, the enemy, set the opponent, connect signals if needed
+func start(enm): # set the player, the enemy, set the opponent, connect signals if needed
 	print("starting")
-	if _get_player() and _get_enemy():
+	enemy = enm
+	if _get_player():
+		player.get_node("Character").stand()
+		player.PlayerUIFight.show()
+		player.PlayerUIFight.disable()
+		get_parent().get_parent().is_running = false
 		player.get_node("Character").connect("all_actions_done", self, "on_opponent_actions_done")
 		enemy.get_node("Character").connect("all_actions_done", self, "on_opponent_actions_done")
 		set_opponent()
@@ -74,13 +79,13 @@ func _on_timer_timeout(): # timeout for set_delayed_state()
 	state = nextState
 	nextState = null
 
-func _get_enemy():
-	var enmy = get_node("Enemy")
-	if enmy:
-		enemy = enmy
-		return true
-	else:
-		return false
+#func _get_enemy():
+#	var enmy = get_node("Enemy")
+#	if enmy:
+#		enemy = enmy
+#		return true
+#	else:
+#		return false
 
 func _get_player():
 	var ply = get_parent().get_parent().player
@@ -136,7 +141,7 @@ func start_bets():
 	betTurn = 1
 	set_state("waiting for opponent action")
 	if opponent == player:
-		return
+		player.PlayerUIFight.able()
 	elif opponent == enemy:
 		timer = Timer.new()
 		timer.set_wait_time(stateChangeDelay)
@@ -150,8 +155,9 @@ func continue_bets():
 	print("continue bets")
 	change_opponent()
 	betTurn += 1
+	set_state("waiting for opponent action")
 	if opponent == player:
-		return
+		player.PlayerUIFight.able()
 	elif opponent == enemy:
 		timer = Timer.new()
 		timer.set_wait_time(stateChangeDelay)
@@ -170,10 +176,9 @@ func get_enemy_decision():
 # POT LOGIC
 func check_pot():
 	print("check pot")
-	print("turn:")
-	print(betTurn)
+	print("Bet turn: ", betTurn)
 	var potDiff = $Pot.get_amount_to_call()
-	if potDiff == 0 and betTurn > 2:
+	if potDiff == 0 and betTurn > 1:
 		distribute()
 	else:
 		continue_bets()
@@ -189,7 +194,6 @@ func get_pot_to_winner(winner):
 	pass
 
 
-
 # ???
 func fold(from):
 	var winner
@@ -203,7 +207,7 @@ func fold(from):
 # SHOW OFF AND WINNER
 func set_showing_off():
 	print("set showing off ", distribution)
-	if distribution < 3:
+	if $Hands.get_player_cards().size() < 5 or $Hands.get_enemy_cards().size() < 5:
 		$Hands.distribute_remaining_cards()
 		set_state("pre showing off")
 	else:
@@ -222,6 +226,12 @@ func reveal_cards():
 
 func get_winner():
 	var results = $Hands.get_hands_values()
+	if !results.player:
+		print("No winner: can't get player hand value.")
+		return
+	if !results.enemy:
+		print("no winner: can't get enemy hand value.")
+		return
 	if results.player > results.enemy:
 		return player
 	elif results.player < results.enemy:
@@ -234,7 +244,7 @@ func get_winner():
 
 func set_delayed_reset():
 	timer = Timer.new()
-	timer.set_wait_time(stateChangeDelay * 5)
+	timer.set_wait_time(stateChangeDelay * 10)
 	timer.connect("timeout",self,"reset")
 	add_child(timer) #to process
 	timer.start() #to start
@@ -256,30 +266,32 @@ func reset():
 
 func finish_fight():
 	print("fight finished!")
+	player.PlayerUIFight.hide()
 	set_state("finished")
 
 func _process(delta):
-	if Input.is_action_just_pressed("ui_up"):
-		enemy.get_node("Character")._remove_next_cloth()
-	if Input.is_action_just_pressed("ui_right"):
-		$Pot.give_back_pot()
-	if Input.is_action_just_pressed("ui_down"):
-		print("infos:")
-		print("opponent")
-		print(opponent.name)
-		print("current state:")
-		print(state)
-		$Pot.get_vebose_pot()
-		print($Pot.get_amount_to_call())
-		print("player naked?")
-		print(player.get_node("Character").is_naked())
-		print("enemy naked")
-		print(enemy.get_node("Character").is_naked())
+#	if Input.is_action_just_pressed("ui_up"):
+#		print(enemy.get_position())
+#	if Input.is_action_just_pressed("ui_right"):
+#		$Pot.give_back_pot()
+#	if Input.is_action_just_pressed("ui_down"):
+#		print("infos:")
+#		print("opponent")
+#		print(opponent.name)
+#		print("current state:")
+#		print(state)
+#		$Pot.get_vebose_pot()
+#		print($Pot.get_amount_to_call())
+#		print("player naked?")
+#		print(player.get_node("Character").is_naked())
+#		print("enemy naked")
+#		print(enemy.get_node("Character").is_naked())
 		# plus check if characters are naked
 	pass
 
 # SIGNALS
 func _on_Hands_completed():
+	print("hands completed")
 	if state == "distributing":
 		if distribution == 1:
 			set_blinds()
@@ -290,6 +302,7 @@ func _on_Hands_completed():
 	pass
 
 func on_opponent_actions_done():
+	print("opponent actions done")
 	if enemy.get_node("Character").is_naked() or player.get_node("Character").is_naked():
 #		print("someone is naked")
 		set_showing_off()

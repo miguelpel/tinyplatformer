@@ -27,6 +27,9 @@ func _ready():
 #	_dress_character()
 	$Character.set_direction("left")
 
+func _start_fight():
+	var fight = get_parent().get_node("Fight")
+	fight.start(self)
 
 func get_decision(hands, pot): # NOT DOUBLE
 	var enemyCards = hands.get_enemy_cards()
@@ -44,10 +47,16 @@ func get_decision(hands, pot): # NOT DOUBLE
 			$Character.raise()
 		"fold":
 			$Character.fold()
-			get_parent().fold(self)
+			get_parent().get_node("Fight").fold(self)
 	
 	pass
 
 func _process(delta):
 	pass
 
+
+
+func _on_fightTrigger_area_entered(area):
+	if area.get_parent().get_parent().name == "Player":
+		_start_fight()
+	pass # replace with function body

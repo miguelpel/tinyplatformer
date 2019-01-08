@@ -11,6 +11,8 @@ var card_temp = []
 
 var turn = 0
 
+var dealing = false
+
 signal completed
 
 var timer
@@ -45,10 +47,11 @@ func shuffle_deck():
 	deck = ret_deck
 
 func set_completion_timer():
+	dealing = false
 	timer = Timer.new()
 	timer.connect("timeout",self,"emit_completed")
 	add_child(timer)
-	timer.wait_time = 0.5
+	timer.wait_time = 0.2
 	timer.start()
 
 func emit_completed():
@@ -89,7 +92,6 @@ func distribute_another_round():
 	var player_card = {1: pick_card()}	
 	var enemy_card = {3: pick_card()}
 	card_temp = [player_card, enemy_card]
-	set_completion_timer()
 	pass
 
 func distribute_remaining_cards():
@@ -102,12 +104,13 @@ func distribute_remaining_cards():
 	for j in range(enemyRemainingCards):
 		var enemy_card = {3: pick_card()}
 		card_temp.append(enemy_card)
-	set_completion_timer()
 	pass
 
 func reveal_all():
+	print("reveal all")
 	$HandPlayer.reveal_all()
 	$HandEnemy.reveal_all()
+#	print("from reveal all")
 	set_completion_timer()
 	pass
 
@@ -125,7 +128,22 @@ func get_hands_values():
 	return retobj
 	pass
 
-func deal(cardObj):
+func delayed_deal():
+#	print("delayed deal")
+	timer = Timer.new()
+	timer.set_wait_time(0.2)
+	timer.connect("timeout",self,"deal")
+	add_child(timer) #to process
+	timer.start() #to start
+	pass
+
+func deal():
+	print("deal")
+#	print(card_temp.size())
+#	print(card_temp)
+	timer.stop()
+	dealing = false
+	var cardObj = card_temp[0]
 	if cardObj.has(0):
 		$HandPlayer.add_hidden_card(cardObj[0])
 	elif cardObj.has(1):
@@ -135,28 +153,35 @@ func deal(cardObj):
 	elif cardObj.has(3):
 		$HandEnemy.add_open_card(cardObj[3])
 	card_temp.erase(cardObj)
+	if card_temp.size() <= 0:
+#		print("from deal")
+		set_completion_timer()
 #	print("card_temp size:")
 #	print(card_temp.size())
 	#erase this cardObj
 	pass
 
 func remove_all_hands():
+	print("remove all hands")
 	$HandPlayer.remove_all()
 	$HandEnemy.remove_all()
 	turn = 0
 	reset_deck()
+#	print("from remove all hands")
 	set_completion_timer()
 	pass
 
 func deal_plus_card_to_player():
 	var player_card = {0: pick_card()}
 	card_temp = [player_card]
-	set_completion_timer()
 	pass
 
 func get_enemy_cards():
 	return $HandEnemy.cards
 	pass
+
+func get_player_cards():
+	return $HandPlayer.cards
 
 func get_player_open_cards():
 	return $HandPlayer.openCards
@@ -176,13 +201,10 @@ func get_player_hand_size():
 #	pass
 
 func _process(delta):
-	if card_temp.size() > 0:
-#		print("deal")
-#		print(card_temp[0])
-		deal(card_temp[0])
+	if card_temp.size() > 0 and dealing == false:
+		dealing = true
+		delayed_deal()
 		pass
-	else:
-		set_completion_timer()
 	# Called every frame. Delta is time since last frame.
 	# Update game logic here.
 	pass
