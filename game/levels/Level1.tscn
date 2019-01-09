@@ -5,7 +5,7 @@
 [ext_resource path="res://assets/tileset/sheet.png" type="Texture" id=3]
 [ext_resource path="res://game/animations/levelsAnimls/accessories/signpost.tscn" type="PackedScene" id=4]
 [ext_resource path="res://game/fight/Fight.tscn" type="PackedScene" id=5]
-[ext_resource path="res://game/enemies/Enemy1.tscn" type="PackedScene" id=6]
+[ext_resource path="res://game/cards/hands/AI.tscn" type="PackedScene" id=6]
 
 [node name="Level1" type="Node"]
 
@@ -499,8 +499,6 @@ position = Vector2( 1376, 192 )
 
 [node name="Fight" parent="World" index="5" instance=ExtResource( 5 )]
 
-[node name="Enemy" parent="World" index="6" instance=ExtResource( 6 )]
-
-position = Vector2( 512, 160 )
+[node name="AI" parent="World" index="6" instance=ExtResource( 6 )]
 
 

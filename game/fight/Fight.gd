@@ -37,6 +37,8 @@ func start(enm): # set the player, the enemy, set the opponent, connect signals 
 		get_parent().get_parent().is_running = false
 		player.get_node("Character").connect("all_actions_done", self, "on_opponent_actions_done")
 		enemy.get_node("Character").connect("all_actions_done", self, "on_opponent_actions_done")
+		player.get_node("Character").connect("disappeared", self, "on_enemy_disappeared")
+		enemy.get_node("Character").connect("disappeared", self, "on_enemy_disappeared")
 		set_opponent()
 		set_state("ready")
 		distribute()
@@ -54,12 +56,11 @@ func set_opponent():
 	pass
 
 func change_opponent():
-	print("change opponent:")
 	if opponent == enemy:
 		opponent = player
 	else:
 		opponent = enemy
-	print(opponent.name)
+	print("change opponent to: ", opponent.name)
 
 func set_state(st): # change state imediately
 	state = st
@@ -97,22 +98,26 @@ func _get_player():
 
 # DISTRIBUTION FUNCTIONS
 func distribute_first_round():
+	print("distribute first round")
 	distribution = 1
 	$Hands.distribute_first_round()
 	pass
 
 func distribute_second_round():
+	print("distribute second round")
 	distribution = 2
 	$Hands.distribute_another_round()
 	pass
 
 func distribute_last_round():
+	print("distribute last round")
 	distribution = 3
 	$Hands.distribute_another_round()
 	pass
 
 func distribute():
-	change_opponent()
+	print("distribute")
+#	change_opponent()
 	betTurn = 0
 	if distribution == 0:
 		distribute_first_round()
@@ -128,17 +133,18 @@ func distribute():
 	pass
 
 # BLINDS
-func set_blinds():
-	player.get_node("Character").give_blind()
-	enemy.get_node("Character").give_blind()
-	set_state("distributing blinds")
+#func set_blinds():
+#	print("set blinds")
+#	player.get_node("Character").give_blind()
+#	enemy.get_node("Character").give_blind()
+#	set_state("distributing blinds")
 
 # BETTING FUNCTIONS
 func start_bets():
-	print("start bets")
+	print("start bets, opponent: ", opponent.name, " bet turn: ", betTurn, " distribution: ", distribution)
 #	print("opponent:")
 #	print(opponent.name)
-	betTurn = 1
+#	betTurn = 0
 	set_state("waiting for opponent action")
 	if opponent == player:
 		player.PlayerUIFight.able()
@@ -175,16 +181,16 @@ func get_enemy_decision():
 
 # POT LOGIC
 func check_pot():
-	print("check pot")
-	print("Bet turn: ", betTurn)
+	print("check pot. Bet turn: ", betTurn)
 	var potDiff = $Pot.get_amount_to_call()
-	if potDiff == 0 and betTurn > 1:
+	if potDiff == 0 and betTurn >= 1:
 		distribute()
 	else:
 		continue_bets()
 	pass
 
 func get_pot_to_winner(winner):
+	print("get pot to: ", winner.name)
 	if winner != null:
 		var winnerDir = winner.get_node("Character").direction
 		$Pot.get_pot_to(winnerDir)
@@ -214,6 +220,7 @@ func set_showing_off():
 		show_off()
 
 func show_off():
+	print("show off")
 	reveal_cards()
 	var winner = get_winner()
 	get_pot_to_winner(winner)
@@ -221,10 +228,12 @@ func show_off():
 	pass
 
 func reveal_cards():
+	print("reveal cards")
 	$Hands.reveal_all()
 	pass
 
 func get_winner():
+	print("get winner")
 	var results = $Hands.get_hands_values()
 	if !results.player:
 		print("No winner: can't get player hand value.")
@@ -243,6 +252,7 @@ func get_winner():
 # RESET
 
 func set_delayed_reset():
+	print("set delayed reset")
 	timer = Timer.new()
 	timer.set_wait_time(stateChangeDelay * 10)
 	timer.connect("timeout",self,"reset")
@@ -252,28 +262,37 @@ func set_delayed_reset():
 	pass
 
 func reset():
-	timer.stop()
+	print("reset")
+	set_state("resetting")
+	if timer:
+		timer.stop()
 	$Hands.remove_all_hands()
 	distribution = 0
 	betTurn = 0
 	winner = null
-	if enemy.get_node("Character").is_naked() or player.get_node("Character").is_naked():
-#		print("someone is naked")
-		finish_fight()
-	else:
-		distribute()
+	folded = false
+	change_opponent()
 	pass
 
-func finish_fight():
+func finish_fight(loser):
 	print("fight finished!")
 	player.PlayerUIFight.hide()
+	reset()
+	loser.get_node("Character").flee()
+#	player.get_node("Character").run()
 	set_state("finished")
 
 func _process(delta):
 #	if Input.is_action_just_pressed("ui_up"):
 #		print(enemy.get_position())
-#	if Input.is_action_just_pressed("ui_right"):
-#		$Pot.give_back_pot()
+	if Input.is_action_just_pressed("ui_left"):
+		finish_fight(player)
+	if Input.is_action_just_pressed("ui_right"):
+		finish_fight(enemy)
+#		player.get_node("Character").flee()
+#		print(player.get_node("Character").direction)
+#		enemy.get_node("Character").flee()
+#		print(player.get_node("Character").direction)
 #	if Input.is_action_just_pressed("ui_down"):
 #		print("infos:")
 #		print("opponent")
@@ -293,12 +312,18 @@ func _process(delta):
 func _on_Hands_completed():
 	print("hands completed")
 	if state == "distributing":
-		if distribution == 1:
-			set_blinds()
-		elif distribution == 2 or distribution == 3:
-			start_bets()
+		start_bets()
 	elif state == "pre showing off":
 		show_off()
+	elif state == "resetting":
+		if enemy.get_node("Character").is_naked() or player.get_node("Character").is_naked():
+#			print("someone is naked")
+			if enemy.get_node("Character").is_naked():
+				finish_fight(enemy)
+			else:
+				finish_fight(player)
+		else:
+			distribute()
 	pass
 
 func on_opponent_actions_done():
@@ -306,11 +331,20 @@ func on_opponent_actions_done():
 	if enemy.get_node("Character").is_naked() or player.get_node("Character").is_naked():
 #		print("someone is naked")
 		set_showing_off()
-	elif state == "distributing blinds":
-		start_bets()
+#	elif state == "distributing blinds":
+#		start_bets()
 	elif state == "waiting for opponent action":
 		check_pot()
 	else:
-		print("error in on opponent action done")
+		print("error in on opponent action done. state: ", state)
 		return
+	pass
+
+func on_enemy_disappeared():
+	print("enemy disappeared")
+	enemy.get_node("Character").hide()
+	if player.get_node("Character").is_running:
+		player.get_node("Character").change_direction()
+		pass
+	# and everything
 	pass

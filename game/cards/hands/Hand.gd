@@ -53,8 +53,8 @@ func add_hidden_card(cardNbr):
 					card.set_card(cardNbr, "mid")
 				else:
 					#for debug purpose
-					card.set_card(cardNbr, "mid")
-#					card.set_card(cardNbr, "hidden")
+#					card.set_card(cardNbr, "mid")
+					card.set_card(cardNbr, "hidden")
 				break
 	pass
 

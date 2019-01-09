@@ -1,3 +1,4 @@
+# GreenShirt AnimatedSprite
 extends AnimatedSprite
 
 const CATEGORY = "shirt"

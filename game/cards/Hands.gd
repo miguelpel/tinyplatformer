@@ -138,7 +138,7 @@ func delayed_deal():
 	pass
 
 func deal():
-	print("deal")
+#	print("deal")
 #	print(card_temp.size())
 #	print(card_temp)
 	timer.stop()
@@ -162,7 +162,7 @@ func deal():
 	pass
 
 func remove_all_hands():
-	print("remove all hands")
+#	print("remove all hands")
 	$HandPlayer.remove_all()
 	$HandEnemy.remove_all()
 	turn = 0
