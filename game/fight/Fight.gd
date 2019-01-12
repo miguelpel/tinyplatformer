@@ -27,18 +27,18 @@ func _ready():
 #	start()
 	pass
 
-func start(enm): # set the player, the enemy, set the opponent, connect signals if needed
+func start(enmcharacter): # set the player, the enemy, set the opponent, connect signals if needed
 	print("starting")
-	enemy = enm
+	enemy = get_parent().get_parent().enemy
 	if _get_player():
 		player.get_node("Character").stand()
 		player.PlayerUIFight.show()
 		player.PlayerUIFight.disable()
 		get_parent().get_parent().is_running = false
 		player.get_node("Character").connect("all_actions_done", self, "on_opponent_actions_done")
-		enemy.get_node("Character").connect("all_actions_done", self, "on_opponent_actions_done")
+		enmcharacter.connect("all_actions_done", self, "on_opponent_actions_done")
 		player.get_node("Character").connect("disappeared", self, "on_enemy_disappeared")
-		enemy.get_node("Character").connect("disappeared", self, "on_enemy_disappeared")
+		enmcharacter.connect("disappeared", self, "on_enemy_disappeared")
 		set_opponent()
 		set_state("ready")
 		distribute()
@@ -278,7 +278,7 @@ func finish_fight(loser):
 	print("fight finished!")
 	player.PlayerUIFight.hide()
 	reset()
-	loser.get_node("Character").flee()
+	loser.Character.flee()
 #	player.get_node("Character").run()
 	set_state("finished")
 
@@ -328,7 +328,7 @@ func _on_Hands_completed():
 
 func on_opponent_actions_done():
 	print("opponent actions done")
-	if enemy.get_node("Character").is_naked() or player.get_node("Character").is_naked():
+	if enemy.Character.is_naked() or player.get_node("Character").is_naked():
 #		print("someone is naked")
 		set_showing_off()
 #	elif state == "distributing blinds":

@@ -7,12 +7,13 @@ var is_running = false
 # keep track of the player and the current fight
 var player
 var current_fight = null
+var enemy
 # used to spawn enemies one after the other
 var current_enemy = 0
 var AI
 
 # Enemy scene
-const enemy = preload("res://game/enemies/Enemy.tscn")
+const enemyScene = preload("res://game/enemies/Enemy.tscn")
 
 # list of all the enemies
 var enemiesData = [
@@ -42,6 +43,7 @@ func _ready():
 #	print(get_parent().get_node("Player").name)
 	player = get_parent().get_node("Player")
 	player.spawn_character(self)
+	createEnemy()
 	spawnEnemy()
 	player.get_node("Character").run()
 	player.get_node("Character").is_running = true
@@ -50,13 +52,17 @@ func _ready():
 #	current_fight.start()
 	pass
 
+func createEnemy():
+	enemy = enemyScene.instance()
+	add_child(enemy)
+	pass
+
 func spawnEnemy():
 	var enemyData = enemiesData[current_enemy]
-	var enm = enemy.instance()
-	enm.set_position(Vector2(enemyData.pos, 160))
-	$World.add_child(enm)
-	enm.spawn(enemyData)
-	enm.connect("disappeared", self, "on_enemy_disappear")
+#	enm.set_position(Vector2(enemyData.pos, 160))
+#	$World.add_child(enm)
+	enemy.spawn($World, enemyData)
+	enemy.connect("disappeared", self, "on_enemy_disappear")
 	pass
 
 func _process(delta):
@@ -72,6 +78,9 @@ func _process(delta):
 func on_enemy_disappear():
 	print("on enemy disappear")
 	current_enemy += 1
+	if current_enemy >= enemiesData.size():
+		print("no more enemies")
+		return
 	spawnEnemy()
 	$World.get_node("Fight").set_state("sleeping")
 	if player.get_node("Character").direction == "left":

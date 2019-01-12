@@ -31,6 +31,7 @@ var current_cloth_to_remove = 0
 
 # signals that all actions are done.
 signal all_actions_done
+signal player_in_distance
 
 func _ready():
 	_set_character_sprite()
@@ -99,7 +100,7 @@ func _get_pot():
 	if parent.name == "Player":
 		pot = parent.current_level.current_fight.get_node("Pot")
 	else:
-		pot = parent.get_parent().get_node("Fight").get_node("Pot")
+		pot = parent.get_node("Fight").get_node("Pot")
 #		print(pot.name)
 #	print(get_parent().name)
 #	var pot = null
@@ -223,7 +224,7 @@ func _throw_in_pot():
 			pot.throw_in(cloth_to_throw, position, direction)
 		else:
 			# why x:-200 for the position
-			pot.throw_in(cloth_to_throw, get_parent().get_position() + Vector2(-200, 0), direction)
+			pot.throw_in(cloth_to_throw, position + get_parent().position, direction)
 		clothes[cloth_to_throw.CATEGORY] = null
 		cloth_to_throw = null
 	else:

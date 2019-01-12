@@ -15,6 +15,7 @@ var PlayerUIFight
 
 var Inventory = []
 var current_level
+var Character
 #var fight
 
 
@@ -34,10 +35,11 @@ var current_level
 func _ready():
 #	if current_level:
 #		fight = current_level.current_fight
-	$Character.instanciate_base_clothes(base_clothes)
+	Character = $Character
+	Character.instanciate_base_clothes(base_clothes)
 #	_instanciate_base_clothes() # DOUBLE
 #	_dress_character() # DOUBLE
-	$Character.set_direction("right")
+	Character.set_direction("right")
 
 
 func _process(delta):
