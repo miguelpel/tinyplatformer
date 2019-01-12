@@ -49,7 +49,8 @@ func get_pot_to(characterDir):
 				anim.is_dragged_left = true
 #			anim.object_ref.current_owner = curr_owner
 	#print(character)
-	obj_refs = []
+	# the pickUp object function takes care of updating the obj_refs[]
+#	obj_refs = []
 	pass
 
 func give_back_pot():

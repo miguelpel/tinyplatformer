@@ -1,47 +1,47 @@
 [gd_scene load_steps=17 format=2]
 
-[ext_resource path="res://assets/charactersframes/pants/red/red_6.png" type="Texture" id=1]
-[ext_resource path="res://assets/charactersframes/pants/red/red_19.png" type="Texture" id=2]
-[ext_resource path="res://assets/charactersframes/pants/red/red_20.png" type="Texture" id=3]
-[ext_resource path="res://assets/charactersframes/pants/red/red_1.png" type="Texture" id=4]
-[ext_resource path="res://assets/charactersframes/pants/red/red_2.png" type="Texture" id=5]
-[ext_resource path="res://assets/charactersframes/pants/red/red_3.png" type="Texture" id=6]
-[ext_resource path="res://assets/charactersframes/pants/red/red_4.png" type="Texture" id=7]
-[ext_resource path="res://assets/charactersframes/pants/red/red_5.png" type="Texture" id=8]
-[ext_resource path="res://assets/charactersframes/pants/red/red_11.png" type="Texture" id=9]
-[ext_resource path="res://assets/charactersframes/pants/red/red_14.png" type="Texture" id=10]
-[ext_resource path="res://assets/charactersframes/pants/red/red_7.png" type="Texture" id=11]
-[ext_resource path="res://assets/charactersframes/pants/red/red_8.png" type="Texture" id=12]
-[ext_resource path="res://assets/charactersframes/pants/red/red_9.png" type="Texture" id=13]
-[ext_resource path="res://assets/charactersframes/pants/red/red_10.png" type="Texture" id=14]
+[ext_resource path="res://assets/charactersframes/pants/red/red_7.png" type="Texture" id=1]
+[ext_resource path="res://assets/charactersframes/pants/red/red_8.png" type="Texture" id=2]
+[ext_resource path="res://assets/charactersframes/pants/red/red_9.png" type="Texture" id=3]
+[ext_resource path="res://assets/charactersframes/pants/red/red_10.png" type="Texture" id=4]
+[ext_resource path="res://assets/charactersframes/pants/red/red_6.png" type="Texture" id=5]
+[ext_resource path="res://assets/charactersframes/pants/red/red_19.png" type="Texture" id=6]
+[ext_resource path="res://assets/charactersframes/pants/red/red_20.png" type="Texture" id=7]
+[ext_resource path="res://assets/charactersframes/pants/red/red_1.png" type="Texture" id=8]
+[ext_resource path="res://assets/charactersframes/pants/red/red_2.png" type="Texture" id=9]
+[ext_resource path="res://assets/charactersframes/pants/red/red_3.png" type="Texture" id=10]
+[ext_resource path="res://assets/charactersframes/pants/red/red_4.png" type="Texture" id=11]
+[ext_resource path="res://assets/charactersframes/pants/red/red_5.png" type="Texture" id=12]
+[ext_resource path="res://assets/charactersframes/pants/red/red_11.png" type="Texture" id=13]
+[ext_resource path="res://assets/charactersframes/pants/red/red_14.png" type="Texture" id=14]
 [ext_resource path="res://game/objects/scenes/RedPants/children/AnimatedSprite.gd" type="Script" id=15]
 
 [sub_resource type="SpriteFrames" id=1]
 
 animations = [ {
-"frames": [ ExtResource( 1 ), ExtResource( 2 ), ExtResource( 3 ) ],
+"frames": [ ExtResource( 1 ), ExtResource( 2 ), ExtResource( 3 ), ExtResource( 4 ) ],
+"loop": false,
+"name": "remove",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ) ],
 "loop": false,
 "name": "removePanties",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ) ],
+"frames": [ ExtResource( 8 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 11 ) ],
 "loop": true,
 "name": "run",
 "speed": 7.0
 }, {
-"frames": [ ExtResource( 4 ) ],
+"frames": [ ExtResource( 8 ) ],
 "loop": false,
 "name": "stand",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 8 ), ExtResource( 9 ), ExtResource( 10 ) ],
+"frames": [ ExtResource( 12 ), ExtResource( 13 ), ExtResource( 14 ) ],
 "loop": false,
 "name": "throw",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 11 ), ExtResource( 12 ), ExtResource( 13 ), ExtResource( 14 ) ],
-"loop": false,
-"name": "remove",
 "speed": 5.0
 } ]
 

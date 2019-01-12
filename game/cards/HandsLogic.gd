@@ -54,7 +54,7 @@ func calculate_hand_value(cardsArray):
 	return false
 
 
-class MyCustomSorter:
+class CardsCustomSorter:
 	static func sort(a, b):
 		if a[0] > b[0]:
 			return true
@@ -66,7 +66,7 @@ func create_cards_array(arr):
 		var cardValue = (card%13) + 2
 		var suitNbr = card/13
 		cards_array.append([cardValue, suitNbr])
-	cards_array.sort_custom(MyCustomSorter, "sort")
+	cards_array.sort_custom(CardsCustomSorter, "sort")
 	return cards_array
 	pass
 

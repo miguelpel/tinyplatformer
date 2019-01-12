@@ -3,7 +3,7 @@
 [ext_resource path="res://game/animations/clothesAnimFiles/GreenPants.tres" type="SpriteFrames" id=1]
 [ext_resource path="res://game/objects/scenes/GreenPants/children/AnimatedSprite.gd" type="Script" id=2]
 
-[node name="AnimatedSprite" type="AnimatedSprite"]
+[node name="AnimatedSprite" type="AnimatedSprite" index="0"]
 
 frames = ExtResource( 1 )
 animation = "stand"

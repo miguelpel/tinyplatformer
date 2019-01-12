@@ -28,6 +28,7 @@ var time_to_throw = 0.8
 var timer
 var cloth_remove_order = ["shirt", "pants", "undershirt", "panties", "hat"]
 var current_cloth_to_remove = 0
+var picked_up_objects = []
 
 # signals that all actions are done.
 signal all_actions_done
@@ -81,6 +82,10 @@ func dress(objsRef):
 		#print("type Array")
 		for objRef in objsRef:
 			var AnimSprite = objRef.create_animation()
+			if objRef.CATEGORY == "panties" or objRef.CATEGORY == "undershirt":
+				AnimSprite.z_index == 1
+			else:
+				AnimSprite.z_index == 2
 			AnimSprite.show()
 			AnimSprite.play("stand")
 			CharacterSprite.add_child(AnimSprite)
@@ -188,17 +193,44 @@ func is_naked():
 # pick_up => add it to clothes,
 # OR Check for double and add to inventory
 func _pick_up(obj):
+	# get the REFS of the objects.
+	# the ref takes no place and can be manipulated easely.
+	# add those refs to an array pickedUpObject
+	var pot = _get_pot()
 	var objRef = obj.object_ref
-	var cat = obj.CATEGORY
+	pot.obj_refs.erase(objRef)
+	print(pot.get_vebose_pot())
+	picked_up_objects.append(objRef)
+	# and erase the instance of object.
 	obj.queue_free()
-	#print(clothes[cat])
-	if clothes[cat] == null:
-#		print(cat)
-#		print("null")
-		clothes[cat] = objRef
-		dress(objRef)
-	#else:
-		#Inventory.check_and_append(objRef)
+	if pot.obj_refs.size() == 0:
+		_sort_picked_up_clothes()
+		pass
+	pass
+
+func _sort_picked_up_clothes():
+	# sort: have the other's owned clothes pushed to beginning,
+	# the underweare / upperware will be done with z-index.
+	for objRef in picked_up_objects:
+		pick_up_objects.sort_custom(ClothesCustomSorter, "sort")
+	_dispatch_picked_up_clothes()
+	pass
+
+class ClothesCustomSorter:
+	static func sort(a, b):
+		if a.current_owner == "Player":
+			return true
+		return false
+
+func _dispatch_picked_up_clothes():
+	# dress the clothes until 5 are set
+	# add other clothes to Inventory.
+	for objRef in picked_up_objects:
+		var cat = objRef.CATEGORY
+		if clothes[cat] == null:
+			clothes[cat] = objRef
+			dress(objRef)
+	
 	pass
 
 func _bet(cloth):

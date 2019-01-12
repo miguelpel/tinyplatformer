@@ -192,7 +192,7 @@ func check_pot():
 func get_pot_to_winner(winner):
 	print("get pot to: ", winner.name)
 	if winner != null:
-		var winnerDir = winner.get_node("Character").direction
+		var winnerDir = winner.Character.direction
 		$Pot.get_pot_to(winnerDir)
 	else:
 		$Pot.give_back_pot()
@@ -271,6 +271,7 @@ func reset():
 	betTurn = 0
 	winner = null
 	folded = false
+	#??? reset pot ???
 	change_opponent()
 	pass
 
@@ -285,10 +286,10 @@ func finish_fight(loser):
 func _process(delta):
 #	if Input.is_action_just_pressed("ui_up"):
 #		print(enemy.get_position())
-	if Input.is_action_just_pressed("ui_left"):
-		finish_fight(player)
-	if Input.is_action_just_pressed("ui_right"):
-		finish_fight(enemy)
+#	if Input.is_action_just_pressed("ui_left"):
+#		finish_fight(player)
+#	if Input.is_action_just_pressed("ui_right"):
+#		$Pot.get_vebose_pot()
 #		player.get_node("Character").flee()
 #		print(player.get_node("Character").direction)
 #		enemy.get_node("Character").flee()
@@ -316,9 +317,9 @@ func _on_Hands_completed():
 	elif state == "pre showing off":
 		show_off()
 	elif state == "resetting":
-		if enemy.get_node("Character").is_naked() or player.get_node("Character").is_naked():
+		if enemy.Character.is_naked() or player.Character.is_naked():
 #			print("someone is naked")
-			if enemy.get_node("Character").is_naked():
+			if enemy.Character.is_naked():
 				finish_fight(enemy)
 			else:
 				finish_fight(player)
@@ -328,7 +329,7 @@ func _on_Hands_completed():
 
 func on_opponent_actions_done():
 	print("opponent actions done")
-	if enemy.Character.is_naked() or player.get_node("Character").is_naked():
+	if enemy.Character.is_naked() or player.Character.is_naked():
 #		print("someone is naked")
 		set_showing_off()
 #	elif state == "distributing blinds":
@@ -342,9 +343,9 @@ func on_opponent_actions_done():
 
 func on_enemy_disappeared():
 	print("enemy disappeared")
-	enemy.get_node("Character").hide()
-	if player.get_node("Character").is_running:
-		player.get_node("Character").change_direction()
+	enemy.Character.hide()
+	if player.Character.is_running:
+		player.Character.change_direction()
 		pass
 	# and everything
 	pass
