@@ -19,6 +19,8 @@ var clothes = {
 	pants = null
 }
 
+var inventory = []
+
 # vaiables allowing for the throwing logic
 var obj_to_throw
 var obj_to_throw_ref
@@ -50,7 +52,10 @@ func _set_character_sprite():
 func instanciate_base_clothes(baseClothes):
 	for cat in clothes:
 		clothes[cat] = baseClothes[cat].instance()
-		clothes[cat].current_owner = self
+		if get_parent().name == "Player":
+			clothes[cat].current_owner = "player"
+		else:
+			clothes[cat].current_owner = "enemy"
 	_dress_character()
 
 # Direction change
@@ -89,6 +94,7 @@ func dress(objsRef):
 			AnimSprite.show()
 			AnimSprite.play("stand")
 			CharacterSprite.add_child(AnimSprite)
+			inventory.erase(objsRef)
 		#dress all
 	elif typeof(objsRef) == TYPE_OBJECT:
 		#print("Type object")
@@ -96,6 +102,7 @@ func dress(objsRef):
 		AnimSprite.show()
 		AnimSprite.play("stand")
 		CharacterSprite.add_child(AnimSprite)
+		inventory.erase(objsRef)
 	_apply_direction()
 
 func _get_pot():
@@ -200,7 +207,7 @@ func _pick_up(obj):
 	var objRef = obj.object_ref
 	pot.obj_refs.erase(objRef)
 	print(pot.get_vebose_pot())
-	picked_up_objects.append(objRef)
+	inventory.append(objRef)
 	# and erase the instance of object.
 	obj.queue_free()
 	if pot.obj_refs.size() == 0:
@@ -211,26 +218,39 @@ func _pick_up(obj):
 func _sort_picked_up_clothes():
 	# sort: have the other's owned clothes pushed to beginning,
 	# the underweare / upperware will be done with z-index.
-	for objRef in picked_up_objects:
-		pick_up_objects.sort_custom(ClothesCustomSorter, "sort")
-	_dispatch_picked_up_clothes()
+	for objRef in inventory:
+		inventory.sort_custom(ClothesCustomSorter, "sort")
+	_dispatch_inventory()
 	pass
 
 class ClothesCustomSorter:
 	static func sort(a, b):
-		if a.current_owner == "Player":
+		if a.current_owner == "player":
 			return true
 		return false
 
-func _dispatch_picked_up_clothes():
+func _dispatch_inventory():
 	# dress the clothes until 5 are set
 	# add other clothes to Inventory.
-	for objRef in picked_up_objects:
+	for objRef in inventory:
 		var cat = objRef.CATEGORY
 		if clothes[cat] == null:
 			clothes[cat] = objRef
 			dress(objRef)
-	
+		if get_parent().name == "Player":
+			objRef.current_owner = "player"
+		else:
+			objRef.current_owner = "enemy"
+	get_inventory_verbose()
+	pass
+
+func get_inventory_verbose():
+	if get_parent().name == "Player":
+		print("Player inventory:")
+	else:
+		print("Enemy inventory:")
+	for objRef in inventory:
+		print(objRef.name)
 	pass
 
 func _bet(cloth):
@@ -241,7 +261,6 @@ func _bet(cloth):
 		add_child(timer)
 		timer.wait_time = time_to_throw
 		timer.start()
-
 
 func _throw_in_pot():
 	timer.stop()

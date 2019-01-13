@@ -3,8 +3,6 @@
 [ext_resource path="res://game/interface/theme/default_theme.tres" type="Theme" id=1]
 [ext_resource path="res://game/player/AssetsInterface.tscn" type="PackedScene" id=2]
 
-
-
 [node name="Interface" type="Control"]
 
 anchor_left = 0.0

@@ -91,7 +91,7 @@ func get_vebose_pot():
 	# give content object name and current owner.
 	print("pot_verbose:")
 	for objRef in obj_refs:
-		print(objRef.name, " ", objRef.current_owner.get_parent().name)
+		print(objRef.name, " ", objRef.current_owner)
 	pass
 
 func _process(delta):

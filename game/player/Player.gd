@@ -9,9 +9,11 @@ const base_clothes = {
 	panties = preload("res://game/objects/scenes/Slip/main/Slip.tscn")
 }
 
+const AssetsUI = preload("res://game/player/AssetsInterface.tscn") # rect_position.y
 const fightUI = preload("res://game/fight/PlayerUiFight.tscn")
 
 var PlayerUIFight
+var PlayerAssetsUI
 
 var Inventory = []
 var current_level
@@ -66,8 +68,17 @@ func spawn_character(level):  # NOT DOUBLE
 	PlayerUIFight.connect("fold", self, "_on_PlayerUIFight_fold")
 	PlayerUIFight.connect("raise", self, "_on_PlayerUIFight_raise")
 	PlayerUIFight.hide()
-#	print(PlayerUIFight.name)
+	PlayerAssetsUI = AssetsUI.instance()
+	PlayerAssetsUI.rect_position.y = 288
+	PlayerAssetsUI.margin_left = 5
+	PlayerAssetsUI.margin_right = -5
+#	PlayerAssetsUI.rect_position = Vector2(5, 288)
+#	PlayerAssetsUI.rect_size = Vector2(350, 225)
+	# Connects
+	# Connects
+	# Connects
 	current_level.add_child(PlayerUIFight)
+	current_level.add_child(PlayerAssetsUI)
 	pass
 
 func _on_PlayerUIFight_call(): # NOT DOUBLE

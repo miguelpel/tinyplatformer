@@ -4,10 +4,6 @@
 [ext_resource path="res://game/interface/Silhouette.tscn" type="PackedScene" id=2]
 [ext_resource path="res://game/interface/Inventory.tscn" type="PackedScene" id=3]
 
-
-
-
-
 [node name="AssetsInterface" type="Control"]
 
 anchor_left = 0.0
@@ -32,17 +28,12 @@ __meta__ = {
 
 [node name="Silhouette" parent="." index="0" instance=ExtResource( 2 )]
 
-_sections_unfolded = [ "Margin", "Rect" ]
+_sections_unfolded = [ "Margin", "Rect", "Visibility" ]
 
 [node name="Inventory" parent="." index="1" instance=ExtResource( 3 )]
 
-[node name="Silhouette2" parent="." index="2" instance=ExtResource( 2 )]
+[connection signal="dress" from="Silhouette" to="." method="_on_Silhouette_dress"]
 
-margin_left = 69.0
-margin_top = 236.0
-margin_right = 230.0
-margin_bottom = 461.0
-
-[connection signal="slotFilled" from="Silhouette" to="." method="_on_Silhouette_slotFilled"]
+[connection signal="undress" from="Silhouette" to="." method="_on_Silhouette_undress"]
 
 

@@ -4,14 +4,14 @@
 [ext_resource path="res://game/cards/Hands.tscn" type="PackedScene" id=2]
 [ext_resource path="res://game/pot/Pot.tscn" type="PackedScene" id=3]
 
-[node name="Fight" type="Node" index="0"]
+[node name="Fight" type="Node"]
 
 script = ExtResource( 1 )
 
 [node name="Hands" parent="." index="0" instance=ExtResource( 2 )]
 
-margin_top = 203.0
-margin_bottom = 303.0
+margin_top = 181.0
+margin_bottom = 281.0
 
 [node name="Pot" parent="." index="1" instance=ExtResource( 3 )]
 

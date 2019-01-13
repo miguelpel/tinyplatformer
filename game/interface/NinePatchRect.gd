@@ -1,13 +1,13 @@
 extends Control
 
-var icons = [preload("res://CrownIcon.tscn"),
-preload("res://PantiesIcon.gd"),
-preload("res://UndershirtIcon.tscn"),
-preload("res://RoyalPantsIcon.tscn"),
-preload("res://RoyalShirtIcon.tscn")]
+#var icons = [preload("res://CrownIcon.tscn"),
+#preload("res://PantiesIcon.gd"),
+#preload("res://UndershirtIcon.tscn"),
+#preload("res://RoyalPantsIcon.tscn"),
+#preload("res://RoyalShirtIcon.tscn")]
 
 #const
-var card = preload("res://InventoryCard.tscn")
+#var card = preload("res://InventoryCard.tscn")
 
 #const max_height
 
@@ -24,12 +24,15 @@ func _ready():
 	# check the appeare / disappeare vars, and act accordingly.
 	pass
 
-func add_item(icon):
+
+func add_item(item):
+	$ItemList.add_item(item.name,item.create_tex_icon().get_texture(),true)
 	#create the card
 	#add the card.(animation?)
-	pass
+#	pass
 
-func remove_item(item):
+func remove_item(itemIndex):
+	$ItemList.remove_item(itemIndex)
 	pass
 
 func make_disappear():
@@ -38,20 +41,6 @@ func make_disappear():
 
 func make_appear():
 	#in from right
-	pass
-
-func can_drop_data(pos, data):
-	print("can drop data")
-	print("from Inventory")
-	print(data.name)
-	return true
-	#return typeof(data) == TYPE_TEXTURERECT
-
-
-func drop_data(pos, data):
-	print("from Inventory")
-	print(data)
-	#add_item(data.name, data.tex.texture)
 	pass
 
 func _process(delta):

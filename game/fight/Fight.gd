@@ -294,7 +294,9 @@ func _process(delta):
 #		print(player.get_node("Character").direction)
 #		enemy.get_node("Character").flee()
 #		print(player.get_node("Character").direction)
-#	if Input.is_action_just_pressed("ui_down"):
+	if Input.is_action_just_pressed("ui_down"):
+		player.Character.get_inventory_verbose()
+		enemy.Character.get_inventory_verbose()
 #		print("infos:")
 #		print("opponent")
 #		print(opponent.name)

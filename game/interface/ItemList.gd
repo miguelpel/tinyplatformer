@@ -11,33 +11,41 @@ func _ready():
 	pass
 
 func get_drag_data(pos):
-	var data = {tex = TextureRect.new(),
+	var data = {parent = self,
+	tex = TextureRect.new(),
 	name = get_item_text(itemSelected),
 	index = itemSelected}
 	# Use another colorpicker as drag preview
+#	data.cat = get_item_icon(itemSelected).CATEGORY
 	data.tex.texture = get_item_icon(itemSelected)
 	#cpb.color = color
 	data.tex.rect_size = Vector2(48, 48)
+	data.tex.set_anchor(-24,24)
 	set_drag_preview(data.tex)
 	# Return color as drag data
 	return data
 
 func can_drop_data(pos, data):
-	print("can drop data")
-	print("from ItemList")
-	print(data.name)
-	return true
+#	print("can drop data")
+#	print("from ItemList")
+#	print(data.name)
+	if data.parent.get_parent().name == "Silhouette":
+		return true
+	else:
+		return false
 	#return typeof(data) == TYPE_TEXTURERECT
 
 
 func drop_data(pos, data):
-	print("from ItemList drop_data")
-	print(data)
-	var tex = TextureRect.new()
-	tex.texture = data.tex.texture
+#	print("from ItemList drop_data")
+#	print(data)
+#	var tex = TextureRect.new()
+#	tex.texture = data.tex.texture
 	var objectName = data.name
 #	emit_signal("filled")
-	add_item(objectName, data.tex.texture)
+	add_item(objectName, data.tex)
+#	add_item(data.name, data.tex.texture)
+	data.parent.remove_item()
 	pass
 
 func _process(delta):

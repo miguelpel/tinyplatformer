@@ -38,6 +38,13 @@ func drop_data(pos, data):
 	emit_signal("filled")
 	pass
 
+func drop_item(data):
+	texture = data.tex.texture
+	index = data.index
+	objectName = data.name
+	emit_signal("filled")
+	pass
+
 #func _process(delta):
 #	# Called every frame. Delta is time since last frame.
 #	# Update game logic here.

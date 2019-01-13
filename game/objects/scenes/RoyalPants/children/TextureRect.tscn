@@ -3,7 +3,7 @@
 [ext_resource path="res://assets/charactersframes/Icons/RoyalPants.png" type="Texture" id=1]
 [ext_resource path="res://game/objects/scenes/RoyalPants/children/TextureRect.gd" type="Script" id=2]
 
-[node name="TextureRect" type="TextureRect"]
+[node name="TextureRect" type="TextureRect" index="0"]
 
 visible = false
 anchor_left = 0.0

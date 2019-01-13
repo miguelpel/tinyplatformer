@@ -4,18 +4,12 @@
 [ext_resource path="res://game/interface/InventoryCard.gd" type="Script" id=2]
 [ext_resource path="res://game/objects/tests/icons/CrownIcon.tscn" type="PackedScene" id=3]
 
-
-
-
-
-
-
 [sub_resource type="RectangleShape2D" id=1]
 
 custom_solver_bias = 0.0
 extents = Vector2( 23.7147, 23.6708 )
 
-[node name="InventoryCard" type="TextureRect" index="0"]
+[node name="InventoryCard" type="TextureRect"]
 
 anchor_left = 0.0
 anchor_top = 0.0
