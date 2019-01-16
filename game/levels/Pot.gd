@@ -69,22 +69,27 @@ func get_pot_value():
 	return obj_refs.size()
 
 func get_amount_to_call():
+#	print("getting amount to call...")
+	# 0 : pot balanced
+	# >= 1 : pot in favor of the player
+	# <= -1 : pot in favor of the enemy
 	if obj_refs.size() == 0:
 		return 0
-	var opponent1
-	var opponent1Objs = 0
-	var opponent2Objs = 0
-	opponent1 = obj_refs[0].current_owner
+#	var opponent1 = "player"
+	var playerObjs = 0
+	var enemyObjs = 0
+#	opponent1 = obj_refs[0].current_owner
 	for i in obj_refs.size():
-		if obj_refs[i].current_owner == opponent1:
-			opponent1Objs += 1
+#		print(obj_refs[i].current_owner)
+		if obj_refs[i].current_owner == "player":
+			playerObjs += 1
 		else:
-			opponent2Objs += 1
-	if opponent1Objs == opponent2Objs:
+			enemyObjs += 1
+	if playerObjs == enemyObjs:
 		return 0
-	var diff = opponent2Objs - opponent1Objs
-	if diff < 0:
-		diff = diff * -1
+	var diff = playerObjs - enemyObjs
+#	print("player objs: ", playerObjs)
+#	print("enemy objs: ", enemyObjs)
 	return diff
 
 func get_vebose_pot():

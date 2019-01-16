@@ -9,6 +9,7 @@ var card = preload("res://game/fight/card.tscn")
 var CharacterSprite
 var direction
 var is_running = false
+var current_fight = null
 
 # Clothes the character is wearing
 var clothes = {
@@ -20,6 +21,7 @@ var clothes = {
 }
 
 var inventory = []
+var erase_from_inventory_array = []
 
 # vaiables allowing for the throwing logic
 var obj_to_throw
@@ -50,13 +52,20 @@ func _set_character_sprite():
 	pass
 
 func instanciate_base_clothes(baseClothes):
-	for cat in clothes:
-		clothes[cat] = baseClothes[cat].instance()
+#	print("instanciate base clothes")
+	for cloth in baseClothes:
+		inventory.append(cloth.instance())
+#		add_to_inventory(cloth.instance())
+#	get_inventory_verbose()
+
+func attribute_clothes_owner():
+	for cloth in inventory:
 		if get_parent().name == "Player":
-			clothes[cat].current_owner = "player"
+			cloth.current_owner = "player"
 		else:
-			clothes[cat].current_owner = "enemy"
-	_dress_character()
+			cloth.current_owner = "enemy"
+		pass
+	
 
 # Direction change
 func set_direction(dir="right"):
@@ -74,36 +83,93 @@ func _apply_direction():
 
 # DRESSING
 # DRESS ALL
-func _dress_character():
-	for cat in clothes:
-		dress(clothes[cat])
+func dress_character():
+	for cloth in inventory:
+		dress(cloth)
+	_erase_filed_inventory()
+	pass
+
+func _erase_filed_inventory():
+	for cloth in erase_from_inventory_array:
+		remove_from_inventory(cloth)
+	erase_from_inventory_array = []
 	pass
 
 # $Character.dress(objRef or objRefArray)
 # DRESS A SPECIFIC OBJECT OR ARR OF OBJECT
-func dress(objsRef):
+func dress(objRef, erase=false):
+#	print("dress")
 	CharacterSprite.play("stand")
-	if typeof(objsRef) == TYPE_ARRAY:
-		#print("type Array")
-		for objRef in objsRef:
-			var AnimSprite = objRef.create_animation()
-			if objRef.CATEGORY == "panties" or objRef.CATEGORY == "undershirt":
-				AnimSprite.z_index == 1
-			else:
-				AnimSprite.z_index == 2
-			AnimSprite.show()
-			AnimSprite.play("stand")
-			CharacterSprite.add_child(AnimSprite)
-			inventory.erase(objsRef)
-		#dress all
-	elif typeof(objsRef) == TYPE_OBJECT:
+	# get the cloth objRef AND the CATEGORY
+	# add the AminatedSprite to Character AND the objRef to the clothes[cat]
+	var cloth
+	var cat
+	if typeof(objRef) == TYPE_STRING:
+#		print("dress ", objRef)
+		cloth = get_from_inventory(objRef)
+		cat = cloth.CATEGORY
+		_add_anim_sprite(cloth)
+		if get_parent().name == "Player":
+			cloth.current_owner = "player"
+		else:
+			cloth.current_owner = "enemy"
+		clothes[cat] = cloth
+		if erase:
+			remove_from_inventory(cloth)
+		else:
+			_file_for_inventory_erase(cloth)
+#		remove_from_inventory(cloth)
+	elif typeof(objRef) == TYPE_OBJECT:
+#		print("dress ", objRef.name)
 		#print("Type object")
-		var AnimSprite = objsRef.create_animation()
-		AnimSprite.show()
-		AnimSprite.play("stand")
-		CharacterSprite.add_child(AnimSprite)
-		inventory.erase(objsRef)
+		cloth = objRef
+		cat = cloth.CATEGORY
+		_add_anim_sprite(cloth)
+#		if get_parent().name == "Player":
+#			cloth.current_owner = "player"
+#		else:
+#			cloth.current_owner = "enemy"
+		clothes[cat] = cloth
+		if erase:
+			remove_from_inventory(cloth)
+		else:
+			_file_for_inventory_erase(cloth)
 	_apply_direction()
+
+func _add_anim_sprite(cloth):
+	var AnimSprite = cloth.create_animation()
+	if cloth.CATEGORY == "panties" or cloth.CATEGORY == "undershirt":
+		AnimSprite.z_index == 1
+	else:
+		AnimSprite.z_index == 2
+	AnimSprite.show()
+	AnimSprite.play("stand")
+	CharacterSprite.add_child(AnimSprite)
+	pass
+
+func undress(objCat):
+	CharacterSprite.play("stand")
+	# remove cloth from character
+	var animSprite
+	print("undress ", objCat)
+	for sprite in CharacterSprite.get_children():
+		if sprite.CATEGORY == objCat:
+			animSprite = sprite
+	animSprite.queue_free()
+	add_to_inventory(clothes[objCat])
+	clothes[objCat] = null
+	_apply_direction()
+
+func get_from_inventory(objName):
+	# find a name in the inventory
+#	var cloth = null
+	for obj in inventory:
+		if obj.name == objName:
+			return obj
+	get_inventory_verbose()
+	print("can't find cloth named ", objName, " in inventory")
+	return false
+	pass
 
 func _get_pot():
 #	print("get pot")
@@ -125,14 +191,20 @@ func _get_pot():
 
 # the CALL/RAISE/FOLD API
 func call():
+	current_fight.change_opponent()
 	if get_parent().name == "Player":
 		get_parent().PlayerUIFight.disable()
-	print(get_parent().name, " calls")
+		print("player calls")
+	else:
+		print("enemy calls")
+#	print(get_parent().name, " calls")
 	var cd = card.instance()
 	add_child(cd)
 	cd.create("call")
 	var pot = _get_pot()
 	var diff = pot.get_amount_to_call()
+	if diff < 0:
+		diff = diff * -1
 #	print(diff)
 	if pot.get_parent().betTurn < 1 and pot.get_parent().distribution == 1:
 		print("first call")
@@ -144,6 +216,7 @@ func call():
 	pass
 
 func fold():
+	current_fight.change_opponent()
 	if get_parent().name == "Player":
 		get_parent().PlayerUIFight.disable()
 	print(get_parent().name, " folds")
@@ -154,20 +227,25 @@ func fold():
 	pass
 
 func raise():
-	if get_parent().name == "Player":
-		get_parent().PlayerUIFight.disable()
-	print(get_parent().name, " raises")
+	current_fight.change_opponent()
+#	print(get_parent().name, " raises")
 	var cd = card.instance()
 	add_child(cd)
 	cd.create("raises")
 	var pot = _get_pot()
 	var diff = pot.get_amount_to_call()
-	if pot.get_parent().betTurn < 1 and pot.get_parent().distribution == 1:
-		diff += 1
-#	print(diff+1)
+	if diff < 0:
+		diff = diff * -1
+	if get_parent().name == "Player":
+		get_parent().PlayerUIFight.disable()
+		print("player raises")
+	else:
+		print("enemy raises")
+#	if pot.get_parent().betTurn < 1 and pot.get_parent().distribution == 1:
+#		diff += 1
+	print(diff+1)
 	_remove_clothes(diff+1)
 	pass
-
 
 func _remove_next_cloth():
 	removes -= 1
@@ -206,8 +284,8 @@ func _pick_up(obj):
 	var pot = _get_pot()
 	var objRef = obj.object_ref
 	pot.obj_refs.erase(objRef)
-	print(pot.get_vebose_pot())
-	inventory.append(objRef)
+#	print(pot.get_vebose_pot())
+	add_to_inventory(objRef)
 	# and erase the instance of object.
 	obj.queue_free()
 	if pot.obj_refs.size() == 0:
@@ -220,7 +298,12 @@ func _sort_picked_up_clothes():
 	# the underweare / upperware will be done with z-index.
 	for objRef in inventory:
 		inventory.sort_custom(ClothesCustomSorter, "sort")
-	_dispatch_inventory()
+	attribute_clothes_owner()
+	if get_parent().name == "Player":
+		# display inventory in the UI
+		get_parent().PlayerAssetsUI.add_to_inventory(inventory)
+	else:
+		_dispatch_inventory()
 	pass
 
 class ClothesCustomSorter:
@@ -235,13 +318,14 @@ func _dispatch_inventory():
 	for objRef in inventory:
 		var cat = objRef.CATEGORY
 		if clothes[cat] == null:
-			clothes[cat] = objRef
+#			clothes[cat] = objRef
 			dress(objRef)
-		if get_parent().name == "Player":
-			objRef.current_owner = "player"
-		else:
-			objRef.current_owner = "enemy"
+#			_file_for_inventory_erase(objRef)
 	get_inventory_verbose()
+	pass
+
+func _file_for_inventory_erase(objRef):
+	erase_from_inventory_array.append(objRef)
 	pass
 
 func get_inventory_verbose():
@@ -251,6 +335,30 @@ func get_inventory_verbose():
 		print("Enemy inventory:")
 	for objRef in inventory:
 		print(objRef.name)
+	pass
+
+func add_to_inventory(objRef):
+	#
+	var is_double = get_from_inventory(objRef.name)
+	if is_double:
+		print("object ", objRef.name, " in double!")
+		return false
+	else:
+		inventory.append(objRef)
+	pass
+
+func remove_from_inventory(objRef):
+#	print("remove ", objRef.name, " from inventory")
+	inventory.erase(objRef)
+#	return objRef
+	pass
+
+func get_cloth_by_name(name):
+	var cloth = null
+	for cat in clothes:
+		if clothes[cat].name == name:
+			cloth = clothes[cat]
+	return cloth
 	pass
 
 func _bet(cloth):
@@ -277,10 +385,17 @@ func _throw_in_pot():
 			# why x:-200 for the position
 			pot.throw_in(cloth_to_throw, position + get_parent().position, direction)
 		clothes[cloth_to_throw.CATEGORY] = null
+		remove_from_silhouette(cloth_to_throw)
 		cloth_to_throw = null
 	else:
 		print("no cloth_to_throw")
 	_check_next_action()
+	pass
+
+func remove_from_silhouette(cloth):
+	if get_parent().name == "Player":
+		var silhouette = get_parent().PlayerAssetsUI.get_node("Silhouette")
+		silhouette.remove(cloth.CATEGORY)
 	pass
 
 func give_blind():

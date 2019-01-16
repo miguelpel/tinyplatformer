@@ -1,11 +1,12 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://game/levels/Level1.gd" type="Script" id=1]
-[ext_resource path="res://game/animations/levelsAnimls/tiles/groundTile.tscn" type="PackedScene" id=2]
-[ext_resource path="res://assets/tileset/sheet.png" type="Texture" id=3]
-[ext_resource path="res://game/animations/levelsAnimls/accessories/signpost.tscn" type="PackedScene" id=4]
-[ext_resource path="res://game/fight/Fight.tscn" type="PackedScene" id=5]
-[ext_resource path="res://game/cards/hands/AI.tscn" type="PackedScene" id=6]
+[ext_resource path="res://game/levels/Sky.gd" type="Script" id=2]
+[ext_resource path="res://game/animations/levelsAnimls/tiles/groundTile.tscn" type="PackedScene" id=3]
+[ext_resource path="res://assets/tileset/sheet.png" type="Texture" id=4]
+[ext_resource path="res://game/animations/levelsAnimls/accessories/signpost.tscn" type="PackedScene" id=5]
+[ext_resource path="res://game/fight/Fight.tscn" type="PackedScene" id=6]
+[ext_resource path="res://game/cards/hands/AI.tscn" type="PackedScene" id=7]
 
 [node name="Level1" type="Node"]
 
@@ -32,6 +33,7 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
 color = Color( 0, 0.647059, 1, 1 )
+script = ExtResource( 2 )
 _sections_unfolded = [ "Rect" ]
 
 [node name="Bg" type="ColorRect" parent="World" index="1"]
@@ -55,311 +57,311 @@ color = Color( 0.14902, 0.121569, 0.203922, 1 )
 
 editor/display_folded = true
 
-[node name="ground" parent="World/ground" index="0" instance=ExtResource( 2 )]
+[node name="ground" parent="World/ground" index="0" instance=ExtResource( 3 )]
 
 position = Vector2( 32, 224 )
 
-[node name="ground2" parent="World/ground" index="1" instance=ExtResource( 2 )]
+[node name="ground2" parent="World/ground" index="1" instance=ExtResource( 3 )]
 
 position = Vector2( 64, 224 )
 
-[node name="ground3" parent="World/ground" index="2" instance=ExtResource( 2 )]
+[node name="ground3" parent="World/ground" index="2" instance=ExtResource( 3 )]
 
 position = Vector2( 96, 224 )
 
-[node name="ground4" parent="World/ground" index="3" instance=ExtResource( 2 )]
+[node name="ground4" parent="World/ground" index="3" instance=ExtResource( 3 )]
 
 position = Vector2( 128, 224 )
 
-[node name="ground5" parent="World/ground" index="4" instance=ExtResource( 2 )]
+[node name="ground5" parent="World/ground" index="4" instance=ExtResource( 3 )]
 
 position = Vector2( 160, 224 )
 
-[node name="ground6" parent="World/ground" index="5" instance=ExtResource( 2 )]
+[node name="ground6" parent="World/ground" index="5" instance=ExtResource( 3 )]
 
 position = Vector2( 192, 224 )
 
-[node name="ground7" parent="World/ground" index="6" instance=ExtResource( 2 )]
+[node name="ground7" parent="World/ground" index="6" instance=ExtResource( 3 )]
 
 position = Vector2( 224, 224 )
 
-[node name="ground8" parent="World/ground" index="7" instance=ExtResource( 2 )]
+[node name="ground8" parent="World/ground" index="7" instance=ExtResource( 3 )]
 
 position = Vector2( 256, 224 )
 
-[node name="ground9" parent="World/ground" index="8" instance=ExtResource( 2 )]
+[node name="ground9" parent="World/ground" index="8" instance=ExtResource( 3 )]
 
 position = Vector2( 288, 224 )
 
-[node name="ground10" parent="World/ground" index="9" instance=ExtResource( 2 )]
+[node name="ground10" parent="World/ground" index="9" instance=ExtResource( 3 )]
 
 position = Vector2( 320, 224 )
 
-[node name="ground11" parent="World/ground" index="10" instance=ExtResource( 2 )]
+[node name="ground11" parent="World/ground" index="10" instance=ExtResource( 3 )]
 
 position = Vector2( 352, 224 )
 
-[node name="ground12" parent="World/ground" index="11" instance=ExtResource( 2 )]
+[node name="ground12" parent="World/ground" index="11" instance=ExtResource( 3 )]
 
 position = Vector2( 384, 224 )
 
-[node name="ground13" parent="World/ground" index="12" instance=ExtResource( 2 )]
+[node name="ground13" parent="World/ground" index="12" instance=ExtResource( 3 )]
 
 position = Vector2( 416, 224 )
 
-[node name="ground14" parent="World/ground" index="13" instance=ExtResource( 2 )]
+[node name="ground14" parent="World/ground" index="13" instance=ExtResource( 3 )]
 
 position = Vector2( 448, 224 )
 
-[node name="ground15" parent="World/ground" index="14" instance=ExtResource( 2 )]
+[node name="ground15" parent="World/ground" index="14" instance=ExtResource( 3 )]
 
 position = Vector2( 480, 224 )
 
-[node name="ground16" parent="World/ground" index="15" instance=ExtResource( 2 )]
+[node name="ground16" parent="World/ground" index="15" instance=ExtResource( 3 )]
 
 position = Vector2( 512, 224 )
 
-[node name="ground17" parent="World/ground" index="16" instance=ExtResource( 2 )]
+[node name="ground17" parent="World/ground" index="16" instance=ExtResource( 3 )]
 
 position = Vector2( 544, 224 )
 
-[node name="ground18" parent="World/ground" index="17" instance=ExtResource( 2 )]
+[node name="ground18" parent="World/ground" index="17" instance=ExtResource( 3 )]
 
 position = Vector2( 576, 224 )
 
-[node name="ground19" parent="World/ground" index="18" instance=ExtResource( 2 )]
+[node name="ground19" parent="World/ground" index="18" instance=ExtResource( 3 )]
 
 position = Vector2( 608, 224 )
 
-[node name="ground20" parent="World/ground" index="19" instance=ExtResource( 2 )]
+[node name="ground20" parent="World/ground" index="19" instance=ExtResource( 3 )]
 
 position = Vector2( 640, 224 )
 
-[node name="ground21" parent="World/ground" index="20" instance=ExtResource( 2 )]
+[node name="ground21" parent="World/ground" index="20" instance=ExtResource( 3 )]
 
 position = Vector2( 672, 224 )
 
-[node name="ground22" parent="World/ground" index="21" instance=ExtResource( 2 )]
+[node name="ground22" parent="World/ground" index="21" instance=ExtResource( 3 )]
 
 position = Vector2( 704, 224 )
 
-[node name="ground23" parent="World/ground" index="22" instance=ExtResource( 2 )]
+[node name="ground23" parent="World/ground" index="22" instance=ExtResource( 3 )]
 
 position = Vector2( 736, 224 )
 
-[node name="ground24" parent="World/ground" index="23" instance=ExtResource( 2 )]
+[node name="ground24" parent="World/ground" index="23" instance=ExtResource( 3 )]
 
 position = Vector2( 768, 224 )
 
-[node name="ground25" parent="World/ground" index="24" instance=ExtResource( 2 )]
+[node name="ground25" parent="World/ground" index="24" instance=ExtResource( 3 )]
 
 position = Vector2( 832, 224 )
 
-[node name="ground26" parent="World/ground" index="25" instance=ExtResource( 2 )]
+[node name="ground26" parent="World/ground" index="25" instance=ExtResource( 3 )]
 
 position = Vector2( 800, 224 )
 
-[node name="ground27" parent="World/ground" index="26" instance=ExtResource( 2 )]
+[node name="ground27" parent="World/ground" index="26" instance=ExtResource( 3 )]
 
 position = Vector2( 864, 224 )
 
-[node name="ground28" parent="World/ground" index="27" instance=ExtResource( 2 )]
+[node name="ground28" parent="World/ground" index="27" instance=ExtResource( 3 )]
 
 position = Vector2( 896, 224 )
 
-[node name="ground29" parent="World/ground" index="28" instance=ExtResource( 2 )]
+[node name="ground29" parent="World/ground" index="28" instance=ExtResource( 3 )]
 
 position = Vector2( 928, 224 )
 
-[node name="ground30" parent="World/ground" index="29" instance=ExtResource( 2 )]
+[node name="ground30" parent="World/ground" index="29" instance=ExtResource( 3 )]
 
 position = Vector2( 960, 224 )
 
-[node name="ground31" parent="World/ground" index="30" instance=ExtResource( 2 )]
+[node name="ground31" parent="World/ground" index="30" instance=ExtResource( 3 )]
 
 position = Vector2( 992, 224 )
 
-[node name="ground32" parent="World/ground" index="31" instance=ExtResource( 2 )]
+[node name="ground32" parent="World/ground" index="31" instance=ExtResource( 3 )]
 
 position = Vector2( 1024, 224 )
 
-[node name="ground33" parent="World/ground" index="32" instance=ExtResource( 2 )]
+[node name="ground33" parent="World/ground" index="32" instance=ExtResource( 3 )]
 
 position = Vector2( 1056, 224 )
 
-[node name="ground34" parent="World/ground" index="33" instance=ExtResource( 2 )]
+[node name="ground34" parent="World/ground" index="33" instance=ExtResource( 3 )]
 
 position = Vector2( 1088, 224 )
 
-[node name="ground35" parent="World/ground" index="34" instance=ExtResource( 2 )]
+[node name="ground35" parent="World/ground" index="34" instance=ExtResource( 3 )]
 
 position = Vector2( 1120, 224 )
 
-[node name="ground36" parent="World/ground" index="35" instance=ExtResource( 2 )]
+[node name="ground36" parent="World/ground" index="35" instance=ExtResource( 3 )]
 
 position = Vector2( 1152, 224 )
 
-[node name="ground37" parent="World/ground" index="36" instance=ExtResource( 2 )]
+[node name="ground37" parent="World/ground" index="36" instance=ExtResource( 3 )]
 
 position = Vector2( 1184, 224 )
 
-[node name="ground38" parent="World/ground" index="37" instance=ExtResource( 2 )]
+[node name="ground38" parent="World/ground" index="37" instance=ExtResource( 3 )]
 
 position = Vector2( 1216, 224 )
 
-[node name="ground39" parent="World/ground" index="38" instance=ExtResource( 2 )]
+[node name="ground39" parent="World/ground" index="38" instance=ExtResource( 3 )]
 
 position = Vector2( 1248, 224 )
 
-[node name="ground40" parent="World/ground" index="39" instance=ExtResource( 2 )]
+[node name="ground40" parent="World/ground" index="39" instance=ExtResource( 3 )]
 
 position = Vector2( 1280, 224 )
 
-[node name="ground41" parent="World/ground" index="40" instance=ExtResource( 2 )]
+[node name="ground41" parent="World/ground" index="40" instance=ExtResource( 3 )]
 
 position = Vector2( 1312, 224 )
 
-[node name="ground42" parent="World/ground" index="41" instance=ExtResource( 2 )]
+[node name="ground42" parent="World/ground" index="41" instance=ExtResource( 3 )]
 
 position = Vector2( 1344, 224 )
 
-[node name="ground43" parent="World/ground" index="42" instance=ExtResource( 2 )]
+[node name="ground43" parent="World/ground" index="42" instance=ExtResource( 3 )]
 
 position = Vector2( 1376, 224 )
 
-[node name="ground44" parent="World/ground" index="43" instance=ExtResource( 2 )]
+[node name="ground44" parent="World/ground" index="43" instance=ExtResource( 3 )]
 
 position = Vector2( 1408, 224 )
 
-[node name="ground45" parent="World/ground" index="44" instance=ExtResource( 2 )]
+[node name="ground45" parent="World/ground" index="44" instance=ExtResource( 3 )]
 
 position = Vector2( 1440, 224 )
 
-[node name="ground46" parent="World/ground" index="45" instance=ExtResource( 2 )]
+[node name="ground46" parent="World/ground" index="45" instance=ExtResource( 3 )]
 
 position = Vector2( 1472, 224 )
 
-[node name="ground47" parent="World/ground" index="46" instance=ExtResource( 2 )]
+[node name="ground47" parent="World/ground" index="46" instance=ExtResource( 3 )]
 
 position = Vector2( 1504, 224 )
 
-[node name="ground48" parent="World/ground" index="47" instance=ExtResource( 2 )]
+[node name="ground48" parent="World/ground" index="47" instance=ExtResource( 3 )]
 
 position = Vector2( 1536, 224 )
 
-[node name="ground49" parent="World/ground" index="48" instance=ExtResource( 2 )]
+[node name="ground49" parent="World/ground" index="48" instance=ExtResource( 3 )]
 
 position = Vector2( 1568, 224 )
 
-[node name="ground50" parent="World/ground" index="49" instance=ExtResource( 2 )]
+[node name="ground50" parent="World/ground" index="49" instance=ExtResource( 3 )]
 
 position = Vector2( 1600, 224 )
 
-[node name="ground51" parent="World/ground" index="50" instance=ExtResource( 2 )]
+[node name="ground51" parent="World/ground" index="50" instance=ExtResource( 3 )]
 
 position = Vector2( 1632, 224 )
 
-[node name="ground52" parent="World/ground" index="51" instance=ExtResource( 2 )]
+[node name="ground52" parent="World/ground" index="51" instance=ExtResource( 3 )]
 
 position = Vector2( 1664, 224 )
 
-[node name="ground53" parent="World/ground" index="52" instance=ExtResource( 2 )]
+[node name="ground53" parent="World/ground" index="52" instance=ExtResource( 3 )]
 
 position = Vector2( 1696, 224 )
 
-[node name="ground54" parent="World/ground" index="53" instance=ExtResource( 2 )]
+[node name="ground54" parent="World/ground" index="53" instance=ExtResource( 3 )]
 
 position = Vector2( 1728, 224 )
 
-[node name="ground55" parent="World/ground" index="54" instance=ExtResource( 2 )]
+[node name="ground55" parent="World/ground" index="54" instance=ExtResource( 3 )]
 
 position = Vector2( 1760, 224 )
 
-[node name="ground56" parent="World/ground" index="55" instance=ExtResource( 2 )]
+[node name="ground56" parent="World/ground" index="55" instance=ExtResource( 3 )]
 
 position = Vector2( 1792, 224 )
 
-[node name="ground57" parent="World/ground" index="56" instance=ExtResource( 2 )]
+[node name="ground57" parent="World/ground" index="56" instance=ExtResource( 3 )]
 
 position = Vector2( 1824, 224 )
 
-[node name="ground58" parent="World/ground" index="57" instance=ExtResource( 2 )]
+[node name="ground58" parent="World/ground" index="57" instance=ExtResource( 3 )]
 
 position = Vector2( 1856, 224 )
 
-[node name="ground59" parent="World/ground" index="58" instance=ExtResource( 2 )]
+[node name="ground59" parent="World/ground" index="58" instance=ExtResource( 3 )]
 
 position = Vector2( 1888, 224 )
 
-[node name="ground60" parent="World/ground" index="59" instance=ExtResource( 2 )]
+[node name="ground60" parent="World/ground" index="59" instance=ExtResource( 3 )]
 
 position = Vector2( 1920, 224 )
 
-[node name="ground61" parent="World/ground" index="60" instance=ExtResource( 2 )]
+[node name="ground61" parent="World/ground" index="60" instance=ExtResource( 3 )]
 
 position = Vector2( 1952, 224 )
 
-[node name="ground62" parent="World/ground" index="61" instance=ExtResource( 2 )]
+[node name="ground62" parent="World/ground" index="61" instance=ExtResource( 3 )]
 
 position = Vector2( 1984, 224 )
 
-[node name="ground63" parent="World/ground" index="62" instance=ExtResource( 2 )]
+[node name="ground63" parent="World/ground" index="62" instance=ExtResource( 3 )]
 
 position = Vector2( 2016, 224 )
 
-[node name="ground64" parent="World/ground" index="63" instance=ExtResource( 2 )]
+[node name="ground64" parent="World/ground" index="63" instance=ExtResource( 3 )]
 
 position = Vector2( 2048, 224 )
 
-[node name="ground65" parent="World/ground" index="64" instance=ExtResource( 2 )]
+[node name="ground65" parent="World/ground" index="64" instance=ExtResource( 3 )]
 
 position = Vector2( 2080, 224 )
 
-[node name="ground66" parent="World/ground" index="65" instance=ExtResource( 2 )]
+[node name="ground66" parent="World/ground" index="65" instance=ExtResource( 3 )]
 
 position = Vector2( 2112, 224 )
 
-[node name="ground67" parent="World/ground" index="66" instance=ExtResource( 2 )]
+[node name="ground67" parent="World/ground" index="66" instance=ExtResource( 3 )]
 
 position = Vector2( 2144, 224 )
 
-[node name="ground68" parent="World/ground" index="67" instance=ExtResource( 2 )]
+[node name="ground68" parent="World/ground" index="67" instance=ExtResource( 3 )]
 
 position = Vector2( 2176, 224 )
 
-[node name="ground69" parent="World/ground" index="68" instance=ExtResource( 2 )]
+[node name="ground69" parent="World/ground" index="68" instance=ExtResource( 3 )]
 
 position = Vector2( 2208, 224 )
 
-[node name="ground70" parent="World/ground" index="69" instance=ExtResource( 2 )]
+[node name="ground70" parent="World/ground" index="69" instance=ExtResource( 3 )]
 
 position = Vector2( 2240, 224 )
 
-[node name="ground71" parent="World/ground" index="70" instance=ExtResource( 2 )]
+[node name="ground71" parent="World/ground" index="70" instance=ExtResource( 3 )]
 
 position = Vector2( 2272, 224 )
 
-[node name="ground72" parent="World/ground" index="71" instance=ExtResource( 2 )]
+[node name="ground72" parent="World/ground" index="71" instance=ExtResource( 3 )]
 
 position = Vector2( 2304, 224 )
 
-[node name="ground73" parent="World/ground" index="72" instance=ExtResource( 2 )]
+[node name="ground73" parent="World/ground" index="72" instance=ExtResource( 3 )]
 
 position = Vector2( 2336, 224 )
 
-[node name="ground74" parent="World/ground" index="73" instance=ExtResource( 2 )]
+[node name="ground74" parent="World/ground" index="73" instance=ExtResource( 3 )]
 
 position = Vector2( 2368, 224 )
 
-[node name="ground75" parent="World/ground" index="74" instance=ExtResource( 2 )]
+[node name="ground75" parent="World/ground" index="74" instance=ExtResource( 3 )]
 
 position = Vector2( 2400, 224 )
 
-[node name="ground76" parent="World/ground" index="75" instance=ExtResource( 2 )]
+[node name="ground76" parent="World/ground" index="75" instance=ExtResource( 3 )]
 
 position = Vector2( 2432, 224 )
 
-[node name="ground77" parent="World/ground" index="76" instance=ExtResource( 2 )]
+[node name="ground77" parent="World/ground" index="76" instance=ExtResource( 3 )]
 
 position = Vector2( 2464, 224 )
 
@@ -370,7 +372,7 @@ editor/display_folded = true
 [node name="grass" type="Sprite" parent="World/grass" index="0"]
 
 position = Vector2( 192, 160 )
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 centered = false
 region_enabled = true
 region_rect = Rect2( 352, 96, 32, 32 )
@@ -379,7 +381,7 @@ _sections_unfolded = [ "Offset", "Region" ]
 [node name="grass2" type="Sprite" parent="World/grass" index="1"]
 
 position = Vector2( 384, 160 )
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 centered = false
 region_enabled = true
 region_rect = Rect2( 352, 96, 32, 32 )
@@ -388,7 +390,7 @@ _sections_unfolded = [ "Offset", "Region" ]
 [node name="grass3" type="Sprite" parent="World/grass" index="2"]
 
 position = Vector2( 448, 160 )
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 centered = false
 region_enabled = true
 region_rect = Rect2( 352, 96, 32, 32 )
@@ -397,7 +399,7 @@ _sections_unfolded = [ "Offset", "Region" ]
 [node name="grass4" type="Sprite" parent="World/grass" index="3"]
 
 position = Vector2( 480, 160 )
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 centered = false
 region_enabled = true
 region_rect = Rect2( 352, 96, 32, 32 )
@@ -406,7 +408,7 @@ _sections_unfolded = [ "Offset", "Region" ]
 [node name="grass5" type="Sprite" parent="World/grass" index="4"]
 
 position = Vector2( 768, 160 )
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 centered = false
 region_enabled = true
 region_rect = Rect2( 352, 96, 32, 32 )
@@ -415,7 +417,7 @@ _sections_unfolded = [ "Offset", "Region" ]
 [node name="grass6" type="Sprite" parent="World/grass" index="5"]
 
 position = Vector2( 800, 160 )
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 centered = false
 region_enabled = true
 region_rect = Rect2( 352, 96, 32, 32 )
@@ -424,7 +426,7 @@ _sections_unfolded = [ "Offset", "Region" ]
 [node name="grass7" type="Sprite" parent="World/grass" index="6"]
 
 position = Vector2( 960, 160 )
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 centered = false
 region_enabled = true
 region_rect = Rect2( 352, 96, 32, 32 )
@@ -433,7 +435,7 @@ _sections_unfolded = [ "Offset", "Region" ]
 [node name="grass8" type="Sprite" parent="World/grass" index="7"]
 
 position = Vector2( 1280, 160 )
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 centered = false
 region_enabled = true
 region_rect = Rect2( 352, 96, 32, 32 )
@@ -442,7 +444,7 @@ _sections_unfolded = [ "Offset", "Region" ]
 [node name="grass9" type="Sprite" parent="World/grass" index="8"]
 
 position = Vector2( 1184, 160 )
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 centered = false
 region_enabled = true
 region_rect = Rect2( 352, 96, 32, 32 )
@@ -451,7 +453,7 @@ _sections_unfolded = [ "Offset", "Region" ]
 [node name="grass10" type="Sprite" parent="World/grass" index="9"]
 
 position = Vector2( 1632, 160 )
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 centered = false
 region_enabled = true
 region_rect = Rect2( 352, 96, 32, 32 )
@@ -460,7 +462,7 @@ _sections_unfolded = [ "Offset", "Region" ]
 [node name="grass11" type="Sprite" parent="World/grass" index="10"]
 
 position = Vector2( 1760, 160 )
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 centered = false
 region_enabled = true
 region_rect = Rect2( 352, 96, 32, 32 )
@@ -469,7 +471,7 @@ _sections_unfolded = [ "Offset", "Region" ]
 [node name="grass12" type="Sprite" parent="World/grass" index="11"]
 
 position = Vector2( 2208, 160 )
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 centered = false
 region_enabled = true
 region_rect = Rect2( 352, 96, 32, 32 )
@@ -478,7 +480,7 @@ _sections_unfolded = [ "Offset", "Region" ]
 [node name="grass13" type="Sprite" parent="World/grass" index="12"]
 
 position = Vector2( 2272, 160 )
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 centered = false
 region_enabled = true
 region_rect = Rect2( 352, 96, 32, 32 )
@@ -487,18 +489,18 @@ _sections_unfolded = [ "Offset", "Region" ]
 [node name="grass14" type="Sprite" parent="World/grass" index="13"]
 
 position = Vector2( 2400, 160 )
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 centered = false
 region_enabled = true
 region_rect = Rect2( 352, 96, 32, 32 )
 _sections_unfolded = [ "Offset", "Region" ]
 
-[node name="SignPost" parent="World" index="4" instance=ExtResource( 4 )]
+[node name="SignPost" parent="World" index="4" instance=ExtResource( 5 )]
 
 position = Vector2( 1376, 192 )
 
-[node name="Fight" parent="World" index="5" instance=ExtResource( 5 )]
+[node name="Fight" parent="World" index="5" instance=ExtResource( 6 )]
 
-[node name="AI" parent="World" index="6" instance=ExtResource( 6 )]
+[node name="AI" parent="World" index="6" instance=ExtResource( 7 )]
 
 

@@ -34,6 +34,6 @@ _sections_unfolded = [ "Margin", "Rect", "Visibility" ]
 
 [connection signal="dress" from="Silhouette" to="." method="_on_Silhouette_dress"]
 
-[connection signal="undress" from="Silhouette" to="." method="_on_Silhouette_undress"]
+[connection signal="undress" from="Inventory" to="." method="_on_Inventory_undress"]
 
 

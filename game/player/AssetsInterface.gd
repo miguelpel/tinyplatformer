@@ -17,19 +17,23 @@ var clothes_dictionnary = {
 	panties = []
 }
 
+signal dress(clothName)
+signal undress(clothName)
 
 func _ready():
 	# Called every time the node is added to the scene.
 	# Initialization here
-	for cat in base_clothes:
-		testInventory.append(base_clothes[cat].instance())
-	for cloth in testInventory:
-		cloth.current_owner = "player"
-#		print(cloth.name)
-	add_to_inventory(testInventory)
+#	for cat in base_clothes:
+#		testInventory.append(base_clothes[cat].instance())
+#	for cloth in testInventory:
+#		cloth.current_owner = "player"
+##		print(cloth.name)
+#	add_to_inventory(testInventory)
 	pass
 
 func add_to_inventory(objOrArray):
+#	reset_clothes_dictionnary()
+	reset_inventory()
 	if typeof(objOrArray) == TYPE_ARRAY:
 #		print("array")
 		for obj in objOrArray:
@@ -43,6 +47,18 @@ func add_to_inventory(objOrArray):
 	else:
 		print("cant' add ", objOrArray, " to inventory")
 	pass
+
+#func reset_clothes_dictionnary():
+#	clothes_dictionnary = {
+#	hat = [],
+#	shirt = [],
+#	pants = [],
+#	undershirt = [],
+#	panties = []
+#}
+
+func reset_inventory():
+	$Inventory.clear()
 
 func get_dictionnary_verbose():
 	for cat in clothes_dictionnary:
@@ -76,10 +92,12 @@ func remove(objRef):
 
 
 func _on_Silhouette_dress(clothName):
-	print("dress: ", clothName)
+#	print("on silhouette dress ", clothName)
+	emit_signal("dress", clothName)
 	pass # replace with function body
 
-
-func _on_Silhouette_undress(clothName):
-	print("undress: ", clothName)
+func _on_Inventory_undress(clothName):
+	var cat = check_clothes_dictionnary(clothName)
+#	print("on silhouette undress ", cat)
+	emit_signal("undress", cat)
 	pass # replace with function body

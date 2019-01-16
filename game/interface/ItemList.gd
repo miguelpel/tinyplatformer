@@ -4,6 +4,7 @@ extends ItemList
 # var a = 2
 # var b = "textvar"
 var itemSelected
+signal undress(clothName)
 
 func _ready():
 	# Called every time the node is added to the scene.
@@ -42,6 +43,9 @@ func drop_data(pos, data):
 #	var tex = TextureRect.new()
 #	tex.texture = data.tex.texture
 	var objectName = data.name
+	if data.parent.get_parent().name == "Silhouette":
+#		print("recieved ", data.name, " from Silhouette")
+		emit_signal("undress", data.name)
 #	emit_signal("filled")
 	add_item(objectName, data.tex)
 #	add_item(data.name, data.tex.texture)

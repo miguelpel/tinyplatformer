@@ -18,22 +18,24 @@ const enemyScene = preload("res://game/enemies/Enemy.tscn")
 # list of all the enemies
 var enemiesData = [
 {
-	base_clothes = {
-	hat = preload("res://game/objects/scenes/GreenBeret/main/GreenBeret.tscn"),
-	shirt = preload("res://game/objects/scenes/GreenShirt/main/GreenShirt.tscn"),
-	pants = preload("res://game/objects/scenes/GreenPants/main/GreenPants.tscn"),
-	undershirt = preload("res://game/objects/scenes/Undershirt/main/Undershirt.tscn"),
-	panties = preload("res://game/objects/scenes/Slip/main/Slip.tscn")},
+	base_clothes = [
+	preload("res://game/objects/scenes/GreenBeret/main/GreenBeret.tscn"),
+	preload("res://game/objects/scenes/GreenShirt/main/GreenShirt.tscn"),
+	preload("res://game/objects/scenes/GreenPants/main/GreenPants.tscn"),
+	preload("res://game/objects/scenes/Undershirt/main/Undershirt.tscn"),
+	preload("res://game/objects/scenes/Slip/main/Slip.tscn")
+	],
 	inventory = [],
 	pos = 512
 },
 {
-	base_clothes = {
-	hat = preload("res://game/objects/scenes/RedBeret/main/RedBeret.tscn"),
-	shirt = preload("res://game/objects/scenes/RedShirt/main/RedShirt.tscn"),
-	pants = preload("res://game/objects/scenes/RedPants/main/RedPants.tscn"),
-	undershirt = preload("res://game/objects/scenes/Undershirt/main/Undershirt.tscn"),
-	panties = preload("res://game/objects/scenes/Slip/main/Slip.tscn")},
+	base_clothes = [
+	preload("res://game/objects/scenes/RedBeret/main/RedBeret.tscn"),
+	preload("res://game/objects/scenes/RedShirt/main/RedShirt.tscn"),
+	preload("res://game/objects/scenes/RedPants/main/RedPants.tscn"),
+	preload("res://game/objects/scenes/Undershirt/main/Undershirt.tscn"),
+	preload("res://game/objects/scenes/Slip/main/Slip.tscn")
+	],
 	inventory = [],
 	pos = 1024
 }
@@ -43,6 +45,7 @@ func _ready():
 #	print(get_parent().get_node("Player").name)
 	player = get_parent().get_node("Player")
 	player.spawn_character(self)
+	$World.get_node("Sky").connect("received_cloth", player, "_on_sky_received_cloth")
 	createEnemy()
 	spawnEnemy()
 	player.get_node("Character").run()

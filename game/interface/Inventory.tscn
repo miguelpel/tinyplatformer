@@ -38,4 +38,6 @@ centered = false
 script = ExtResource( 4 )
 _sections_unfolded = [ "Offset", "Rect" ]
 
+[connection signal="undress" from="ItemList" to="." method="_on_ItemList_undress"]
+
 

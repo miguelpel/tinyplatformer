@@ -31,6 +31,8 @@ func start(enmcharacter): # set the player, the enemy, set the opponent, connect
 	print("starting")
 	enemy = get_parent().get_parent().enemy
 	if _get_player():
+		player.get_node("Character").current_fight = self
+		enmcharacter.current_fight = self
 		player.get_node("Character").stand()
 		player.PlayerUIFight.show()
 		player.PlayerUIFight.disable()
@@ -159,7 +161,7 @@ func start_bets():
 
 func continue_bets():
 	print("continue bets")
-	change_opponent()
+#	change_opponent()
 	betTurn += 1
 	set_state("waiting for opponent action")
 	if opponent == player:
@@ -272,7 +274,7 @@ func reset():
 	winner = null
 	folded = false
 	#??? reset pot ???
-	change_opponent()
+#	change_opponent()
 	pass
 
 func finish_fight(loser):
@@ -297,6 +299,8 @@ func _process(delta):
 	if Input.is_action_just_pressed("ui_down"):
 		player.Character.get_inventory_verbose()
 		enemy.Character.get_inventory_verbose()
+		print("is player naked ? ", player.Character.is_naked())
+		print("is enemy naked ? ", enemy.Character.is_naked())
 #		print("infos:")
 #		print("opponent")
 #		print(opponent.name)

@@ -16,6 +16,8 @@ var disappearing = false
 var disappeared = true
 var appeared = false
 
+signal undress(clothName)
+
 #is it better to handle the thing without the ScrollContainer?
 
 func _ready():
@@ -43,6 +45,10 @@ func make_appear():
 	#in from right
 	pass
 
+func clear():
+	$ItemList.clear()
+	pass
+
 func _process(delta):
 	#print(get_focus_owner())
 	if has_focus():
@@ -65,3 +71,8 @@ func _process(delta):
 	# Update game logic here.
 	pass
 
+
+
+func _on_ItemList_undress(clothName):
+	emit_signal("undress", clothName)
+	pass # replace with function body

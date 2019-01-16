@@ -1,13 +1,13 @@
 # Player
 extends Node
 
-const base_clothes = {
-	hat = preload("res://game/objects/scenes/Crown/main/Crown.tscn"),
-	shirt = preload("res://game/objects/scenes/RoyalShirt/main/RoyalShirt.tscn"),
-	pants = preload("res://game/objects/scenes/RoyalPants/main/RoyalPants.tscn"),
-	undershirt = preload("res://game/objects/scenes/Undershirt/main/Undershirt.tscn"),
-	panties = preload("res://game/objects/scenes/Slip/main/Slip.tscn")
-}
+const base_clothes = [
+	preload("res://game/objects/scenes/Crown/main/Crown.tscn"),
+	preload("res://game/objects/scenes/RoyalShirt/main/RoyalShirt.tscn"),
+	preload("res://game/objects/scenes/RoyalPants/main/RoyalPants.tscn"),
+	preload("res://game/objects/scenes/Undershirt/main/Undershirt.tscn"),
+	preload("res://game/objects/scenes/Slip/main/Slip.tscn")
+]
 
 const AssetsUI = preload("res://game/player/AssetsInterface.tscn") # rect_position.y
 const fightUI = preload("res://game/fight/PlayerUiFight.tscn")
@@ -15,11 +15,12 @@ const fightUI = preload("res://game/fight/PlayerUiFight.tscn")
 var PlayerUIFight
 var PlayerAssetsUI
 
-var Inventory = []
+#var Inventory = []
 var current_level
 var Character
 #var fight
 
+var timer
 
 # only if ALL actions are done. Allow to throw 2 clothes one after the other (raise)
 
@@ -72,6 +73,9 @@ func spawn_character(level):  # NOT DOUBLE
 	PlayerAssetsUI.rect_position.y = 288
 	PlayerAssetsUI.margin_left = 5
 	PlayerAssetsUI.margin_right = -5
+	PlayerAssetsUI.connect("dress", self, "_on_assetsUi_dress")
+	PlayerAssetsUI.connect("undress", self, "_on_assetsUi_undress")
+	PlayerAssetsUI.add_to_inventory(Character.inventory)
 #	PlayerAssetsUI.rect_position = Vector2(5, 288)
 #	PlayerAssetsUI.rect_size = Vector2(350, 225)
 	# Connects
@@ -93,3 +97,44 @@ func _on_PlayerUIFight_fold(): # NOT DOUBLE
 func _on_PlayerUIFight_raise(): # NOT DOUBLE
 	$Character.raise()
 	pass # replace with function body
+
+func _on_assetsUi_dress(clothName):
+#	print("on assetsUi dress ", clothName)
+	Character.dress(clothName, true)
+	pass
+
+func _on_assetsUi_undress(clothCat):
+#	print("on assetsUi undress ", clothCat)
+	Character.undress(clothCat)
+	pass
+
+func _on_sky_received_cloth(clothName):
+	print("bet: ", clothName)
+	# checks ???
+	var cloth = $Character.get_cloth_by_name(clothName)
+	if cloth:
+		$Character._bet(cloth)
+		timer = Timer.new()
+		timer.connect("timeout",self,"on_turn_timer_out")
+		add_child(timer)
+		timer.wait_time = 2
+		timer.start()
+	# bet the cloth and start a timer turn
+	# if timer turn finished, check the pot, and then tell what the character did
+	pass
+
+func on_turn_timer_out():
+	# check the pot, and then tell what the character did
+	var potBalance = current_level.current_fight.get_node("Pot").get_amount_to_call()
+	if potBalance == 0:
+		# character call
+		print("Player Calls!")
+		pass
+	elif potBalance > 0:
+		# character Raise
+		print("Player Raises!")
+		pass
+	else:
+		# wait for next move
+		return
+	pass

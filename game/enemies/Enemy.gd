@@ -37,16 +37,21 @@ func _ready():
 	pass
 
 func spawn(world, data):
-	print(get_children())
+#	print(get_children())
 	Character = CharacterScene.instance()
 	Manant = ManantScene.instance()
 	Character.add_child(Manant)
 	Character.set_position(Vector2(data.pos, 160))
 	world.add_child(Character)
 	Character.instanciate_base_clothes(data.base_clothes)
+	Character.attribute_clothes_owner()
+#	print("enemy spawn.")
+#	Character.get_inventory_verbose()
+	Character.dress_character()
 	Character.set_direction("left")
 	is_materialized = true
 	distance = 0
+#	Character.get_inventory_verbose()
 	pass
 
 func _start_fight():
@@ -59,8 +64,10 @@ func get_decision(hands, pot): # NOT DOUBLE
 	var playerHandSize = hands.get_player_hand_size()
 	var potValue = pot.get_pot_value()
 	var amountToCall = pot.get_amount_to_call()
-#	print("enemy get decision")
-#	print(amountToCall)
+	if amountToCall < 0:
+		amountToCall = amountToCall * -1
+	print("enemy get decision")
+	print(amountToCall)
 	var decision = get_parent().AI.get_ai_decision(enemyCards, playerOpenCards, playerHandSize, potValue, amountToCall)
 	match decision:
 		"call":

@@ -6,7 +6,6 @@ var itemIndex
 const clothe_scene = preload("res://game/interface/SilhouetteCloth.tscn")
 
 signal dress(clothName)
-signal undress(clothName)
 
 const cat_rect = {
 	hat = null,
@@ -41,6 +40,8 @@ func _ready():
 
 func can_drop_data(pos, data):
 	var cat = get_parent().check_clothes_dictionnary(data.name)
+	if !cat:
+		return false
 	if data.parent.name == "ItemList" and cat_rect[cat] == null:
 #		print("okay")
 		return true
@@ -50,6 +51,8 @@ func can_drop_data(pos, data):
 func drop_data(pos, data):
 #	print("drop item to Silhouette")
 	var cat = get_parent().check_clothes_dictionnary(data.name)
+	if !cat:
+		return false
 	cat_rect[cat] = clothe_scene.instance()
 	cat_rect[cat].rect_position = positions[cat]
 	cat_rect[cat].cloth_name = data.name
