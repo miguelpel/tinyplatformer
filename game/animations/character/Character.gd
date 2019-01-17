@@ -4,6 +4,9 @@ extends Node2D
 # the card that displays the decision
 var card = preload("res://game/fight/card.tscn")
 
+# Character owner: player or enemy
+var character_owner
+
 # Character sprite and direction
 #const THROW_FORCE = 100
 var CharacterSprite
@@ -20,10 +23,9 @@ var clothes = {
 	pants = null
 }
 
-var inventory = []
 var erase_from_inventory_array = []
 
-# vaiables allowing for the throwing logic
+# vaiables allowing the throwing logic
 var obj_to_throw
 var obj_to_throw_ref
 var cloth_to_throw
@@ -51,20 +53,20 @@ func _set_character_sprite():
 			CharacterSprite = child
 	pass
 
-func instanciate_base_clothes(baseClothes):
-#	print("instanciate base clothes")
-	for cloth in baseClothes:
-		inventory.append(cloth.instance())
-#		add_to_inventory(cloth.instance())
-#	get_inventory_verbose()
+func set_owner(ownr):
+	character_owner = ownr
 
-func attribute_clothes_owner():
-	for cloth in inventory:
-		if get_parent().name == "Player":
-			cloth.current_owner = "player"
-		else:
-			cloth.current_owner = "enemy"
-		pass
+#func instanciate_base_clothes(baseClothes):
+#	for cloth in baseClothes:
+#		inventory.append(cloth.instance())
+
+#func attribute_clothes_owner():
+#	for cloth in inventory:
+#		if get_parent().name == "Player":
+#			cloth.current_owner = "player"
+#		else:
+#			cloth.current_owner = "enemy"
+#		pass
 	
 
 # Direction change
@@ -83,25 +85,22 @@ func _apply_direction():
 
 # DRESSING
 # DRESS ALL
-func dress_character():
-	for cloth in inventory:
-		dress(cloth)
+func dress_character(clothArray):
+	for cloth in clothArray:
+		if clothes[cloth.CATEGORY] == null:
+			dress(cloth)
 	_erase_filed_inventory()
 	pass
 
 func _erase_filed_inventory():
 	for cloth in erase_from_inventory_array:
-		remove_from_inventory(cloth)
+		character_owner.remove_from_inventory(cloth)
 	erase_from_inventory_array = []
 	pass
 
 # $Character.dress(objRef or objRefArray)
 # DRESS A SPECIFIC OBJECT OR ARR OF OBJECT
 func dress(objRef, erase=false):
-#	print("attemting to dress ", objRef)
-#	CharacterSprite.play("stand")
-	# get the cloth objRef AND the CATEGORY
-	# add the AminatedSprite to Character AND the objRef to the clothes[cat]
 	var cloth
 	var cat
 	if typeof(objRef) == TYPE_STRING:
@@ -123,7 +122,6 @@ func dress(objRef, erase=false):
 		remove_from_inventory(cloth)
 	else:
 		_file_for_inventory_erase(cloth)
-#	_erase_filed_inventory()
 	_apply_direction()
 
 func _add_anim_sprite(cloth):
@@ -137,42 +135,44 @@ func _add_anim_sprite(cloth):
 	CharacterSprite.add_child(AnimSprite)
 	pass
 
-func undress(objCat):
-	CharacterSprite.play("stand")
-	# remove cloth from character
+func undress(objOrCat): # only for Player ???
+	print("undress ", objOrCat)
+	# suppress the cloth animation from character
+	# suppress the cloth from clothes
+	# return the cloth
 	var animSprite
-	print("undress ", objCat)
+	var cat
+	var clothObj
+	if typeof(objOrCat) == TYPE_STRING:
+		cat = objOrCat
+	elif typeof(objOrCat) == TYPE_OBJECT:
+		cat = objOrCat.CATEGORY
+	clothObj = clothes[cat]
 	for sprite in CharacterSprite.get_children():
-		if sprite.CATEGORY == objCat:
+		if sprite.CATEGORY == cat:
 			animSprite = sprite
 	animSprite.queue_free()
-	add_to_inventory(clothes[objCat])
-	clothes[objCat] = null
-	_apply_direction()
+	clothes[cat] = null
+	return clothObj
 
-func get_from_inventory(objName):
-	# find a name in the inventory
-#	var cloth = null
-	for obj in inventory:
-		if obj.name == objName:
-			return obj
-	get_inventory_verbose()
-	print("can't find cloth named ", objName, " in inventory")
-	return false
-	pass
+
+# !!!!!!
+#func get_from_inventory(objName):
+#	for obj in inventory:
+#		if obj.name == objName:
+#			return obj
+#	get_inventory_verbose()
+#	print("can't find cloth named ", objName, " in inventory")
+#	return false
+#	pass
 
 func _get_pot():
-#	print("get pot")
 	var pot
 	var parent = get_parent()
 	if parent.name == "Player":
 		pot = parent.current_level.current_fight.get_node("Pot")
 	else:
 		pot = parent.get_node("Fight").get_node("Pot")
-#		print(pot.name)
-#	print(get_parent().name)
-#	var pot = null
-#	var pot = get_parent().fight.get_node("Pot")
 	if pot:
 		return pot
 	else:
@@ -187,7 +187,6 @@ func call():
 		print("player calls")
 	else:
 		print("enemy calls")
-#	print(get_parent().name, " calls")
 	var cd = card.instance()
 	add_child(cd)
 	cd.create("call")
@@ -195,7 +194,6 @@ func call():
 	var diff = pot.get_amount_to_call()
 	if diff < 0:
 		diff = diff * -1
-#	print(diff)
 	if pot.get_parent().betTurn < 1 and pot.get_parent().distribution == 1:
 		print("first call")
 		diff += 1
@@ -213,12 +211,10 @@ func fold():
 	var cd = card.instance()
 	add_child(cd)
 	cd.create("folds")
-#	current_level.current_fight.fold(self)
 	pass
 
 func raise():
 	current_fight.change_opponent()
-#	print(get_parent().name, " raises")
 	var cd = card.instance()
 	add_child(cd)
 	cd.create("raises")
@@ -231,8 +227,6 @@ func raise():
 		print("player raises")
 	else:
 		print("enemy raises")
-#	if pot.get_parent().betTurn < 1 and pot.get_parent().distribution == 1:
-#		diff += 1
 	print(diff+1)
 	_remove_clothes(diff+1)
 	pass
@@ -242,8 +236,6 @@ func _remove_next_cloth():
 	var clth = null
 	var counter = 0
 	while clth == null and counter < 5:
-	#		print(clth)
-	#		print(counter)
 		clth = clothes[cloth_remove_order[counter]]
 		counter += 1
 	if counter > 5:
@@ -260,7 +252,7 @@ func is_naked():
 		if clothes[cat] == null:
 			count += 1
 	if count == 5:
-		print(self.name, " is naked")
+		print(character_owner.name, " is naked")
 		return true
 	else:
 		return false
@@ -274,76 +266,28 @@ func _pick_up(obj):
 	var pot = _get_pot()
 	var objRef = obj.object_ref
 	pot.obj_refs.erase(objRef)
-#	print(pot.get_vebose_pot())
-	add_to_inventory(objRef)
+	character_owner.add_to_inventory(objRef)
 	# and erase the instance of object.
 	obj.queue_free()
-	if pot.obj_refs.size() == 0:
-		_sort_picked_up_clothes()
-		pass
-	pass
-
-func _sort_picked_up_clothes():
-	# sort: have the other's owned clothes pushed to beginning,
-	# the underweare / upperware will be done with z-index.
-	for objRef in inventory:
-		inventory.sort_custom(ClothesCustomSorter, "sort")
-	attribute_clothes_owner()
-	if get_parent().name == "Player":
-		# display inventory in the UI
-		get_parent().PlayerAssetsUI.add_to_inventory(inventory)
-	else:
-		_dispatch_inventory()
-	pass
-
-class ClothesCustomSorter:
-	static func sort(a, b):
-		if a.current_owner == "player":
-			return true
-		return false
-
-func _dispatch_inventory():
-	# dress the clothes until 5 are set
-	# add other clothes to Inventory.
-	for objRef in inventory:
-		var cat = objRef.CATEGORY
-		if clothes[cat] == null:
-#			clothes[cat] = objRef
-			dress(objRef)
-#			_file_for_inventory_erase(objRef)
-		else:
-			print("leave ", objRef.name, " in inventory")
-	_erase_filed_inventory()
-	get_inventory_verbose()
 	pass
 
 func _file_for_inventory_erase(objRef):
 	erase_from_inventory_array.append(objRef)
 	pass
 
-func get_inventory_verbose():
-	if get_parent().name == "Player":
-		print("Player inventory:")
-	else:
-		print("Enemy inventory:")
-	for objRef in inventory:
-		print(objRef.name)
-	pass
-
-func add_to_inventory(objRef):
-	#
-	var is_double = get_from_inventory(objRef.name)
-	if is_double:
-		print("object ", objRef.name, " in double!")
-		return false
-	else:
-		inventory.append(objRef)
-	pass
+#func get_inventory_verbose():
+#	# ask for the inventory of character_owner, and display it
+#	if get_parent().name == "Player":
+#		print("Player inventory:")
+#	else:
+#		print("Enemy inventory:")
+#	for objRef in inventory:
+#		print(objRef.name)
+#	pass
 
 func remove_from_inventory(objRef):
-#	print("remove ", objRef.name, " from inventory")
-	inventory.erase(objRef)
-#	return objRef
+	# each opponent have different handling of that event
+	character_owner.remove_from_inventory(objRef)
 	pass
 
 func get_cloth_by_name(name):
@@ -365,17 +309,14 @@ func _bet(cloth):
 
 func _throw_in_pot():
 	timer.stop()
-#	print("throw in pot")
 	var pot = _get_pot()
 	if !pot:
 		print("no pot to throw in!")
 		return
 	if cloth_to_throw != null:
-#		print(cloth_to_throw.name)
 		if get_parent().name == "Player":
 			pot.throw_in(cloth_to_throw, position, direction)
 		else:
-			# why x:-200 for the position
 			pot.throw_in(cloth_to_throw, position + get_parent().position, direction)
 		clothes[cloth_to_throw.CATEGORY] = null
 		remove_from_silhouette(cloth_to_throw)
@@ -399,17 +340,12 @@ func _remove_clothes(nbr = 1):
 	_remove_next_cloth()
 
 func _check_next_action():
-#	print("check next action")
-#	print(removes)
 	if removes < 0:
 		removes = 0
 	if removes > 0:
-#		removes -= 1
 		_remove_next_cloth()
 	else:
 		emit_delayed_completed_signal()
-#		var pot = current_level.current_fight.get_node("Pot")
-#		print(pot.get_pot_value())
 
 func emit_delayed_completed_signal():
 	timer = Timer.new()
@@ -448,7 +384,6 @@ func _get_all_children():
 # $Character.remove_and_throw(objRef)
 # returns Object ref, to allow for transfer or deletion
 func _remove_and_throw(objRef):
-	#print("throw")
 	if objRef:
 	# the object ref is the Object scene, not the animation
 		var category = objRef.CATEGORY
@@ -480,7 +415,6 @@ func _remove(objRef):
 	return objRef
 
 func run():
-	#print("run")
 	is_running = true
 	if CharacterSprite.is_connected("animation_finished", self, "_check_next_anim"):
 		CharacterSprite.disconnect("animation_finished", self, "_check_next_anim")
@@ -488,11 +422,9 @@ func run():
 	if animSprites.size() > 0:
 		for animSprite in _get_anim_sprites():
 			animSprite.play("run")
-#	print(animSprites)
 	pass
 
 func stand():
-#	print("stand")
 	is_running = false
 	# is_connected ( String signal, Object target, String method ) 
 	if CharacterSprite.is_connected("animation_finished", self, "_check_next_anim"):
@@ -515,23 +447,18 @@ func change_direction():
 	pass
 
 func flee():
-#	distance = 0
 	change_direction()
 	run()
-	# tests !!
-	# change direction to inverse
-	# run toward this direction
 	pass
 
 func _check_next_anim():
-#	print("check next anim")
 	var anim = CharacterSprite.animation
 	if anim == "remove" or anim == "removePanties":
 		_discard_anim_object()
 		throw()
 	else:
 		stand()
-		# emit signal thrown_done. Maybe with timer.
+		# emit signal throw_done. Maybe with timer.
 
 func _discard_anim_object():
 #	print("discard obj")
@@ -543,10 +470,8 @@ func _discard_anim_object():
 		obj.queue_free()
 	pass
 
-func _process(delta):
-	# fleeing.
-	# after a distance, disappear()
-	pass
+#func _process(delta):
+#	pass
 
 func _on_CharacterArea2D_body_entered(body):
 	if body.get_class() == "KinematicBody2D" and body.is_pickable:

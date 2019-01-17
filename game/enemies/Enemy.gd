@@ -10,6 +10,9 @@ const ManantScene = preload("res://game/animations/manant/Manant.tscn")
 
 var Character
 var Manant
+
+var inventory
+
 #var fightTrigger
 var AI
 var is_materialized = false
@@ -17,6 +20,7 @@ var fight_distance = 300
 var flight_distance = 500
 
 signal disappeared
+
 # $Character API
 # $Character.remove_and_throw(objRef) => returns objectRef
 # $Character.dress(objRef or objRefArray)
@@ -25,14 +29,7 @@ signal disappeared
 # $Character.set_direction("left" or "right")
 # $Character.stand()
 
-# Pot API???
-
 func _ready():
-#	fight = get_parent().get_parent().current_fight
-#	$Character.instanciate_base_clothes(base_clothes)
-#	_instanciate_base_clothes()
-#	_dress_character()
-#	$Character.set_direction("left")
 	AI = get_parent().AI
 	pass
 
@@ -41,17 +38,19 @@ func spawn(world, data):
 	Character = CharacterScene.instance()
 	Manant = ManantScene.instance()
 	Character.add_child(Manant)
+	Character.set_owner(self)
 	Character.set_position(Vector2(data.pos, 160))
 	world.add_child(Character)
+	
+	# instanciate inventory in here!!!
 	Character.instanciate_base_clothes(data.base_clothes)
 	Character.attribute_clothes_owner()
-#	print("enemy spawn.")
-#	Character.get_inventory_verbose()
 	Character.dress_character()
+	
+	
 	Character.set_direction("left")
 	is_materialized = true
 	distance = 0
-#	Character.get_inventory_verbose()
 	pass
 
 func _start_fight():
@@ -92,6 +91,46 @@ func disappear():
 #	emit_signal("disappeared")
 	pass
 
+func sort_picked_up_clothes():
+	# sort: have the other's owned clothes pushed to beginning,
+	# the underweare / upperware will be done with z-index.
+	for objRef in inventory:
+		inventory.sort_custom(ClothesCustomSorter, "sort")
+	attribute_clothes_owner()
+	if get_parent().name == "Player":
+		# display inventory in the UI
+		get_parent().PlayerAssetsUI.add_to_inventory(inventory)
+	else:
+		_dispatch_inventory()
+	pass
+
+class ClothesCustomSorter:
+	static func sort(a, b):
+		if a.current_owner == "player":
+			return true
+		return false
+
+func _dispatch_inventory():
+	# dress the clothes until 5 are set
+	# add other clothes to Inventory.
+	for objRef in inventory:
+		var cat = objRef.CATEGORY
+		if Character.clothes[cat] == null:
+#			clothes[cat] = objRef
+			dress(objRef)
+#			_file_for_inventory_erase(objRef)
+		else:
+			print("leave ", objRef.name, " in inventory")
+	_erase_filed_inventory()
+	get_inventory_verbose()
+	pass
+
+func remove_from_inventory(cloth):
+	pass
+
+func add_to_inventory(cloth):
+	pass
+
 func _process(delta):
 #	print(get_parent().current_fight.state)
 #	print(get_parent().get_node("World").position)
@@ -116,8 +155,3 @@ func _process(delta):
 #			if distance >= disappearing_distance:
 #				disappear()
 	pass
-
-func _on_fightTrigger_area_entered(area):
-	if area.get_parent().name == "Player":
-		_start_fight()
-	pass # replace with function body

@@ -37,8 +37,10 @@ func start(enmcharacter): # set the player, the enemy, set the opponent, connect
 		player.PlayerUIFight.show()
 		player.PlayerUIFight.disable()
 		get_parent().get_parent().is_running = false
-		player.get_node("Character").connect("all_actions_done", self, "on_opponent_actions_done")
-		enmcharacter.connect("all_actions_done", self, "on_opponent_actions_done")
+		if !player.get_node("Character").is_connected("all_actions_done", self, "on_opponent_actions_done"):
+			player.get_node("Character").connect("all_actions_done", self, "on_opponent_actions_done")
+		if !enmcharacter.is_connected("all_actions_done", self, "on_opponent_actions_done"):
+			enmcharacter.connect("all_actions_done", self, "on_opponent_actions_done")
 #		player.get_node("Character").connect("disappeared", self, "on_enemy_disappeared")
 #		enmcharacter.connect("disappeared", self, "on_enemy_disappeared")
 		set_opponent()

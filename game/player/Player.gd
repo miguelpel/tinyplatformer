@@ -39,31 +39,25 @@ func _ready():
 #	if current_level:
 #		fight = current_level.current_fight
 	Character = $Character
+	Character.set_owner(self)
 	Character.instanciate_base_clothes(base_clothes)
 #	_instanciate_base_clothes() # DOUBLE
 #	_dress_character() # DOUBLE
 	Character.set_direction("right")
 
-
-func _process(delta):
-#	if Input.is_action_just_pressed("ui_right"):
-#		$Character.run()
-#	if Input.is_action_just_pressed("ui_down"):
-#		$Character.stand()
-#	if Input.is_action_just_pressed("ui_left"):
-#		get_pot()
-#	if Input.is_action_just_pressed("ui_up"):
-#		remove_next_cloth()
+func remove_from_inventory(cloth):
 	pass
 
-func spawn_character(level):  # NOT DOUBLE
-#	print("spawn character")
-#	print($Character)
+func add_to_inventory(cloth):
+	pass
+
+func spawn_character(level):
 	current_level = level
 	var world = level.get_node("World")
 	$Character.position = Vector2(64, 64)
 	$Character.show()
-#	world.add_child($Character)
+	# raise error in debusgger
+	# world.add_child($Character)
 	PlayerUIFight = fightUI.instance()
 	PlayerUIFight.connect("call", self, "_on_PlayerUIFight_call")
 	PlayerUIFight.connect("fold", self, "_on_PlayerUIFight_fold")
@@ -76,15 +70,16 @@ func spawn_character(level):  # NOT DOUBLE
 	PlayerAssetsUI.connect("dress", self, "_on_assetsUi_dress")
 	PlayerAssetsUI.connect("undress", self, "_on_assetsUi_undress")
 	PlayerAssetsUI.add_to_inventory(Character.inventory)
-#	PlayerAssetsUI.rect_position = Vector2(5, 288)
-#	PlayerAssetsUI.rect_size = Vector2(350, 225)
-	# Connects
-	# Connects
-	# Connects
 	current_level.add_child(PlayerUIFight)
 	current_level.add_child(PlayerAssetsUI)
 	pass
 
+func _process(delta):
+	pass
+
+
+
+# signals for connect the UI with the character VIA the Player
 func _on_PlayerUIFight_call(): # NOT DOUBLE
 	$Character.call()
 	pass # replace with function body
@@ -108,6 +103,8 @@ func _on_assetsUi_undress(clothCat):
 	Character.undress(clothCat)
 	pass
 
+
+# signals for when the player put clothe in the sky
 func _on_sky_received_cloth(clothName):
 	print("bet: ", clothName)
 	# checks ???
