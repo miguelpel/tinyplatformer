@@ -98,42 +98,32 @@ func _erase_filed_inventory():
 # $Character.dress(objRef or objRefArray)
 # DRESS A SPECIFIC OBJECT OR ARR OF OBJECT
 func dress(objRef, erase=false):
-#	print("dress")
-	CharacterSprite.play("stand")
+#	print("attemting to dress ", objRef)
+#	CharacterSprite.play("stand")
 	# get the cloth objRef AND the CATEGORY
 	# add the AminatedSprite to Character AND the objRef to the clothes[cat]
 	var cloth
 	var cat
 	if typeof(objRef) == TYPE_STRING:
-#		print("dress ", objRef)
+		print("dress ", objRef)
 		cloth = get_from_inventory(objRef)
 		cat = cloth.CATEGORY
-		_add_anim_sprite(cloth)
-		if get_parent().name == "Player":
-			cloth.current_owner = "player"
-		else:
-			cloth.current_owner = "enemy"
-		clothes[cat] = cloth
-		if erase:
-			remove_from_inventory(cloth)
-		else:
-			_file_for_inventory_erase(cloth)
-#		remove_from_inventory(cloth)
 	elif typeof(objRef) == TYPE_OBJECT:
-#		print("dress ", objRef.name)
+		print("dress ", objRef.name)
 		#print("Type object")
 		cloth = objRef
 		cat = cloth.CATEGORY
-		_add_anim_sprite(cloth)
-#		if get_parent().name == "Player":
-#			cloth.current_owner = "player"
-#		else:
-#			cloth.current_owner = "enemy"
-		clothes[cat] = cloth
-		if erase:
-			remove_from_inventory(cloth)
-		else:
-			_file_for_inventory_erase(cloth)
+	_add_anim_sprite(cloth)
+	if get_parent().name == "Player":
+		cloth.current_owner = "player"
+	else:
+		cloth.current_owner = "enemy"
+	clothes[cat] = cloth
+	if erase:
+		remove_from_inventory(cloth)
+	else:
+		_file_for_inventory_erase(cloth)
+#	_erase_filed_inventory()
 	_apply_direction()
 
 func _add_anim_sprite(cloth):
@@ -321,6 +311,9 @@ func _dispatch_inventory():
 #			clothes[cat] = objRef
 			dress(objRef)
 #			_file_for_inventory_erase(objRef)
+		else:
+			print("leave ", objRef.name, " in inventory")
+	_erase_filed_inventory()
 	get_inventory_verbose()
 	pass
 
@@ -466,7 +459,8 @@ func _remove_and_throw(objRef):
 				obj = cloth
 		if obj == null:
 			return
-		CharacterSprite.connect("animation_finished", self, "_check_next_anim")
+		if !CharacterSprite.is_connected("animation_finished", self, "_check_next_anim"):
+			CharacterSprite.connect("animation_finished", self, "_check_next_anim")
 		if category == "pants" or category == "panties":
 			for animSprite in _get_anim_sprites():
 				animSprite.play("removePanties")
@@ -488,7 +482,8 @@ func _remove(objRef):
 func run():
 	#print("run")
 	is_running = true
-	CharacterSprite.disconnect("animation_finished", self, "_check_next_anim")
+	if CharacterSprite.is_connected("animation_finished", self, "_check_next_anim"):
+		CharacterSprite.disconnect("animation_finished", self, "_check_next_anim")
 	var animSprites = _get_anim_sprites()
 	if animSprites.size() > 0:
 		for animSprite in _get_anim_sprites():
@@ -499,7 +494,9 @@ func run():
 func stand():
 #	print("stand")
 	is_running = false
-	CharacterSprite.disconnect("animation_finished", self, "_check_next_anim")
+	# is_connected ( String signal, Object target, String method ) 
+	if CharacterSprite.is_connected("animation_finished", self, "_check_next_anim"):
+		CharacterSprite.disconnect("animation_finished", self, "_check_next_anim")
 	for animSprite in _get_anim_sprites():
 		animSprite.play("stand")
 	pass
@@ -541,7 +538,8 @@ func _discard_anim_object():
 	var obj = obj_to_throw
 	obj_to_throw = null
 	if obj != null:
-		remove_child(obj)
+		if get_children().has(obj):
+			remove_child(obj)
 		obj.queue_free()
 	pass
 

@@ -10,8 +10,8 @@ script = ExtResource( 1 )
 
 [node name="Hands" parent="." index="0" instance=ExtResource( 2 )]
 
-margin_top = 181.0
-margin_bottom = 281.0
+margin_top = 115.0
+margin_bottom = 215.0
 
 [node name="Pot" parent="." index="1" instance=ExtResource( 3 )]
 

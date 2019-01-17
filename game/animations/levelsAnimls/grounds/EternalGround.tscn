@@ -2,7 +2,7 @@
 
 [ext_resource path="res://game/animations/levelsAnimls/tiles/tiles.gd" type="Script" id=1]
 
-[node name="ground" type="Node"]
+[node name="ground" type="Node" index="0"]
 
 [node name="tiles" type="Node2D" parent="." index="0"]
 
@@ -19,7 +19,7 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 192.0
 margin_right = 384.0
-margin_bottom = 672.0
+margin_bottom = 832.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0

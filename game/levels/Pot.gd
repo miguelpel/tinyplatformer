@@ -2,8 +2,8 @@
 extends Node
 
 const UP = Vector2(0, -1)
-const GRAVITY = Vector2(0, 20)
-const ACCELERATION = 50
+const GRAVITY = Vector2(0, 25)
+const ACCELERATION = 70
 const MAX_SPEED = 200
 const PANTS_OFFSET = Vector2(0, -40)
 const SHIRT_OFFSET = Vector2(0, -40)
@@ -20,10 +20,11 @@ func throw_in(objRef, pos, dir):
 	if objRef:
 		var throwDirection
 		if dir == "right":
-			throwDirection = Vector2(300, -400)
+			throwDirection = Vector2(350, -400)
 		else:
-			throwDirection = Vector2(-300, -400)
-		add_child(objRef)
+			throwDirection = Vector2(-350, -400)
+		if !get_children().has(objRef):
+			add_child(objRef)
 		var obj = objRef.create_kin_body()
 		obj.up = UP
 		obj.gravity = GRAVITY
@@ -66,9 +67,11 @@ func give_back_pot():
 			pass
 
 func get_pot_value():
+	_remove_null()
 	return obj_refs.size()
 
 func get_amount_to_call():
+	_remove_null()
 #	print("getting amount to call...")
 	# 0 : pot balanced
 	# >= 1 : pot in favor of the player
@@ -93,10 +96,16 @@ func get_amount_to_call():
 	return diff
 
 func get_vebose_pot():
+	_remove_null()
 	# give content object name and current owner.
 	print("pot_verbose:")
 	for objRef in obj_refs:
 		print(objRef.name, " ", objRef.current_owner)
+	pass
+
+func _remove_null():
+	if obj_refs.has(null):
+		obj_refs.erase(null)
 	pass
 
 func _process(delta):

@@ -68,7 +68,7 @@ func remove_from_inventory(obj):
 #	print("remove ", obj.name)
 	var cat = obj.category
 #	print(cat)
-	emit_signal("undress", obj.cloth_name)
+#	emit_signal("undress", obj.cloth_name)
 	remove_child(obj)
 	obj.queue_free()
 	cat_rect[cat] = null

@@ -33,7 +33,7 @@ func _ready():
 #	_instanciate_base_clothes()
 #	_dress_character()
 #	$Character.set_direction("left")
-	AI = get_parent().get_node("AI")
+	AI = get_parent().AI
 	pass
 
 func spawn(world, data):

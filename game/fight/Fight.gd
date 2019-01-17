@@ -39,8 +39,8 @@ func start(enmcharacter): # set the player, the enemy, set the opponent, connect
 		get_parent().get_parent().is_running = false
 		player.get_node("Character").connect("all_actions_done", self, "on_opponent_actions_done")
 		enmcharacter.connect("all_actions_done", self, "on_opponent_actions_done")
-		player.get_node("Character").connect("disappeared", self, "on_enemy_disappeared")
-		enmcharacter.connect("disappeared", self, "on_enemy_disappeared")
+#		player.get_node("Character").connect("disappeared", self, "on_enemy_disappeared")
+#		enmcharacter.connect("disappeared", self, "on_enemy_disappeared")
 		set_opponent()
 		set_state("ready")
 		distribute()

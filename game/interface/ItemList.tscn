@@ -1,8 +1,9 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://game/interface/ItemList.gd" type="Script" id=1]
+[ext_resource path="res://game/interface/theme/font/font_inventory.tres" type="DynamicFont" id=1]
+[ext_resource path="res://game/interface/ItemList.gd" type="Script" id=2]
 
-[node name="ItemList" type="ItemList"]
+[node name="ItemList" type="ItemList" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -18,6 +19,7 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
+custom_fonts/font = ExtResource( 1 )
 items = [  ]
 select_mode = 0
 allow_reselect = true
@@ -25,8 +27,8 @@ max_text_lines = 4
 same_column_width = true
 icon_mode = 1
 fixed_icon_size = Vector2( 48, 48 )
-script = ExtResource( 1 )
-_sections_unfolded = [ "Anchor", "Columns", "Focus", "Grow Direction", "Hint", "Icon", "Margin", "Mouse", "Rect", "Size Flags", "Theme" ]
+script = ExtResource( 2 )
+_sections_unfolded = [ "Anchor", "Columns", "Focus", "Grow Direction", "Hint", "Icon", "Margin", "Mouse", "Rect", "Size Flags", "Theme", "custom_fonts" ]
 
 [connection signal="item_selected" from="." to="." method="_on_ItemList_item_selected"]
 

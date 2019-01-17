@@ -11,7 +11,11 @@ func can_drop_data(pos, data):
 #	print("can drop data")
 #	print("from ItemList")
 #	print(data.name)
-	if data.parent.get_parent().name == "Silhouette" and get_parent().get_node("Fight").state == "waiting for opponent action" and get_parent().get_node("Fight").opponent == get_parent().get_node("Fight").player:
+	var from_silhouette = (data.parent.get_parent().name == "Silhouette")
+	var waiting_for_action = (get_parent().get_node("Fight").state == "waiting for opponent action")
+	var player_turn = (get_parent().get_node("Fight").opponent == get_parent().get_node("Fight").player)
+	var no_more_than1_difference = (get_parent().get_node("Fight").get_node("Pot").get_amount_to_call() <= 1)
+	if from_silhouette and waiting_for_action and player_turn and no_more_than1_difference:
 		return true
 	else:
 		return false

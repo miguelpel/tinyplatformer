@@ -61,16 +61,16 @@ func spawn_character(level):  # NOT DOUBLE
 #	print($Character)
 	current_level = level
 	var world = level.get_node("World")
-	$Character.position = Vector2(64, 128)
+	$Character.position = Vector2(64, 64)
 	$Character.show()
-	world.add_child($Character)
+#	world.add_child($Character)
 	PlayerUIFight = fightUI.instance()
 	PlayerUIFight.connect("call", self, "_on_PlayerUIFight_call")
 	PlayerUIFight.connect("fold", self, "_on_PlayerUIFight_fold")
 	PlayerUIFight.connect("raise", self, "_on_PlayerUIFight_raise")
 	PlayerUIFight.hide()
 	PlayerAssetsUI = AssetsUI.instance()
-	PlayerAssetsUI.rect_position.y = 288
+	PlayerAssetsUI.rect_position.y = 218
 	PlayerAssetsUI.margin_left = 5
 	PlayerAssetsUI.margin_right = -5
 	PlayerAssetsUI.connect("dress", self, "_on_assetsUi_dress")

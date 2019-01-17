@@ -65,7 +65,11 @@ func spawnEnemy():
 #	enm.set_position(Vector2(enemyData.pos, 160))
 #	$World.add_child(enm)
 	enemy.spawn($World, enemyData)
-	enemy.connect("disappeared", self, "on_enemy_disappear")
+	# is_connected ( String signal, Object target, String method )
+	if enemy.is_connected("disappeared", self, "on_enemy_disappear"):
+		return
+	else:
+		enemy.connect("disappeared", self, "on_enemy_disappear")
 	pass
 
 func _process(delta):

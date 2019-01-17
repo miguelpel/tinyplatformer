@@ -14,8 +14,11 @@ script = ExtResource( 1 )
 
 [node name="World" type="Node2D" parent="." index="0"]
 
-position = Vector2( 0, -32 )
+position = Vector2( 0, -96 )
 _sections_unfolded = [ "Transform" ]
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="Sky" type="ColorRect" parent="World" index="0"]
 
