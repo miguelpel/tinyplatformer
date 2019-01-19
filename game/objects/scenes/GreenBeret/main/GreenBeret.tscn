@@ -2,7 +2,7 @@
 
 [ext_resource path="res://game/objects/scenes/GreenBeret/main/GreenBeret.gd" type="Script" id=1]
 
-[node name="GreenBeret" type="Node"]
+[node name="GreenBeret" type="Node" index="0"]
 
 script = ExtResource( 1 )
 

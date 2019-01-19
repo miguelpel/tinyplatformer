@@ -3,7 +3,7 @@ extends Control
 #signal slotFilled
 var itemIndex
 
-const clothe_scene = preload("res://game/interface/SilhouetteCloth.tscn")
+const cloth_rect_scene = preload("res://game/interface/SilhouetteCloth.tscn")
 
 signal dress(clothName)
 
@@ -39,6 +39,7 @@ func _ready():
 	pass
 
 func can_drop_data(pos, data):
+#	print("can drop data?")
 	var cat = get_parent().check_clothes_dictionnary(data.name)
 	if !cat:
 		return false
@@ -53,14 +54,15 @@ func drop_data(pos, data):
 	var cat = get_parent().check_clothes_dictionnary(data.name)
 	if !cat:
 		return false
-	cat_rect[cat] = clothe_scene.instance()
+	cat_rect[cat] = cloth_rect_scene.instance()
 	cat_rect[cat].rect_position = positions[cat]
 	cat_rect[cat].cloth_name = data.name
 	cat_rect[cat].category = cat
 #	cat_rect[cat] = data.name
 	cat_rect[cat].get_node("TextureRect").texture = data.tex.texture
 	add_child(cat_rect[cat])
-	data.parent.remove_item(data.index)
+#	print(data.parent.name)
+	data.parent.get_parent().remove_item(data)
 	emit_signal("dress", data.name)
 #	print('successful but can you see the dropped item?')
 

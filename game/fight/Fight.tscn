@@ -4,7 +4,7 @@
 [ext_resource path="res://game/cards/Hands.tscn" type="PackedScene" id=2]
 [ext_resource path="res://game/pot/Pot.tscn" type="PackedScene" id=3]
 
-[node name="Fight" type="Node" index="0"]
+[node name="Fight" type="Node"]
 
 script = ExtResource( 1 )
 

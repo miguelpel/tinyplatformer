@@ -5,6 +5,7 @@ const CATEGORY = "pants"
 const ANIMATION = preload("res://game/objects/scenes/GreenPants/children/AnimatedSprite.tscn")
 const KINEMATIC_BODY = preload("res://game/objects/scenes/GreenPants/children/KinematicBody2D.tscn")
 const TEXTURE_RECT = preload("res://game/objects/scenes/GreenPants/children/TextureRect.tscn")
+const VALUE = 2
 #const THROW_FORCE = 100
 #var timer
 var current_owner

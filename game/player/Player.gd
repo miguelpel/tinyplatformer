@@ -15,7 +15,7 @@ const fightUI = preload("res://game/fight/PlayerUiFight.tscn")
 var PlayerUIFight
 var PlayerAssetsUI
 
-#var Inventory = []
+var inventory = []
 var current_level
 var Character
 #var fight
@@ -40,15 +40,69 @@ func _ready():
 #		fight = current_level.current_fight
 	Character = $Character
 	Character.set_owner(self)
-	Character.instanciate_base_clothes(base_clothes)
+	# get saved inventory()
+	# if inventory is set (there was a save):
+		# instanciate inventory???
+	# else:
+		#instanciate_base_clothes()
+	instanciate_base_clothes()
 #	_instanciate_base_clothes() # DOUBLE
 #	_dress_character() # DOUBLE
 	Character.set_direction("right")
 
+func instanciate_base_clothes():
+	for cloth in base_clothes:
+		inventory.append(cloth.instance())
+	for clothInstance in inventory:
+		clothInstance.current_owner = self
+	pass
+
 func remove_from_inventory(cloth):
+	inventory.erase(cloth)
+	PlayerAssetsUI.refresh_inventory(inventory)
+	pass
+
+func pick_from_inventory(clothName):
+	for cloth in inventory:
+		if cloth.name == clothName:
+#			inventory.erase(cloth)
+			return cloth
 	pass
 
 func add_to_inventory(cloth):
+	# check for double
+	inventory.append(cloth)
+	cloth.current_owner = self
+	PlayerAssetsUI.refresh_inventory(inventory)
+#	actualize_inventory_UI()
+	pass
+
+func cheat():
+	for cloth in base_clothes:
+		var inst = cloth.instance()
+		inventory.append(inst)
+		inst.current_owner = self
+		PlayerAssetsUI.refresh_inventory(inventory)
+	pass
+
+#func actualize_inventory_UI():
+#	PlayerAssetsUI.
+#	PlayerAssetsUI.add_to_inventory(inventory)
+#	pass
+
+func remove_from_silhouette(cloth):
+	PlayerAssetsUI.get_node("Silhouette").remove(cloth.CATEGORY)
+	pass
+
+func get_inventory_verbose():
+	var inv = []
+	for cloth in inventory:
+		inv.append(cloth.name)
+	print("Player inventory: ", inv)
+	pass
+
+func is_naked():
+	return Character.is_naked()
 	pass
 
 func spawn_character(level):
@@ -69,15 +123,15 @@ func spawn_character(level):
 	PlayerAssetsUI.margin_right = -5
 	PlayerAssetsUI.connect("dress", self, "_on_assetsUi_dress")
 	PlayerAssetsUI.connect("undress", self, "_on_assetsUi_undress")
-	PlayerAssetsUI.add_to_inventory(Character.inventory)
+	PlayerAssetsUI.add_to_inventory(inventory)
 	current_level.add_child(PlayerUIFight)
 	current_level.add_child(PlayerAssetsUI)
 	pass
 
 func _process(delta):
+	if Input.is_action_just_pressed("ui_up"):
+		cheat()
 	pass
-
-
 
 # signals for connect the UI with the character VIA the Player
 func _on_PlayerUIFight_call(): # NOT DOUBLE
@@ -94,13 +148,16 @@ func _on_PlayerUIFight_raise(): # NOT DOUBLE
 	pass # replace with function body
 
 func _on_assetsUi_dress(clothName):
-#	print("on assetsUi dress ", clothName)
-	Character.dress(clothName, true)
+	print("on assetsUi dress ", clothName)
+	# find the cloth from the inventory
+	var cloth = pick_from_inventory(clothName)
+	Character.dress(cloth, true)
 	pass
 
 func _on_assetsUi_undress(clothCat):
-#	print("on assetsUi undress ", clothCat)
-	Character.undress(clothCat)
+	print("on assetsUi undress ", clothCat)
+	var cloth = Character.undress(clothCat)
+	add_to_inventory(cloth)
 	pass
 
 

@@ -5,6 +5,7 @@ const CATEGORY = "hat"
 const ANIMATION = preload("res://game/objects/scenes/GreenBeret/children/AnimatedSprite.tscn")
 const KINEMATIC_BODY = preload("res://game/objects/scenes/GreenBeret/children/KinematicBody2D.tscn")
 const TEXTURE_RECT = preload("res://game/objects/scenes/GreenBeret/children/TextureRect.tscn")
+const VALUE = 3
 #const THROW_FORCE = 100
 #var timer
 var current_owner

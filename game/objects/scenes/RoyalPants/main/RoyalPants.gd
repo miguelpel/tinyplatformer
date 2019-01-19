@@ -1,10 +1,11 @@
-# GreenPants
+# RoyalPants
 extends Node
 
 const CATEGORY = "pants"
 const ANIMATION = preload("res://game/objects/scenes/RoyalPants/children/AnimatedSprite.tscn")
 const KINEMATIC_BODY = preload("res://game/objects/scenes/RoyalPants/children/KinematicBody2D.tscn")
 const TEXTURE_RECT = preload("res://game/objects/scenes/RoyalPants/children/TextureRect.tscn")
+const VALUE = 3
 #const THROW_FORCE = 100
 #var timer
 var current_owner

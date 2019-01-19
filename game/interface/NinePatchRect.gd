@@ -16,6 +16,8 @@ var disappearing = false
 var disappeared = true
 var appeared = false
 
+var count = 4
+
 signal undress(clothName)
 
 #is it better to handle the thing without the ScrollContainer?
@@ -27,14 +29,94 @@ func _ready():
 	pass
 
 
-func add_item(item):
-	$ItemList.add_item(item.name,item.create_tex_icon().get_texture(),true)
-	#create the card
-	#add the card.(animation?)
-#	pass
+func add_item(itemOrData):
+	# item is the object
+	# check if item is in double.
+	# if item is in double, add metadata count += 1
+	# metdata = {name = "Crown", count = 1}
+	
+	var itemTexture
+	var itemName
+	var itemCount = 1
+	
+	if typeof(itemOrData) == TYPE_DICTIONARY:
+		itemTexture = itemOrData.tex
+		itemName = itemOrData.name
+		pass
+	elif typeof(itemOrData) == TYPE_OBJECT:
+		itemTexture = itemOrData.create_tex_icon().get_texture()
+		itemName = itemOrData.name
+		pass
+	
+	var idx = $ItemList.get_item_count()
+#	print("0: ",idx)
+	# if double => get the index of the double.
+	# else:
+	# idx =  $ItemList.get_item_count()
+	
+	var metadata = {
+		name = itemName,
+		count = itemCount
+	}
+	
+	if $ItemList.get_item_count() > 0:
+		for index in range($ItemList.get_item_count()):
+#			print("1: ", index)
+#			print("2: ",$ItemList.get_item_metadata(index))
+			# get_item_metadata(idx)
+			var checkName = $ItemList.get_item_metadata(index).name
+			if itemName.match("*" + checkName + "*"):
+				# there's a double
+#				print("there's a double at index : ", index)
+				idx = index
+				itemCount = $ItemList.get_item_metadata(index).count + 1
+				metadata = {
+					name = checkName,
+					count = itemCount
+					}
+				$ItemList.set_item_metadata(idx,metadata)
+				$ItemList.set_item_text(idx, checkName + " (" + String(itemCount) + ")")
+				return
+	
+	# if double, get the current item, and add 1 to the count
+	# the name to get in the data will be in the metadata.
+	if itemCount > 1:
+		$ItemList.add_item(itemName + " (" + String(itemCount) + ")",itemTexture,true)
+	else:
+		$ItemList.add_item(itemName,itemTexture,true)
+	$ItemList.set_item_metadata(idx,metadata)
+	
 
-func remove_item(itemIndex):
-	$ItemList.remove_item(itemIndex)
+func remove_item(obj):
+#	print("remove item")
+	var index = -1
+	
+	for idx in range($ItemList.get_item_count()):
+		var checkName = $ItemList.get_item_metadata(idx).name
+		if obj.name == checkName:
+			index = idx
+			break
+		pass
+	
+	if index < 0:
+#		print("can't remove item: cant' find index")
+		return false
+		
+	if $ItemList.get_item_metadata(index).count - 1 > 0:
+		var metadata = {
+			name = $ItemList.get_item_metadata(index).name,
+			count = $ItemList.get_item_metadata(index).count - 1
+			}
+		$ItemList.set_item_metadata(index,metadata)
+		var name = metadata.name
+		var count = metadata.count
+		if metadata.count > 1:
+			$ItemList.set_item_text(index, name + " (" + String(count) + ")")
+		else:
+			$ItemList.set_item_text(index, name)
+	# if item metadata.count > 0 item metadata.count -= 1
+	else:
+		$ItemList.remove_item(index)
 	pass
 
 func make_disappear():

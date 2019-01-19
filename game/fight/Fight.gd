@@ -27,9 +27,10 @@ func _ready():
 #	start()
 	pass
 
-func start(enmcharacter): # set the player, the enemy, set the opponent, connect signals if needed
+func start(enm): # set the player, the enemy, set the opponent, connect signals if needed
 	print("starting")
-	enemy = get_parent().get_parent().enemy
+	enemy = enm
+	var enmcharacter = enemy.Character
 	if _get_player():
 		player.get_node("Character").current_fight = self
 		enmcharacter.current_fight = self
@@ -299,10 +300,13 @@ func _process(delta):
 #		enemy.get_node("Character").flee()
 #		print(player.get_node("Character").direction)
 	if Input.is_action_just_pressed("ui_down"):
-		player.Character.get_inventory_verbose()
-		enemy.Character.get_inventory_verbose()
-		print("is player naked ? ", player.Character.is_naked())
-		print("is enemy naked ? ", enemy.Character.is_naked())
+		player.get_inventory_verbose()
+		player.Character.get_clothes_verbose()
+		enemy.get_inventory_verbose()
+		enemy.Character.get_clothes_verbose()
+		$Pot.get_vebose_pot()
+		print("is player naked ? ", player.is_naked())
+		print("is enemy naked ? ", enemy.is_naked())
 #		print("infos:")
 #		print("opponent")
 #		print(opponent.name)

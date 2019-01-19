@@ -2,7 +2,7 @@
 
 [ext_resource path="res://game/objects/scenes/RedPants/main/RedPants.gd" type="Script" id=1]
 
-[node name="RedPants" type="Node"]
+[node name="RedPants" type="Node" index="0"]
 
 script = ExtResource( 1 )
 

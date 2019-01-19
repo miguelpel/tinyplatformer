@@ -103,26 +103,25 @@ func _erase_filed_inventory():
 func dress(objRef, erase=false):
 	var cloth
 	var cat
-	if typeof(objRef) == TYPE_STRING:
-		print("dress ", objRef)
-		cloth = get_from_inventory(objRef)
-		cat = cloth.CATEGORY
-	elif typeof(objRef) == TYPE_OBJECT:
-		print("dress ", objRef.name)
-		#print("Type object")
-		cloth = objRef
-		cat = cloth.CATEGORY
+	print("dress ", objRef)
+	#print("Type object")
+	cloth = objRef
+	cat = cloth.CATEGORY
 	_add_anim_sprite(cloth)
-	if get_parent().name == "Player":
-		cloth.current_owner = "player"
-	else:
-		cloth.current_owner = "enemy"
 	clothes[cat] = cloth
 	if erase:
-		remove_from_inventory(cloth)
+		character_owner.remove_from_inventory(cloth)
 	else:
-		_file_for_inventory_erase(cloth)
+		erase_from_inventory_array.append(cloth)
 	_apply_direction()
+
+func get_clothes_verbose():
+	var inv = []
+	for cat in clothes:
+		if clothes[cat] != null:
+			inv.append(clothes[cat].name)
+	return inv
+	pass
 
 func _add_anim_sprite(cloth):
 	var AnimSprite = cloth.create_animation()
@@ -204,7 +203,8 @@ func call():
 	pass
 
 func fold():
-	current_fight.change_opponent()
+	if current_fight.distribution > 1:
+		current_fight.change_opponent()
 	if get_parent().name == "Player":
 		get_parent().PlayerUIFight.disable()
 	print(get_parent().name, " folds")
@@ -271,9 +271,9 @@ func _pick_up(obj):
 	obj.queue_free()
 	pass
 
-func _file_for_inventory_erase(objRef):
-	erase_from_inventory_array.append(objRef)
-	pass
+#func _file_for_inventory_erase(objRef):
+#	erase_from_inventory_array.append(objRef)
+#	pass
 
 #func get_inventory_verbose():
 #	# ask for the inventory of character_owner, and display it
@@ -314,22 +314,18 @@ func _throw_in_pot():
 		print("no pot to throw in!")
 		return
 	if cloth_to_throw != null:
-		if get_parent().name == "Player":
+#		pot.throw_in(cloth_to_throw, position, direction)
+		if character_owner.name == "Player":
 			pot.throw_in(cloth_to_throw, position, direction)
+			character_owner.remove_from_silhouette(cloth_to_throw)
 		else:
+			print("throw in pot from: ", (position + get_parent().position))
 			pot.throw_in(cloth_to_throw, position + get_parent().position, direction)
 		clothes[cloth_to_throw.CATEGORY] = null
-		remove_from_silhouette(cloth_to_throw)
 		cloth_to_throw = null
 	else:
 		print("no cloth_to_throw")
 	_check_next_action()
-	pass
-
-func remove_from_silhouette(cloth):
-	if get_parent().name == "Player":
-		var silhouette = get_parent().PlayerAssetsUI.get_node("Silhouette")
-		silhouette.remove(cloth.CATEGORY)
 	pass
 
 func give_blind():

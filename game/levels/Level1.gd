@@ -18,6 +18,8 @@ const enemyScene = preload("res://game/enemies/Enemy.tscn")
 # list of all the enemies
 var enemiesData = [
 {
+	name = "Green Manant",
+	modifier = 10,
 	base_clothes = [
 	preload("res://game/objects/scenes/GreenBeret/main/GreenBeret.tscn"),
 	preload("res://game/objects/scenes/GreenShirt/main/GreenShirt.tscn"),
@@ -29,6 +31,8 @@ var enemiesData = [
 	pos = 512
 },
 {
+	name = "Red Manant",
+	modifier = 5,
 	base_clothes = [
 	preload("res://game/objects/scenes/RedBeret/main/RedBeret.tscn"),
 	preload("res://game/objects/scenes/RedShirt/main/RedShirt.tscn"),
@@ -46,7 +50,7 @@ func _ready():
 	player = get_parent().get_node("Player")
 	player.spawn_character(self)
 	$World.get_node("Sky").connect("received_cloth", player, "_on_sky_received_cloth")
-	createEnemy()
+	instanciate_Enemy()
 	spawnEnemy()
 	player.get_node("Character").run()
 	player.get_node("Character").is_running = true
@@ -55,7 +59,7 @@ func _ready():
 #	current_fight.start()
 	pass
 
-func createEnemy():
+func instanciate_Enemy():
 	enemy = enemyScene.instance()
 	add_child(enemy)
 	pass

@@ -14,7 +14,7 @@ func _ready():
 func get_drag_data(pos):
 	var data = {parent = self,
 	tex = TextureRect.new(),
-	name = get_item_text(itemSelected),
+	name = get_item_metadata(itemSelected).name,
 	index = itemSelected}
 	# Use another colorpicker as drag preview
 #	data.cat = get_item_icon(itemSelected).CATEGORY
@@ -38,17 +38,17 @@ func can_drop_data(pos, data):
 
 
 func drop_data(pos, data):
-#	print("from ItemList drop_data")
-#	print(data)
-#	var tex = TextureRect.new()
-#	tex.texture = data.tex.texture
-	var objectName = data.name
-	if data.parent.get_parent().name == "Silhouette":
-#		print("recieved ", data.name, " from Silhouette")
-		emit_signal("undress", data.name)
-#	emit_signal("filled")
-	add_item(objectName, data.tex)
-#	add_item(data.name, data.tex.texture)
+#	print(typeof(data))
+#	print(TYPE_OBJECT)
+#	print(TYPE_DICTIONARY)
+	get_parent().add_item(data)
+#	var objectName = data.name
+#	if data.parent.get_parent().name == "Silhouette":
+##		print("recieved ", data.name, " from Silhouette")
+#		
+#		add_item(objectName, data.tex)
+#
+	emit_signal("undress", data.name)
 	data.parent.remove_item()
 	pass
 

@@ -11,7 +11,7 @@ const ManantScene = preload("res://game/animations/manant/Manant.tscn")
 var Character
 var Manant
 
-var inventory
+var inventory = []
 
 #var fightTrigger
 var AI
@@ -41,20 +41,29 @@ func spawn(world, data):
 	Character.set_owner(self)
 	Character.set_position(Vector2(data.pos, 160))
 	world.add_child(Character)
-	
 	# instanciate inventory in here!!!
-	Character.instanciate_base_clothes(data.base_clothes)
-	Character.attribute_clothes_owner()
-	Character.dress_character()
-	
-	
+	instanciate_base_clothes(data.base_clothes)
+#	Character.attribute_clothes_owner()
+	Character.dress_character(inventory)
 	Character.set_direction("left")
 	is_materialized = true
 	distance = 0
 	pass
 
+func instanciate_base_clothes(base_clothes):
+	for cloth in base_clothes:
+		inventory.append(cloth.instance())
+	_attribute_clothes_owner()
+	pass
+
+func _attribute_clothes_owner():
+	for cloth in inventory:
+		cloth.current_owner = self
+	pass
+
 func _start_fight():
-	var fight = get_parent().get_node("Fight")
+	var fight = get_parent().get_node("World").get_node("Fight")
+	fight.get_node("Pot").connect("pot_empty", self, "on_pot_empty")
 	fight.start(self)
 
 func get_decision(hands, pot): # NOT DOUBLE
@@ -78,6 +87,17 @@ func get_decision(hands, pot): # NOT DOUBLE
 			get_parent().current_fight.fold(self)
 	pass
 
+func get_inventory_verbose():
+	var inv = []
+	for cloth in inventory:
+		inv.append(cloth.name)
+	print("Enemy inventory: ", inv)
+	pass
+
+func is_naked():
+	return Character.is_naked()
+	pass
+
 func disappear():
 	# record inventory
 	# queue_free ?  or just hide()???
@@ -91,44 +111,57 @@ func disappear():
 #	emit_signal("disappeared")
 	pass
 
-func sort_picked_up_clothes():
+func _sort_inventory():
 	# sort: have the other's owned clothes pushed to beginning,
 	# the underweare / upperware will be done with z-index.
-	for objRef in inventory:
-		inventory.sort_custom(ClothesCustomSorter, "sort")
-	attribute_clothes_owner()
-	if get_parent().name == "Player":
-		# display inventory in the UI
-		get_parent().PlayerAssetsUI.add_to_inventory(inventory)
-	else:
-		_dispatch_inventory()
+	inventory.sort_custom(ClothesCustomSorter, "sort")
+#	_attribute_clothes_owner()
 	pass
 
 class ClothesCustomSorter:
 	static func sort(a, b):
-		if a.current_owner == "player":
+		if a.VALUE > b.VALUE:
 			return true
 		return false
+
+#func _attribute_clothes_owner():
+#	for cloth in inventory:
+#		cloth.current_owner = self
 
 func _dispatch_inventory():
 	# dress the clothes until 5 are set
 	# add other clothes to Inventory.
+	print("dispatching inventory")
+	_sort_inventory()
 	for objRef in inventory:
 		var cat = objRef.CATEGORY
+		print(Character.clothes[cat])
 		if Character.clothes[cat] == null:
-#			clothes[cat] = objRef
-			dress(objRef)
-#			_file_for_inventory_erase(objRef)
+			Character.dress(objRef, true)
 		else:
 			print("leave ", objRef.name, " in inventory")
-	_erase_filed_inventory()
-	get_inventory_verbose()
 	pass
 
 func remove_from_inventory(cloth):
+	inventory.erase(cloth)
+	pass
+
+func get_total_inventory_verbose():
+	var inv = []
+	for cloth in inventory:
+		inv.append(cloth.name)
+	for cat in Character.clothes:
+		if Character.clothes[cat] != null:
+			inv.append(Character.clothes[cat].name)
+	return inv
 	pass
 
 func add_to_inventory(cloth):
+	# check for double
+	# here there's a change of name!!!
+#	print("add to inventory ", cloth.name)
+	cloth.current_owner = self
+	inventory.append(cloth)
 	pass
 
 func _process(delta):
@@ -140,7 +173,7 @@ func _process(delta):
 	# here get the distance between character and player's character.
 		if get_parent().current_fight.state == "sleeping":
 			if distance <= fight_distance:
-				get_parent().current_fight.start(Character)
+				_start_fight()
 			pass
 		if get_parent().current_fight.state == "finished":
 			if distance >= flight_distance:
@@ -154,4 +187,13 @@ func _process(delta):
 #		if get_parent().current_fight.state == "finished":
 #			if distance >= disappearing_distance:
 #				disappear()
+	pass
+
+func on_pot_empty():
+	# for debug
+	var inv = []
+	for cloth in inventory:
+		inv.append(cloth.name)
+	print("pot empty, dispatching clothes : ", inv)
+	_dispatch_inventory()
 	pass

@@ -11,7 +11,8 @@ const SHIRT_OFFSET = Vector2(0, -40)
 #if needed
 var obj_refs = [] # keep track of the objects refs in pot
 
-signal animations_done # Fired when pot animation is done.
+var state = ""
+signal pot_empty
 
 func throw_in(objRef, pos, dir):
 #	print(objRef)
@@ -39,7 +40,6 @@ func throw_in(objRef, pos, dir):
 			obj.set_throwing_position(pos, throwDirection)
 		add_child(obj)
 		obj_refs.append(objRef)
-	pass
 
 func get_pot_to(characterDir):
 	for anim in get_children():
@@ -48,11 +48,7 @@ func get_pot_to(characterDir):
 				anim.is_dragged_right = true
 			elif characterDir == "right":
 				anim.is_dragged_left = true
-#			anim.object_ref.current_owner = curr_owner
-	#print(character)
-	# the pickUp object function takes care of updating the obj_refs[]
-#	obj_refs = []
-	pass
+	state = "giving_back_pot"
 
 func give_back_pot():
 	for anim in get_children():
@@ -64,7 +60,7 @@ func give_back_pot():
 			elif ownerDir == "right":
 				anim.is_dragged_left = true
 			# object_ref
-			pass
+	state = "giving_back_pot"
 
 func get_pot_value():
 	_remove_null()
@@ -84,7 +80,7 @@ func get_amount_to_call():
 #	opponent1 = obj_refs[0].current_owner
 	for i in obj_refs.size():
 #		print(obj_refs[i].current_owner)
-		if obj_refs[i].current_owner == "player":
+		if obj_refs[i].current_owner.name == "Player":
 			playerObjs += 1
 		else:
 			enemyObjs += 1
@@ -109,4 +105,8 @@ func _remove_null():
 	pass
 
 func _process(delta):
+	if state == "giving_back_pot" and obj_refs.size() <= 0:
+		print(state, " ", obj_refs)
+		emit_signal("pot_empty")
+		state = ""
 	pass

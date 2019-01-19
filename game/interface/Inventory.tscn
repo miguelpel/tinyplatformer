@@ -1,9 +1,8 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://game/interface/NinePatchRect.gd" type="Script" id=1]
 [ext_resource path="res://game/interface/ItemList.tscn" type="PackedScene" id=2]
 [ext_resource path="res://assets/ui/inventoryFrame2.png" type="Texture" id=3]
-[ext_resource path="res://game/interface/Frame.gd" type="Script" id=4]
 
 [node name="Inventory" type="Control"]
 
@@ -30,12 +29,12 @@ margin_left = 13.0
 margin_top = 12.0
 margin_right = 184.0
 margin_bottom = 211.0
+_sections_unfolded = [ "Anchor", "Columns", "Focus", "Grow Direction", "Hint", "Icon", "Margin", "Mouse", "Rect", "Size Flags", "Theme", "custom_fonts", "custom_styles" ]
 
 [node name="Frame" type="Sprite" parent="." index="1"]
 
 texture = ExtResource( 3 )
 centered = false
-script = ExtResource( 4 )
 _sections_unfolded = [ "Offset", "Rect" ]
 
 [connection signal="undress" from="ItemList" to="." method="_on_ItemList_undress"]

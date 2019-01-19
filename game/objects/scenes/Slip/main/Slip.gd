@@ -5,6 +5,7 @@ const CATEGORY = "panties"
 const ANIMATION = preload("res://game/objects/scenes/Slip/children/AnimatedSprite.tscn")
 const KINEMATIC_BODY = preload("res://game/objects/scenes/Slip/children/KinematicBody2D.tscn")
 const TEXTURE_RECT = preload("res://game/objects/scenes/Slip/children/TextureRect.tscn")
+const VALUE = 1
 #const THROW_FORCE = 100
 #var timer
 var current_owner

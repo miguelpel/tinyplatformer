@@ -5,6 +5,7 @@ const CATEGORY = "undershirt"
 const ANIMATION = preload("res://game/objects/scenes/Undershirt/children/AnimatedSprite.tscn")
 const KINEMATIC_BODY = preload("res://game/objects/scenes/Undershirt/children/KinematicBody2D.tscn")
 const TEXTURE_RECT = preload("res://game/objects/scenes/Undershirt/children/TextureRect.tscn")
+const VALUE = 1
 #const THROW_FORCE = 100
 #var timer
 var current_owner
