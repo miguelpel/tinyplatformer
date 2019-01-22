@@ -98,11 +98,26 @@ func is_naked():
 	return Character.is_naked()
 	pass
 
+func undress_all():
+	print("undress all")
+	get_inventory_verbose()
+	for cat in Character.clothes:
+		var cloth = Character.undress(cat)
+		if cloth:
+			inventory.append(cloth)
+#	print(inventory)
+	get_inventory_verbose()
+#	_sort_inventory()
+	pass
+
 func disappear():
 	# record inventory
+	undress_all()
+	get_parent().enemiesData[get_parent().current_enemy].inventory = inventory
+	inventory = []
 	# queue_free ?  or just hide()???
 	#	hide()
-	print("disappeare!")
+	#	print("disappeare!")
 	Character.queue_free()
 	is_materialized = false
 	emit_signal("disappeared")
@@ -133,13 +148,16 @@ func _dispatch_inventory():
 	# add other clothes to Inventory.
 	print("dispatching inventory")
 	_sort_inventory()
+	var tempdress = []
 	for objRef in inventory:
-		var cat = objRef.CATEGORY
-		print(Character.clothes[cat])
+		tempdress.append(objRef)
+	# the temp dress now has a number of clothes.
+#	print(tempdress)
+	for i in range(tempdress.size()):
+		var cat = tempdress[i].CATEGORY
 		if Character.clothes[cat] == null:
-			Character.dress(objRef, true)
-		else:
-			print("leave ", objRef.name, " in inventory")
+#			tempdress.append(objRef)
+			Character.dress(tempdress[i], true)
 	pass
 
 func remove_from_inventory(cloth):

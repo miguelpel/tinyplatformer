@@ -2,7 +2,7 @@
 
 [ext_resource path="res://game/objects/scenes/Crown/main/Crown.gd" type="Script" id=1]
 
-[node name="Crown" type="Node" index="0"]
+[node name="Crown" type="Node"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Z Index" ]

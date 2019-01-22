@@ -88,6 +88,7 @@ func _process(delta):
 
 func on_enemy_disappear():
 	print("on enemy disappear")
+	print(enemiesData[current_enemy].inventory)
 	current_enemy += 1
 	if current_enemy >= enemiesData.size():
 		print("no more enemies")

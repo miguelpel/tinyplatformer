@@ -289,8 +289,8 @@ func finish_fight(loser):
 	set_state("finished")
 
 func _process(delta):
-#	if Input.is_action_just_pressed("ui_up"):
-#		print(enemy.get_position())
+	if Input.is_action_just_pressed("ui_left"):
+		finish_fight(player)
 #	if Input.is_action_just_pressed("ui_left"):
 #		finish_fight(player)
 #	if Input.is_action_just_pressed("ui_right"):

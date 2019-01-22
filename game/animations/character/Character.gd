@@ -103,7 +103,7 @@ func _erase_filed_inventory():
 func dress(objRef, erase=false):
 	var cloth
 	var cat
-	print("dress ", objRef)
+	print("dress ", objRef.name)
 	#print("Type object")
 	cloth = objRef
 	cat = cloth.CATEGORY
@@ -139,7 +139,7 @@ func undress(objOrCat): # only for Player ???
 	# suppress the cloth animation from character
 	# suppress the cloth from clothes
 	# return the cloth
-	var animSprite
+	var animSprite = null
 	var cat
 	var clothObj
 	if typeof(objOrCat) == TYPE_STRING:
@@ -150,7 +150,8 @@ func undress(objOrCat): # only for Player ???
 	for sprite in CharacterSprite.get_children():
 		if sprite.CATEGORY == cat:
 			animSprite = sprite
-	animSprite.queue_free()
+	if animSprite:
+		animSprite.queue_free()
 	clothes[cat] = null
 	return clothObj
 
