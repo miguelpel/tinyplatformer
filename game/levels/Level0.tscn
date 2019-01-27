@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://game/levels/Level0.gd" type="Script" id=1]
 [ext_resource path="res://game/animations/levelsAnimls/grounds/EternalGround.tscn" type="PackedScene" id=2]
@@ -9,8 +9,7 @@
 [ext_resource path="res://game/levels/Label.gd" type="Script" id=7]
 [ext_resource path="res://assets/ui/button.png" type="Texture" id=8]
 [ext_resource path="res://assets/ui/buttonPressed.png" type="Texture" id=9]
-[ext_resource path="res://game/interface/theme/default_theme.tres" type="Theme" id=10]
-[ext_resource path="res://game/interface/theme/font/font_buttonn_menu.tres" type="DynamicFont" id=11]
+[ext_resource path="res://game/interface/theme/font/font_buttonn_menu.tres" type="DynamicFont" id=10]
 
 [node name="Level0" type="Node"]
 
@@ -39,15 +38,11 @@ _sections_unfolded = [ "Rect" ]
 
 position = Vector2( 167, 128 )
 
-[node name="AnimatedSprite" parent="." index="3" instance=ExtResource( 4 )]
+[node name="AnimatedSprite" parent="King" index="0" instance=ExtResource( 4 )]
 
-position = Vector2( 167, 128 )
+[node name="AnimatedSprite2" parent="King" index="1" instance=ExtResource( 5 )]
 
-[node name="AnimatedSprite2" parent="." index="4" instance=ExtResource( 5 )]
-
-position = Vector2( 167, 128 )
-
-[node name="Menu" type="CenterContainer" parent="." index="5"]
+[node name="Menu" type="CenterContainer" parent="." index="3"]
 
 editor/display_folded = true
 anchor_left = 0.0
@@ -181,8 +176,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-theme = ExtResource( 10 )
-custom_fonts/font = ExtResource( 11 )
+custom_fonts/font = ExtResource( 10 )
 text = "Play"
 align = 1
 percent_visible = 1.0
@@ -231,8 +225,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-theme = ExtResource( 10 )
-custom_fonts/font = ExtResource( 11 )
+custom_fonts/font = ExtResource( 10 )
 text = "exit"
 align = 1
 percent_visible = 1.0

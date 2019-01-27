@@ -12,8 +12,8 @@ func _ready():
 	# run animation,
 	# make_appear the buttons. (with timer.)
 	$King.play("run")
-	$AnimatedSprite.play("run")
-	$AnimatedSprite2.play("run")
+	$King.get_node("AnimatedSprite").play("run")
+	$King.get_node("AnimatedSprite2").play("run")
 	#$player.set_king_position(player_anim_position)
 	#$player.run()
 	pass
